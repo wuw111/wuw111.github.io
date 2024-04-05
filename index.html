@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!--
+TBC NB
+-->
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="欢迎访问 U-craftBE 服务器 | TBC 精心制作" /><!-- TBC NB -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Minecraft U-craftBE 服务器1.20.7x</title><!-- 114514 -->
+		<link rel="stylesheet" type="text/css" href="static/css/main.css">
+		<link rel="shortcut icon" href="img/cargo_managere.png" type="image/x-icon">
+		<script src="static/js/main.js"></script>
+		<style type="text/css">
+			.loading{width: 100%;height: 100%;z-index: 100;position: fixed;background: #FCFCFC;}.loading-img{width: 480px;height: 720px;margin: auto;background: url(static/images/1612704618.gif);}#menu-box{position: fixed;overflow: hidden;width: 100%;transition-duration:0.4s;height: 50px;background: none;}.menu{width: 1005px;margin:auto;height: 50px;background:none;}.menu-item h2 a{padding-top:6px;color:#C6CDD4;transition-duration: 0.4s;padding-left:10px;float:left;}.menu-item a{padding:13px 15px;color:#C6CDD4;float:right;transition-duration: 0.4s;}.menu-item a:hover{color:white;font-size:20px;}.menu-item h2 a:hover{color:white;font-size:27px;}#item-box{height: 1150px;background:white;overflow: hidden;}
+		</style>
+	</head>
+	<script>
+		document.onreadystatechange=function(){
+			if(document.readyState=="complete"){
+				$(".loading").fadeOut();
+			}
+		}
+	</script>
+	<body>
+		<div class="loading">
+			<div class="loading-img">
+			</div>
+		</div>
+		<div id="menu-box">
+			<div class="menu">
+				<div class="menu-item">
+					<h2 class="logo"><a href="index.html"> U-craftBE 服务器</a></h2>
+					<div class="menu-item-list">
+						<a href="about.html" target="_blank">关于</a>
+						<a href="http://wuw111.github.io/">U-craftBE</a>
+						<a href="join.html">在线查询</a>
+						<a href="https://www.123pan.com/s/9NBLVv-wru0A.html”" target="_blank">客户端</a>
+						<a href="index.html">首页</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="banner">
+			<div class="join-buttom">
+				<div class="join-item">
+					<h2>Minecraft U-craftBE 服务器</h2>
+					    <p>生存、工会、生电、经济、等等多种玩法、期待您的加入、1.20服务器</p>
+					</div>
+				<h1><a href="join.html">加入我们</a></h1>
+				<h1><a href="join.html">在线查询</a></h1>
+				<h1><a href="https://www.123pan.com/s/9NBLVv-wru0A.html">客户端下载</a></h1>
+			</div>
+		</div>
+		<div id="item-box">
+			<div class="box"><a href="join.html">&#9668&#9668 &nbsp; &nbsp;加入我们</a></div>
+			<div class="item-page-box">
+				<div class="item-page">
+					<h2>欢迎来到Minecraft U-craftBE 服务器</h2>
+					当前网页在线15人					当前时间2024年					  <hr>
+					   <div class="item-font">
+						<img src="static/picture/tx.jpg">
+						<h3>服务器介绍</h3>
+						<p>这是一个稳定运行了5年余的Minecraft服务器</p>
+						<p>服务器目前分为生存服1区/2区、游戏服。</p>
+						<h3>想加入服务器，应该怎么做？</h3>
+						<p>非常简单，您只需要阅读<a href="announces.html" target="_blank">游戏规则</a>然后下载客户端即可游玩</p>
+						<h3>服务器规章制度</h3>
+						<p>在这里，我们一般不会限制玩家的建筑、圈养动物等行为。</p>
+						<p>基本上只要您不会影响到其他玩家正常游戏，就不会受到整改</p>
+						<p>如果影响到其他玩家正常游戏，我们将采取一定的方法进行整改</p>
+						<p>详细的规章制度，请 <a href="announces.html" target="_blank">点击这里查看</a> 。</p>
+						<h3>稳定、可靠的服务器</h3>
+						<p>Intel I7-14700K 超强性能，等你来战</p>
+						<h3>服务器不定期举办一些活动</h3>
+						<p>等你来发现~</p>
+					</div>
+				</div>
+			</div>
+			<div id="footer">
+				<p id="counter"></p>
+				<p><a href="http://www.wuw111.github.io" target="_blank">© 2020- 2024 wuw111.github.io 版权所有| 初版由TBC NB编写</a></p>
+			</div>
+		</div>	
+		<script src="static/js/jquery.js"></script>
+	<script>
+			function scroll() {
+					var top = $("#item-box").offset().top;
+					var scrollTop = $(window).scrollTop();
+					if (scrollTop < top) {
+						$('#menu-box').css({"background":"none"});
+						$('#menu-box').css({"box-shadow":"none"});
+						$(".menu-item h2 a").css({"color":"#C6CDD4"})
+						$(".menu-item a").css({"color":"#C6CDD4"});
+					} else {
+						$("#menu-box").css({"background":"#FFFFFF"});
+						$("#menu-box").css({"box-shadow":"0px 0px 8px #EAEAEA"});
+						$(".menu-item h2 a").css({"color":"#333333"})
+						$(".menu-item-list a").css({"color":"#333333"});
+					}
+				}
+				$(window).on('scroll', function() {
+					scroll()
+				});
+		</script>
+	</body>
+</html>
