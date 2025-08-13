@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home传送点金币计算器</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; max-width: 400px; margin: auto; }
+  h2 { text-align: center; }
+  label, input { display: block; width: 100%; margin-bottom: 10px; }
+  input[type="number"] { padding: 8px; font-size: 16px; }
+  button { padding: 10px; font-size: 16px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+  button:hover { background: #45a049; }
+  .result { margin-top: 15px; font-size: 18px; font-weight: bold; text-align: center; }
+</style>
+</head>
+<body>
+  <h2>Home传送点金币计算器</h2>
+  <label for="count">当前已有的Home数量：</label>
+  <input type="number" id="count" min="1" max="150" value="1">
+  <button onclick="calculate()">计算金币消耗</button>
+  <div class="result" id="result"></div>
+
+  <a href="index.html">返回主页</a>
+
+  <script>
+    function calculate() {
+      let home_count = parseInt(document.getElementById('count').value);
+      if (isNaN(home_count) || home_count < 0 || home_count > 150) {
+        document.getElementById('result').innerText = '请输入 0 到 150 之间的数字';
+        return;
+      }
+      let cost = Math.round(200 * home_count + home_count * Math.pow(10, 1.2 + 0.005 * home_count));
+      document.getElementById('result').innerText = `新建第 ${home_count + 1} 个Home需要 ${cost} 金币`;
+    }
+  </script>
+</body>
+</html>
