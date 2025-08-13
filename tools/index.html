@@ -1,11 +1,184 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-<title>U-craft服务器在线工具列表</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>U-craft服务器工具</title>
+    <style>
+        *
+        {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body
+        {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #ffd1dc, #f8b7d3);
+            color: #6d2c4d;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container
+        {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        header
+        {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 182, 193, 0.5);
+        }
+        
+        h1
+        {
+            font-size: 2.8rem;
+            color: #ff6b9d;
+            text-shadow: 0 2px 4px rgba(109, 44, 77, 0.2);
+            margin-bottom: 10px;
+        }
+        
+        .subtitle
+        {
+            font-size: 1.2rem;
+            color: #8a4b6a;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .main-content
+        {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .tool-card
+        {
+            width: 100%;
+            max-width: 500px;
+            background: linear-gradient(135deg, #ffe8f0, #ffffff);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 182, 193, 0.3);
+        }
+        
+        .tool-card:hover
+        {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .tool-card h2
+        {
+            color: #ff6b9d;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .tool-card p
+        {
+            color: #6d2c4d;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .tool-btn
+        {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, #ff9eb5, #ff6b9d);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(255, 107, 157, 0.3);
+        }
+        
+        .tool-btn:hover
+        {
+            background: linear-gradient(to right, #ff8da9, #ff4d87);
+            transform: scale(1.02);
+            box-shadow: 0 6px 15px rgba(255, 107, 157, 0.4);
+        }
+        
+        .back-link
+        {
+            display: inline-block;
+            margin-top: 20px;
+            color: #ff6b9d;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+        
+        .back-link:hover
+        {
+            background: rgba(255, 182, 193, 0.2);
+        }
+        
+        @media (max-width: 600px)
+        {
+            .container
+            {
+                padding: 20px;
+            }
+            
+            h1
+            {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle
+            {
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<h2>工具</h2>
-  <a href="home.html">Home传送点金币消耗计算器</a>
-  <a href="..">返回首页</a>
+    <div class="container">
+        <header>
+            <h1>U-craft 服务器工具</h1>
+            <p class="subtitle">专为U-craft服务器玩家设计的实用工具</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="tool-card">
+                <h2>Home传送点计算器</h2>
+                <p>精确计算在不同距离使用Home传送点所需的金币数量</p>
+                <a href="home.html" class="tool-btn">使用计算器</a>
+            </div>
+            
+            <a href=".." class="back-link">← 返回服务器首页</a>
+        </div>
+    </div>
 </body>
 </html>
