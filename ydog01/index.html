@@ -497,6 +497,7 @@
             {
                 const loadingHint = document.getElementById('loadingHint');
                 loadingHint.style.display = 'block';
+                loadingHint.textContent = '音乐加载中，请稍候 (10~20s)...';
                 audioPlayer.src = `mix/${musicFiles[currentSongIndex]}`;
                 audioPlayer.load();
                 
@@ -606,6 +607,8 @@
                 const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
                 progressBar.style.width = `${percent}%`;
                 currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
+                if (audioPlayer.currentTime === 0 && audioPlayer.readyState > 0)
+                    document.getElementById('loadingHint').style.display = 'block';
             });
 
             audioPlayer.addEventListener('ended', nextSong);
