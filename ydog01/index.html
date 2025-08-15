@@ -85,6 +85,12 @@
             text-align: center;
             padding: 20px;
         }
+
+        @keyframes bounce 
+        {
+            0%, 100% { transform: scale(0.95); }
+            50% { transform: scale(1.05); }
+        }
         
         .welcome-text
         {
@@ -96,6 +102,7 @@
             -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 0 15px rgba(255, 106, 193, 0.4));
             letter-spacing: 2px;
+            animation: bounce 2s infinite ease-in-out;
         }
         
         .player-capsule
