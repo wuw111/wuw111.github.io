@@ -283,6 +283,24 @@
             background: linear-gradient(135deg, #ff6ac1, #9775ff);
         }
         
+        .loading-hint 
+        {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 14px;
+            color: #b8abf0;
+            margin: 10px 0;
+            text-align: center;
+            display: none;
+        }
+
+        .loading-hint i 
+        {
+            margin-right: 8px;
+            color: #ff6ac1;
+        }
+
         .visualizer
         {
             display: flex;
@@ -362,6 +380,10 @@
             
             <div class="current-song" id="currentSong">准备播放音乐...</div>
             
+            <div class="loading-hint" id="loadingHint">
+                <i class="fas fa-spinner fa-spin"></i> 音乐加载中，请稍候 (10~20s)...
+            </div>
+
             <div class="visualizer" id="visualizer"></div>
             
             <div class="player-controls">
@@ -473,6 +495,8 @@
 
             function loadSong()
             {
+                const loadingHint = document.getElementById('loadingHint');
+                loadingHint.style.display = 'block';
                 audioPlayer.src = `mix/${musicFiles[currentSongIndex]}`;
                 audioPlayer.load();
                 
@@ -497,8 +521,13 @@
                         playBtn.innerHTML = '<i class="fas fa-pause"></i>';
                         clearInterval(visualizerInterval);
                         visualizerInterval = setInterval(updateVisualizer, 200);
+                        document.getElementById('loadingHint').style.display = 'none';
                     })
-                    .catch(error => console.error('播放失败:', error));
+                    .catch(error => 
+                    {
+                        console.error('播放失败:', error);
+                        document.getElementById('loadingHint').textContent = '加载失败，请重试';
+                    });
             }
 
             function pauseSong()
