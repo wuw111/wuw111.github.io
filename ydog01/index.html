@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ydog01の神秘空间</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        *
+        {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body
+        {
+            background: linear-gradient(135deg, #0c0b1d, #1a1737);
+            color: #e0d6ff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .stars
+        {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .star
+        {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: twinkle var(--duration, 4s) infinite ease-in-out;
+        }
+        
+        @keyframes twinkle
+        {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+        
+        .return-container
+        {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+        }
+        
+        .return-link
+        {
+            display: inline-block;
+            color: #b8abf0;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 16px;
+            border: 1px solid rgba(184, 171, 240, 0.3);
+            border-radius: 20px;
+            transition: all 0.3s;
+            background: rgba(15, 12, 41, 0.3);
+        }
+        
+        .return-link:hover
+        {
+            background: rgba(184, 171, 240, 0.2);
+            border-color: rgba(184, 171, 240, 0.6);
+            transform: translateY(-2px);
+        }
+        
+        .main-content
+        {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .welcome-text
+        {
+            font-size: 4.5rem;
+            font-weight: bold;
+            margin: 20px 0 40px;
+            background: linear-gradient(45deg, #ff8e7d, #ffcb6b, #ff6ac1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(255, 106, 193, 0.4));
+            letter-spacing: 2px;
+        }
+        
+        .player-capsule
+        {
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #ff6ac1, #9775ff);
+            box-shadow: 0 5px 25px rgba(151, 117, 255, 0.5);
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            overflow: hidden;
+        }
+        
+        .player-capsule:hover
+        {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 30px rgba(151, 117, 255, 0.7);
+        }
+        
+        .player-capsule.expanded
+        {
+            width: 340px;
+            height: 420px;
+            border-radius: 25px;
+        }
+        
+        .player-icon
+        {
+            font-size: 24px;
+            color: white;
+        }
+        
+        .player-content
+        {
+            display: none;
+            width: 100%;
+            height: 100%;
+            padding: 25px;
+            box-sizing: border-box;
+            flex-direction: column;
+        }
+        
+        .player-capsule.expanded .player-content
+        {
+            display: flex;
+        }
+        
+        .player-capsule.expanded .player-icon
+        {
+            display: none;
+        }
+        
+        .player-header
+        {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .player-title
+        {
+            font-size: 20px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff8e7d, #ffcb6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        .current-song
+        {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            margin: 15px 0;
+            font-size: 16px;
+            text-align: center;
+            min-height: 24px;
+            border: 1px solid rgba(151, 117, 255, 0.3);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            box-shadow: 0 0 15px rgba(151, 117, 255, 0.1);
+        }
+        
+        .song-item.playing
+        {
+            background: linear-gradient(90deg, rgba(151, 117, 255, 0.3), rgba(255, 106, 193, 0.2));
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(151, 117, 255, 0.2);
+            border-color: rgba(151, 117, 255, 0.4);
+        }
+        
+        .player-controls
+        {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .progress-container
+        {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 3px;
+            overflow: hidden;
+            cursor: pointer;
+            margin: 5px 0;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .progress-bar
+        {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6ac1, #9775ff);
+            width: 0%;
+            transition: width 0.1s;
+        }
+        
+        .time-display
+        {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #a594e0;
+            margin: 5px 0;
+        }
+        
+        .control-buttons
+        {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .control-btn
+        {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .control-btn:hover
+        {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 15px rgba(151, 117, 255, 0.3);
+        }
+        
+        .control-btn.play
+        {
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            background: linear-gradient(135deg, #ff6ac1, #9775ff);
+        }
+        
+        .visualizer
+        {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 50px;
+            margin: 15px 0;
+            gap: 3px;
+        }
+        
+        .bar
+        {
+            width: 4px;
+            background: linear-gradient(to top, #ff6ac1, #9775ff);
+            border-radius: 2px;
+            transition: height 0.2s;
+        }
+        
+        @media (max-width: 768px)
+        {
+            .welcome-text
+            {
+                font-size: 3.2rem;
+            }
+            
+            .player-capsule.expanded
+            {
+                width: 300px;
+                height: 400px;
+                right: 15px;
+                bottom: 15px;
+            }
+        }
+        
+        @media (max-width: 480px)
+        {
+            .welcome-text
+            {
+                font-size: 2.5rem;
+            }
+            
+            .player-capsule.expanded
+            {
+                width: 280px;
+                height: 380px;
+            }
+            
+            .player-content
+            {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="return-container">
+        <a href="../index.html" class="return-link"><i class="fas fa-arrow-left"></i> 返回主页</a>
+    </div>
+    
+    <div class="main-content">
+        <h1 class="welcome-text">wuw可爱捏❤</h1>
+    </div>
+    
+    <div class="player-capsule" id="playerCapsule">
+        <div class="player-icon">
+            <i class="fas fa-music"></i>
+        </div>
+        <div class="player-content">
+            <div class="player-header">
+                <div class="player-title">喵喵喵</div>
+                <button class="control-btn" id="closePlayer">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="current-song" id="currentSong">准备播放音乐...</div>
+            
+            <div class="visualizer" id="visualizer"></div>
+            
+            <div class="player-controls">
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="time-display">
+                    <span id="currentTime">0:00</span>
+                    <span id="totalTime">0:00</span>
+                </div>
+                
+                <div class="control-buttons">
+                    <button class="control-btn" id="prevBtn" title="上一首">
+                        <i class="fas fa-step-backward"></i>
+                    </button>
+                    <button class="control-btn play" id="playBtn" title="播放">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button class="control-btn" id="nextBtn" title="下一首">
+                        <i class="fas fa-step-forward"></i>
+                    </button>
+                    <button class="control-btn" id="randomBtn" title="随机播放">
+                        <i class="fas fa-random"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <audio id="audioPlayer"></audio>
+    
+    <script>
+        const musicFiles = 
+        [
+            "Ash Blind - 夜想曲.mp3",
+            "D.N.A.softwares - ●少女さとり～3rd eye.mp3",
+            "Dark PHOENiX - 竹取飛翔.mp3",
+            "Demetori - 妖怪の山 ~ Mysterious Mountain.mp3",
+            "Dropの小屋。 - 原始の森.mp3",
+            "FELT - Endless Pain.mp3",
+            "FELT - You're the Shine (Night Butterflies).mp3",
+            "GET IN THE RING - Samsara.mp3",
+            "Halozy - Paranoid Lost (Instrumental 【副标题】風神録).mp3",
+            "Halozy - 源流懐古.mp3",
+            "Halozy - 無色透明 (Instrumental).mp3",
+            "K2 SOUND - fairy stage.mp3",
+            "mallory さん - Bad Apple!! (弦楽合奏モノクロ版).mp3",
+            "maoto - 向日葵の咲く場所 ~daydream flowers~.mp3",
+            "MORRIGAN - 第九楽章 Dawn of East End.mp3",
+            "nayuta - 幽音絶花、缭乱ノ彩.mp3",
+            "NJK Record - Sweets Time Midnight.mp3",
+            "QLOCKS - 篝火蛍-inst.ver-.mp3",
+            "QLOCKS - 酒と鬼ッ娘平均率♪.mp3",
+            "Sensitive Heart - Scarlet Destiny.mp3",
+            "Silver Forest - Lunatic Beat.mp3",
+            "Silver Forest - 萃梦想歌.mp3",
+            "Sing, R. Sing! - 幼女幻奏.mp3",
+            "Sound Refil - 佐渡ノ化狸.mp3",
+            "Sound Sepher - 幽霊楽団.mp3",
+            "vaguedge - 次発 ワタシ37号.mp3",
+            "Various Artists - Night of Knights (MIDI Piano).mp3",
+            "Vivienne - Free to Believe.mp3",
+            "Xenoglossy - 妖怪祭参道.mp3",
+            "Yooh - 上海紅茶館 ～ Chinese Tea Orchid Remix (Extended ver.).mp3",
+            "yukina、みぃ - 雪琥珀 -snow amber (Remix).mp3",
+            "あき、あき - How to Love.mp3",
+            "のみこ - Bad Apple!!.mp3",
+            "ケーキ姫☆優海、JUMA - 永夜のパレード (永夜的游行).mp3",
+            "上海アリス幻樂団 - 少女綺想曲 ~ Dream Battle.mp3",
+            "上海アリス幻樂団 - 聖徳伝説　～ True Administrator.mp3",
+            "久遠 - blue blossoms.mp3",
+            "仲村芽衣子 - Emotional Rule -dark white-.mp3",
+            "凛 - Ayakashi set 16 ~ さくらさくら.mp3",
+            "坂上なち(nachi) - サクラ・ホライズン (樱花地平线).mp3",
+            "天門 - 妖々夢.mp3",
+            "市松椿 - 童祭 (钢琴版).mp3",
+            "市松模様 - Resolution.mp3",
+            "来夢緑 - 少女幻葬~Necro-Fantasy.mp3",
+            "東京アクティブNEETs - Dungeon#2～紅魔館地下.mp3",
+            "森永真由美 - Opposite World.mp3",
+            "森永真由美 - 孤独月 (U.N.オーエンは彼女なのか？).mp3",
+            "森永真由美 - 華鳥風月 (华鸟风月).mp3",
+            "森永真由美 - 零れ桜 (落樱).mp3",
+            "流派未月亭、漉餡 - 柳ニ風.mp3",
+            "源屋、3L - 桜華月想.mp3",
+            "発熱巫女～ず - Pages.mp3",
+            "神乃木製作所 - 三年幻想郷 (千年幻想郷　～ History of the Moon).mp3",
+            "神乃木製作所 - 水面の満月 (水面上的满月).mp3",
+            "秣本瑳羅 - Aisya -ye ru amma- (refine mix).mp3",
+            "美里 - Necro Fantasia (原版伴奏).mp3",
+            "舞風 - 廻り巡る.mp3",
+            "高桥菜菜 - The Party We Have Ever Seen.mp3"
+        ];
+
+        function createStars()
+        {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 150; i++)
+            {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.width = `${Math.random() * 3}px`;
+                star.style.height = star.style.width;
+                star.style.setProperty('--duration', `${2 + Math.random() * 6}s`);
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function createVisualizer()
+        {
+            const visualizer = document.getElementById('visualizer');
+            visualizer.innerHTML = '';
+            for (let i = 0; i < 24; i++)
+            {
+                const bar = document.createElement('div');
+                bar.classList.add('bar');
+                bar.style.height = `${Math.random() * 30 + 10}px`;
+                visualizer.appendChild(bar);
+            }
+        }
+
+        function updateVisualizer()
+        {
+            const bars = document.querySelectorAll('.bar');
+            bars.forEach(bar => 
+                bar.style.height = `${Math.random() * 35 + 10}px`
+            );
+        }
+
+        document.addEventListener('DOMContentLoaded', function()
+        {
+            createStars();
+            createVisualizer();
+            
+            const playerCapsule = document.getElementById('playerCapsule');
+            const closePlayer = document.getElementById('closePlayer');
+            const audioPlayer = document.getElementById('audioPlayer');
+            const playBtn = document.getElementById('playBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const randomBtn = document.getElementById('randomBtn');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const currentSongDisplay = document.getElementById('currentSong');
+            const songList = document.getElementById('songList');
+            const currentTimeDisplay = document.getElementById('currentTime');
+            const totalTimeDisplay = document.getElementById('totalTime');
+            
+            let currentSongIndex = 0;
+            let isPlaying = false;
+            let isRandom = true;
+            let visualizerInterval;
+
+            function formatTime(seconds)
+            {
+                const minutes = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+            }
+
+            function loadSong()
+            {
+                audioPlayer.src = `mix/${musicFiles[currentSongIndex]}`;
+                audioPlayer.load();
+                
+                const displayName = musicFiles[currentSongIndex].length > 30 ? 
+                    musicFiles[currentSongIndex].substring(0, 30) + '...' : 
+                    musicFiles[currentSongIndex];
+                currentSongDisplay.textContent = displayName;
+                
+                audioPlayer.addEventListener('loadedmetadata', function()
+                {
+                    totalTimeDisplay.textContent = formatTime(audioPlayer.duration);
+                    progressBar.style.width = '0%';
+                });
+            }
+
+            function playSong()
+            {
+                audioPlayer.play()
+                    .then(() => 
+                    {
+                        isPlaying = true;
+                        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                        clearInterval(visualizerInterval);
+                        visualizerInterval = setInterval(updateVisualizer, 200);
+                    })
+                    .catch(error => console.error('播放失败:', error));
+            }
+
+            function pauseSong()
+            {
+                audioPlayer.pause();
+                isPlaying = false;
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                clearInterval(visualizerInterval);
+            }
+
+            function nextSong()
+            {
+                if (isRandom)
+                {
+                    let newIndex;
+                    do
+                    {
+                        newIndex = Math.floor(Math.random() * musicFiles.length);
+                    } while (newIndex === currentSongIndex && musicFiles.length > 1);
+                    
+                    currentSongIndex = newIndex;
+                }
+                else
+                    currentSongIndex = (currentSongIndex + 1) % musicFiles.length;
+                
+                loadSong();
+                playSong();
+            }
+
+            function prevSong()
+            {
+                currentSongIndex = (currentSongIndex - 1 + musicFiles.length) % musicFiles.length;
+                loadSong();
+                playSong();
+            }
+
+            function toggleRandom()
+            {
+                isRandom = !isRandom;
+                randomBtn.style.color = isRandom ? '#ff6ac1' : '#a594e0';
+            }
+
+            playerCapsule.addEventListener('click', function(e)
+            {
+                if (!this.classList.contains('expanded') && !e.target.closest('.player-content'))
+                    this.classList.add('expanded');
+            });
+
+            closePlayer.addEventListener('click', function(e)
+            {
+                e.stopPropagation();
+                playerCapsule.classList.remove('expanded');
+            });
+
+            playBtn.addEventListener('click', function()
+            {
+                if (isPlaying)
+                    pauseSong();
+                else
+                    playSong();
+            });
+
+            nextBtn.addEventListener('click', nextSong);
+            prevBtn.addEventListener('click', prevSong);
+            randomBtn.addEventListener('click', toggleRandom);
+
+            progressContainer.addEventListener('click', function(e)
+            {
+                const percent = e.offsetX / this.clientWidth;
+                audioPlayer.currentTime = percent * audioPlayer.duration;
+                progressBar.style.width = `${percent * 100}%`;
+            });
+
+            audioPlayer.addEventListener('timeupdate', function()
+            {
+                const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                progressBar.style.width = `${percent}%`;
+                currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
+            });
+
+            audioPlayer.addEventListener('ended', nextSong);
+
+            loadSong();
+            toggleRandom();
+            playerCapsule.classList.add('expanded');
+        });
+    </script>
+</body>
+</html>
