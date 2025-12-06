@@ -1,158 +1,82 @@
 <!DOCTYPE html>
-<html lang="zh">
-
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home传送点金币计算器</title>
-  <style>
-    *
-    {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body
-    {
-      font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
-      min-height: 100vh;
-      background: linear-gradient(to bottom, #ffd1dc, #f8b7d3);
-      color: #6d2c4d;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    
-    .container
-    {
-      max-width: 500px;
-      width: 100%;
-      background: rgba(255, 255, 255, 0.85);
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-      padding: 30px;
-      backdrop-filter: blur(10px);
-    }
-    
-    h2
-    {
-      text-align: center;
-      color: #ff6b9d;
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-    }
-    
-    label
-    {
-      display: block;
-      width: 100%;
-      margin-bottom: 8px;
-      color: #6d2c4d;
-      font-weight: 500;
-    }
-    
-    input[type="number"]
-    {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      border: 1px solid rgba(255, 182, 193, 0.5);
-      border-radius: 10px;
-      margin-bottom: 20px;
-      background: rgba(255, 255, 255, 0.8);
-      color: #6d2c4d;
-    }
-    
-    input[type="number"]:focus
-    {
-      outline: none;
-      border-color: #ff6b9d;
-      box-shadow: 0 0 0 2px rgba(255, 107, 157, 0.2);
-    }
-    
-    button
-    {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      background: linear-gradient(to right, #ff9eb5, #ff6b9d);
-      color: white;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 10px rgba(255, 107, 157, 0.3);
-    }
-    
-    button:hover
-    {
-      background: linear-gradient(to right, #ff8da9, #ff4d87);
-      transform: scale(1.02);
-      box-shadow: 0 6px 15px rgba(255, 107, 157, 0.4);
-    }
-    
-    .result
-    {
-      margin-top: 20px;
-      padding: 15px;
-      background: rgba(255, 182, 193, 0.1);
-      border-radius: 10px;
-      font-size: 18px;
-      font-weight: bold;
-      text-align: center;
-      color: #6d2c4d;
-      border: 1px dashed #ffb6c1;
-    }
-    
-    .back-link
-    {
-      display: inline-block;
-      margin-top: 20px;
-      color: #ff6b9d;
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      padding: 8px 15px;
-      border-radius: 20px;
-    }
-    
-    .back-link:hover
-    {
-      background: rgba(255, 182, 193, 0.2);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="U-craftBE Home传送点金币计算器">
+    <title>Home传送点计算器 - U-craftBE</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="shortcut icon" href="textures/favicon.png" type="image/png">
 </head>
-
 <body>
-  <div class="container">
-    <h2>Home传送点金币计算器</h2>
-    <label for="count">当前已有的Home数量：</label>
-    <input type="number" id="count" min="0" max="150" value="1">
-    <button onclick="calculate()">计算金币消耗</button>
-    <div class="result" id="result"></div>
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <a href="index.html" class="back-link">← 返回主页</a>
-    </div>
-  </div>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <h1 class="logo">
+                <a href="index.html">U-craftBE 服务器</a>
+            </h1>
+            <ul class="nav-menu">
+                <li><a href="version.html">客户端</a></li>
+                <li><a href="tools.html">工具</a></li>
+                <li><a href="about.html">关于</a></li>
+            </ul>
+        </div>
+    </nav>
 
-  <script>
-    function calculate()
-    {
-      let inputValue = document.getElementById('count').value;
-      
-      let home_count = Number(inputValue);
-      if (isNaN(home_count) || home_count < 0 || home_count > 150)
-      {
-        document.getElementById('result').innerText = '请输入 0 到 150 之间的数字';
-        return;
-      }
-      let cost = Math.round(200 * home_count + home_count * Math.pow(10, 1.2 + 0.005 * home_count));
-      document.getElementById('result').innerText = `新建第 ${home_count + 1} 个Home需要 ${cost} 金币`;
-    }
-  </script>
+    <section class="banner home-banner">
+        <div class="banner-content">
+            <h2>Home传送点计算器</h2>
+            <p>精确计算在不同坐标之间传送所需的金币数量</p>
+            <p>规划您的资源分配与传送策略</p>
+        </div>
+    </section>
+
+    <main class="content-container">
+        <article class="server-info">
+            <h2>Home传送点金币计算器</h2>
+            <div class="info-content">
+                <div class="calculator-container">
+                    <div class="calculator-form">
+                        <div class="form-group">
+                            <label for="count">当前已有的Home数量：</label>
+                            <input type="number" id="count" min="0" max="150" value="1" class="form-input">
+                            <div class="input-hint">请输入0到150之间的数字</div>
+                        </div>
+                        
+                        <button id="calculateBtn" class="btn-primary calculator-button">计算金币消耗</button>
+                        
+                        <div class="result" id="result"></div>
+                        
+                        <div class="calculator-info">
+                            <h3>计算规则说明</h3>
+                            <p>此工具根据服务器内设定的公式计算新建Home传送点所需金币：</p>
+                            <p><strong>计算公式：</strong>金币 = 200 × 当前Home数量 + 当前Home数量 × 10^(1.2 + 0.005 × 当前Home数量)</p>
+                            <p>计算结果已四舍五入到最接近的整数。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="usage-tips">
+                        <h3>使用提示</h3>
+                        <ul>
+                            <li>Home传送点是服务器中的重要功能，允许您快速传送到已设置的位置</li>
+                            <li>每次新建Home传送点都需要消耗一定数量的金币</li>
+                            <li>金币消耗会随着您已拥有的Home数量增加而增加</li>
+                            <li>合理规划您的Home位置，避免不必要的金币浪费</li>
+                            <li>计算结果仅供参考，实际消耗以服务器内为准</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="page-actions">
+                    <a href="tools.html" class="back-link">← 返回工具列表</a>
+                    <a href="index.html" class="back-link">返回服务器首页</a>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/home.js"></script>
 </body>
-
 </html>
