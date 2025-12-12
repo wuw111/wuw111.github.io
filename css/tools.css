@@ -1,9 +1,8 @@
 .tools-hero
 {
-    background: url('../textures/tl_bsck.png') no-repeat center center;
-    background-size: contain;
+    background: url('../textures/tl_bsck.png') center/cover no-repeat;
     background-color: #f0f4f8;
-    padding: 4rem 1rem;
+    padding: 6rem 1rem 4rem;
     text-align: center;
     color: rgba(255, 255, 255, 0.9);
     margin-bottom: 2rem;
@@ -120,11 +119,88 @@
     color: #7f8c8d;
     border-bottom-color: #7f8c8d;
 }
+
+.navbar
+{
+    position: fixed;
+    width: 100%;
+    transition: all 0.4s ease;
+    z-index: 100;
+    background-color: transparent;
+}
+
+.navbar-container
+{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+}
+
+.logo a
+{
+    color: #C6CDD4;
+    font-size: 20px;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    display: flex;
+    align-items: center;
+}
+
+.logo a:hover
+{
+    color: white;
+    font-size: 22px;
+}
+
+.nav-menu
+{
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu li a
+{
+    color: #C6CDD4;
+    text-decoration: none;
+    padding: 13px 15px;
+    transition: all 0.4s ease;
+}
+
+.nav-menu li a:hover
+{
+    color: white;
+    font-size: 18px;
+}
+
+.navbar.scrolled
+{
+    background-color: white;
+    box-shadow: 0 0 8px #EAEAEA;
+}
+
+.navbar.scrolled .logo a,
+.navbar.scrolled .nav-menu li a
+{
+    color: #333;
+}
+
+.navbar.scrolled .logo a:hover,
+.navbar.scrolled .nav-menu li a:hover
+{
+    color: #3498db;
+}
+
 @media (max-width: 768px)
 {
     .tools-hero
     {
-        padding: 3rem 1rem;
+        padding: 5rem 1rem 3rem;
         min-height: 30vh;
     }
     .tools-hero h1
