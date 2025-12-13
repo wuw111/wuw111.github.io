@@ -1,0 +1,152 @@
+.announces-page
+{
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+.container
+{
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header
+{
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.header h1
+{
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.header p
+{
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.back-link
+{
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.back-link:hover
+{
+    background-color: #2980b9;
+    text-decoration: none;
+}
+
+.section
+{
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    border-left: 4px solid #3498db;
+}
+
+.section-title
+{
+    color: #2c3e50;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.rules-list
+{
+    padding-left: 20px;
+}
+
+.rules-list li
+{
+    margin-bottom: 10px;
+}
+
+.contact-info
+{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.contact-card
+{
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 5px;
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+}
+
+.contact-card h3
+{
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.contact-card p
+{
+    margin: 0;
+    color: #555;
+}
+
+.official-notice
+{
+    text-align: center;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e8f4fc;
+    border-radius: 4px;
+}
+
+.footer
+{
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
+@media (max-width: 768px)
+{
+    .container
+    {
+        padding: 15px;
+    }
+    
+    .contact-card
+    {
+        min-width: 100%;
+    }
+    
+    .contact-info
+    {
+        flex-direction: column;
+    }
+}

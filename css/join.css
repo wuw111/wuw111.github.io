@@ -1,0 +1,45 @@
+.join-body
+{
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Roboto, Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft Yahei", "Microsoft Jhenghei", sans-serif;
+}
+.join-panel
+{
+    color: rgb(51, 51, 51);
+    font-weight: 100;
+}
+.join-description
+{
+    text-align: center;
+    font-size: 1em;
+    font-weight: 500;
+    line-height: 1.8rem;
+    margin-bottom: 1rem;
+}
+.wechat-group
+{
+    text-align: center;
+    padding-bottom: 10px;
+}
+.wechat-group img
+{
+    max-width: 220px;
+    height: auto;
+    border-radius: 8px;
+    margin: 0 auto;
+    width: 100%;
+}
+.bg-gradient-primary
+{
+    border-radius: 8px;
+}
+.join-btn
+{
+    color: rgba(57,69,17,0.76);
+    font-weight: 800;
+    border-color: #63c74d;
+}
+.join-c3544
+{
+    color: black;
+}

@@ -1,0 +1,214 @@
+.tools-hero
+{
+    background: url('../textures/tl_bsck.png') center/cover no-repeat;
+    background-color: #f0f4f8;
+    padding: 6rem 1rem 4rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+    min-height: 40vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.tools-hero h1
+{
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+}
+.tools-hero p
+{
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0.5rem auto;
+}
+.tool-wrapper
+{
+    max-width: 900px;
+    margin: 0 auto 3rem;
+    padding: 0 1rem;
+}
+.tool-card
+{
+    background: white;
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e1e5e9;
+    margin-bottom: 2rem;
+}
+.tool-card h2
+{
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.tool-card p
+{
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 1.8rem;
+    font-size: 1.05rem;
+}
+.tool-button
+{
+    display: inline-block;
+    background: #3498db;
+    color: white;
+    padding: 0.9rem 2.2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: all 0.25s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(52, 152, 219, 0.2);
+}
+.tool-button:hover
+{
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(52, 152, 219, 0.3);
+}
+.page-actions
+{
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+}
+.back-link
+{
+    display: inline-block;
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.8rem 1.8rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    transition: all 0.25s ease;
+}
+.back-link:hover
+{
+    background: #f8f9fa;
+    border-color: #3498db;
+}
+.hidden-feature
+{
+    text-align: center;
+    margin: 2rem auto 0;
+    max-width: 500px;
+    color: #95a5a6;
+    font-size: 0.85rem;
+}
+.hidden-feature a
+{
+    color: #bdc3c7;
+    text-decoration: none;
+    margin: 0 0.3rem;
+    transition: color 0.2s;
+    border-bottom: 1px dotted #bdc3c7;
+    padding-bottom: 1px;
+}
+.hidden-feature a:hover
+{
+    color: #7f8c8d;
+    border-bottom-color: #7f8c8d;
+}
+
+.navbar
+{
+    position: fixed;
+    width: 100%;
+    transition: all 0.4s ease;
+    z-index: 100;
+    background-color: transparent;
+}
+
+.navbar-container
+{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+}
+
+.logo a
+{
+    color: #C6CDD4;
+    font-size: 20px;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    display: flex;
+    align-items: center;
+}
+
+.logo a:hover
+{
+    color: white;
+    font-size: 22px;
+}
+
+.nav-menu
+{
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu li a
+{
+    color: #C6CDD4;
+    text-decoration: none;
+    padding: 13px 15px;
+    transition: all 0.4s ease;
+}
+
+.nav-menu li a:hover
+{
+    color: white;
+    font-size: 18px;
+}
+
+.navbar.scrolled
+{
+    background-color: white;
+    box-shadow: 0 0 8px #EAEAEA;
+}
+
+.navbar.scrolled .logo a,
+.navbar.scrolled .nav-menu li a
+{
+    color: #333;
+}
+
+.navbar.scrolled .logo a:hover,
+.navbar.scrolled .nav-menu li a:hover
+{
+    color: #3498db;
+}
+
+@media (max-width: 768px)
+{
+    .tools-hero
+    {
+        padding: 5rem 1rem 3rem;
+        min-height: 30vh;
+    }
+    .tools-hero h1
+    {
+        font-size: 2.2rem;
+    }
+    .tool-card
+    {
+        padding: 1.8rem;
+    }
+}
