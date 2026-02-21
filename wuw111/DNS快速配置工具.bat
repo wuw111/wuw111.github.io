@@ -90,10 +90,25 @@ powershell -Command "$nic = Get-WmiObject Win32_NetworkAdapterConfiguration | Wh
 
 echo 已保存备份: "%backupFile%"
 
-:: 5. 应用 DNS 配置
+:: 5. 应用 DNS 配置 (增加错误处理逻辑)
 echo.
 echo [正在应用 DNS 配置...]
 netsh interface ip set dns name="!targetNIC!" source=static addr=%dns1% register=primary >nul 2>&1
+
+:: ---- 核心错误检查 ----
+if !errorlevel! neq 0 (
+    echo.
+    echo [严重错误] DNS 配置失败!
+    echo 请确认:
+    echo  1. 脚本是否以管理员权限运行。
+    echo  2. 网卡 "!targetNIC!" 是否被其它程序或策略占用。
+    echo.
+    echo 按任意键退出...
+    pause >nul
+    exit
+)
+
+:: 如果首选设置成功，则继续添加备用
 netsh interface ip add dns name="!targetNIC!" addr=%dns2% index=2 >nul 2>&1
 
 echo [成功] DNS 设置已生效。
@@ -104,11 +119,9 @@ echo.
 echo [正在测试 DNS 响应延迟...]
 echo ------------------------------------------------------
 
-:: 定义评级函数逻辑
 set "color1=White" & set "eval1=无法访问"
 set "color2=White" & set "eval2=无法访问"
 
-:: 测试 DNS1
 set "ms1=超时"
 for /f %%i in ('powershell -Command "$p = Test-Connection -ComputerName %dns1% -Count 2 -ErrorAction SilentlyContinue; if($p){ [int]($p | Measure-Object -Property ResponseTime -Average).Average }else{ 'Error' }"') do (
     if not "%%i"=="Error" (
@@ -118,7 +131,6 @@ for /f %%i in ('powershell -Command "$p = Test-Connection -ComputerName %dns1% -
     ) else (set "color1=Red")
 )
 
-:: 测试 DNS2
 set "ms2=超时"
 for /f %%i in ('powershell -Command "$p = Test-Connection -ComputerName %dns2% -Count 2 -ErrorAction SilentlyContinue; if($p){ [int]($p | Measure-Object -Property ResponseTime -Average).Average }else{ 'Error' }"') do (
     if not "%%i"=="Error" (
@@ -128,7 +140,6 @@ for /f %%i in ('powershell -Command "$p = Test-Connection -ComputerName %dns2% -
     ) else (set "color2=Red")
 )
 
-:: 使用 PowerShell 输出彩色结果
 powershell -Command "Write-Host ' 首选 DNS: %dns1%  延迟: %ms1%ms' ; Write-Host ' 评级建议: %eval1%' -ForegroundColor %color1% ; Write-Host '' ; Write-Host ' 备用 DNS: %dns2%  延迟: %ms2%ms' ; Write-Host ' 评级建议: %eval2%' -ForegroundColor %color2%"
 
 echo ------------------------------------------------------
