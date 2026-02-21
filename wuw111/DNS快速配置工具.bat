@@ -1,6 +1,6 @@
 @echo off
 setlocal enabledelayedexpansion
-title DNS 快速配置工具
+title DNS 快速配置工具 V11稳定版
 chcp 936 >nul
 
 :: 1. 管理员权限检查与引导
@@ -52,26 +52,36 @@ echo.
 :: 3. 设定 DNS 地址
 :input1
 set "dns1="
-set /p dns1=请输入首选 DNS (回车默认 223.5.5.5): 
+set /p dns1=请输入首选 DNS后回车 (输入 help 获取推荐，留空默认设置阿里DNS：223.5.5.5): 
+if /i "%dns1%"=="help" (
+    call :showHelp
+    goto :input1
+)
 if "%dns1%"=="" (
     set "dns1=223.5.5.5"
 ) else (
     call :validateIP "%dns1%"
     if !errorLevel! neq 0 (
-        echo [错误] IP 地址格式不规范，请重新输入。
+        echo [错误] IP 地址格式不规范。
+        call :showHelp
         goto :input1
     )
 )
 
 :input2
 set "dns2="
-set /p dns2=请输入备用 DNS (回车默认 119.29.29.29): 
+set /p dns2=请输入备用 DNS后回车 (输入 help 获取推荐，留空默认设置腾讯DNS：119.29.29.29): 
+if /i "%dns2%"=="help" (
+    call :showHelp
+    goto :input2
+)
 if "%dns2%"=="" (
     set "dns2=119.29.29.29"
 ) else (
     call :validateIP "%dns2%"
     if !errorLevel! neq 0 (
-        echo [错误] IP 地址格式不规范，请重新输入。
+        echo [错误] IP 地址格式不规范。
+        call :showHelp
         goto :input2
     )
 )
@@ -90,25 +100,15 @@ powershell -Command "$nic = Get-WmiObject Win32_NetworkAdapterConfiguration | Wh
 
 echo 已保存备份: "%backupFile%"
 
-:: 5. 应用 DNS 配置 (增加错误处理逻辑)
+:: 5. 应用 DNS 配置
 echo.
 echo [正在应用 DNS 配置...]
 netsh interface ip set dns name="!targetNIC!" source=static addr=%dns1% register=primary >nul 2>&1
 
-:: ---- 核心错误检查 ----
 if !errorlevel! neq 0 (
-    echo.
-    echo [严重错误] DNS 配置失败!
-    echo 请确认:
-    echo  1. 脚本是否以管理员权限运行。
-    echo  2. 网卡 "!targetNIC!" 是否被其它程序或策略占用。
-    echo.
-    echo 按任意键退出...
-    pause >nul
-    exit
+    echo. & echo [严重错误] DNS 配置失败! & echo. & pause & exit
 )
 
-:: 如果首选设置成功，则继续添加备用
 netsh interface ip add dns name="!targetNIC!" addr=%dns2% index=2 >nul 2>&1
 
 echo [成功] DNS 设置已生效。
@@ -119,38 +119,59 @@ echo.
 echo [正在测试 DNS 响应延迟...]
 echo ------------------------------------------------------
 
-set "color1=White" & set "eval1=无法访问"
-set "color2=White" & set "eval2=无法访问"
+set "color1=White" & set "eval1=无法访问" & set "ms1=超时"
+set "color2=White" & set "eval2=无法访问" & set "ms2=超时"
 
-set "ms1=超时"
 for /f %%i in ('powershell -Command "$p = Test-Connection -ComputerName %dns1% -Count 2 -ErrorAction SilentlyContinue; if($p){ [int]($p | Measure-Object -Property ResponseTime -Average).Average }else{ 'Error' }"') do (
     if not "%%i"=="Error" (
-        set "ms1=%%i"
-        set /a num=%%i
-        if !num! lss 20 (set "eval1=极佳：网络连接非常快" & set "color1=Green") else if !num! lss 50 (set "eval1=良好：解析响应速度正常" & set "color1=Green") else if !num! lss 100 (set "eval1=一般：建议更换其它 DNS" & set "color1=Yellow") else (set "eval1=较差：访问延迟高或连接不稳定" & set "color1=Red")
+        set "ms1=%%i" & set /a num=%%i
+        if !num! lss 20 (set "eval1=极佳" & set "color1=Green") else if !num! lss 50 (set "eval1=良好" & set "color1=Green") else if !num! lss 100 (set "eval1=一般" & set "color1=Yellow") else (set "eval1=较差" & set "color1=Red")
     ) else (set "color1=Red")
 )
-
-set "ms2=超时"
 for /f %%i in ('powershell -Command "$p = Test-Connection -ComputerName %dns2% -Count 2 -ErrorAction SilentlyContinue; if($p){ [int]($p | Measure-Object -Property ResponseTime -Average).Average }else{ 'Error' }"') do (
     if not "%%i"=="Error" (
-        set "ms2=%%i"
-        set /a num=%%i
-        if !num! lss 20 (set "eval2=极佳：网络连接非常快" & set "color2=Green") else if !num! lss 50 (set "eval2=良好：解析响应速度正常" & set "color2=Green") else if !num! lss 100 (set "eval2=一般：建议更换其它 DNS" & set "color2=Yellow") else (set "eval2=较差：访问延迟高或连接不稳定" & set "color2=Red")
+        set "ms2=%%i" & set /a num=%%i
+        if !num! lss 20 (set "eval2=极佳" & set "color2=Green") else if !num! lss 50 (set "eval2=良好" & set "color2=Green") else if !num! lss 100 (set "eval2=一般" & set "color2=Yellow") else (set "eval2=较差" & set "color2=Red")
     ) else (set "color2=Red")
 )
 
-powershell -Command "Write-Host ' 首选 DNS: %dns1%  延迟: %ms1%ms' ; Write-Host ' 评级建议: %eval1%' -ForegroundColor %color1% ; Write-Host '' ; Write-Host ' 备用 DNS: %dns2%  延迟: %ms2%ms' ; Write-Host ' 评级建议: %eval2%' -ForegroundColor %color2%"
+powershell -Command "Write-Host ' 首选 DNS: %dns1%  延迟: %ms1%ms  评级: ' -NoNewline; Write-Host '%eval1%' -ForegroundColor %color1% ; Write-Host '' ; Write-Host ' 备用 DNS: %dns2%  延迟: %ms2%ms  评级: ' -NoNewline; Write-Host '%eval2%' -ForegroundColor %color2%"
 
 echo ------------------------------------------------------
 echo 配置任务已完成，请按任意键退出。
 pause >nul
 exit
 
+:: --- 帮助信息子程序 ---
+:showHelp
+echo.
+echo  --- 常见公共 DNS 服务器推荐 ---
+echo.
+echo   服务商              首选 DNS            备用 DNS
+echo   ----------          ---------------     ---------------
+echo   [国内推荐]
+echo   腾讯DNS             119.29.29.29        182.254.116.116
+echo   阿里DNS             223.5.5.5           223.6.6.6
+echo   百度DNS             180.76.76.76        -
+echo   火山DNS             180.184.1.1         180.184.2.2
+echo   114DNS              114.114.114.114     114.114.115.115
+echo   中科大DNS           202.38.64.1         202.112.20.131
+echo.
+echo   [国际通用]
+echo   GoogleDNS           8.8.8.8             8.8.4.4
+echo   Cloudflare          1.1.1.1             1.0.0.1
+echo   Quad9DNS            9.9.9.9             149.112.112.112
+echo   OpenDNS             208.67.222.222      208.67.220.220
+echo   AdGuard             94.140.14.14        94.140.15.15
+echo   Level3DNS           4.2.2.1             4.2.2.2
+echo.
+echo  请从上方选择一组并重新输入:
+echo.
+goto :eof
+
 :: --- IP 格式校验子程序 ---
 :validateIP
 set "ip_to_test=%~1"
-set "count=0"
 for /f "tokens=1-4 delims=." %%a in ("%ip_to_test%") do (
     if "%%a"=="" exit /b 1
     if "%%b"=="" exit /b 1
@@ -162,8 +183,6 @@ for /f "tokens=1-4 delims=." %%a in ("%ip_to_test%") do (
         for /f "delims=0123456789" %%i in ("!var!") do exit /b 1
         if !var! gtr 255 exit /b 1
         if !var! lss 0 exit /b 1
-        set /a count+=1
     )
 )
-if %count% neq 4 exit /b 1
 exit /b 0
