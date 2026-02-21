@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO 核心优化 -->
+    <title>DNS 快速配置工具 - 一键修改 Windows DNS 脚本 | 免费开源</title>
+    <meta name="description" content="一款纯净、免费、无广告的 Windows DNS 一键配置脚本。支持自动备份、智能网卡识别、IPv4 严格校验，并自带彩色延迟测速评级，完美兼容 Win7/10/11。">
+    <meta name="keywords" content="DNS修改工具, 一键配置DNS, DNS修改器, 阿里DNS, 腾讯DNS, DNS测速, 保护网络, 自动备份DNS, bat脚本, 免费软件">
+    <meta name="author" content="wuw111">
+    
+    <!-- Open Graph 社交分享优化 -->
+    <meta property="og:title" content="DNS 快速配置工具 - 极简的一键网络优化方案">
+    <meta property="og:description" content="告别繁琐的控制面板，一键为您切换至更快速、更安全的网络体验。全版本兼容，自带测速与备份。">
+    <meta property="og:type" content="website">
+
+    <style>
+        /* 极简现代风 CSS */
+        :root {
+            --primary-color: #0078d4;
+            --primary-hover: #005a9e;
+            --bg-color: #fcfcfc;
+            --text-main: #242424;
+            --text-muted: #666666;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 顶部首屏 */
+        header {
+            text-align: center;
+            padding: 100px 20px 60px;
+            background: linear-gradient(180deg, #f0f7ff 0%, #fcfcfc 100%);
+        }
+
+        .hero-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        /* 下载按钮 */
+        .btn-download {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 16px 36px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px rgba(0, 120, 212, 0.3);
+        }
+
+        .btn-download:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 120, 212, 0.4);
+        }
+
+        .version-info {
+            display: block;
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        /* 核心优势区域 */
+        .features-section {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 50px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #eaeaea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+            color: #111;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* 截图或终端展示区 (可选) */
+        .terminal-preview {
+            max-width: 800px;
+            margin: 0 auto 80px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 10px;
+            padding: 20px;
+            font-family: Consolas, "Courier New", monospace;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            overflow-x: auto;
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        .terminal-preview span.green { color: #6a9955; }
+        .terminal-preview span.blue { color: #569cd6; }
+
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #eaeaea;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 600px) {
+            .hero-title { font-size: 2.2rem; }
+            .features-section { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 class="hero-title">DNS 快速配置工具</h1>
+        <p class="hero-subtitle">告别繁琐的控制面板，一键为您切换至更快速、更安全的网络体验。纯净批处理脚本，开箱即用。</p>
+        
+        <!-- 下载按钮已配置完毕 -->
+        <a href="./DNS%E5%BF%AB%E9%80%9F%E9%85%8D%E7%BD%AE%E5%B7%A5%E5%85%B7.bat" class="btn-download">
+            ↓ 免费下载脚本
+        </a>
+        <span class="version-info">稳定版 v9 | 仅限 Windows 系统</span>
+    </header>
+
+    <div class="terminal-preview">
+        <div><span class="blue">></span> 正在应用 DNS 配置...</div>
+        <div><span class="green">[成功]</span> DNS 设置已生效。</div><br>
+        <div><span class="blue">></span> 正在测试 DNS 响应延迟...</div>
+        <div>首选 DNS: 223.5.5.5 &nbsp;&nbsp;&nbsp;延迟: 24ms</div>
+        <div><span class="green">评级建议: 良好：解析响应速度正常</span></div>
+    </div>
+
+    <main class="features-section">
+        <h2 class="section-title">为什么选择本工具？</h2>
+        <div class="features-grid">
+            
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3>一键极速配置</h3>
+                <p>进入脚本直接回车，即可默认应用阿里 (223.5.5.5) 与腾讯 (119.29.29.29) 优质公共 DNS，无需手动敲击枯燥的 IP 地址。</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>安全自动备份</h3>
+                <p>修改前自动在当前目录生成 <b>DNSbackup</b> 文件夹，将您的原网卡配置纯净无乱码地保存为文本，随时可查阅恢复。</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>可视化延迟评测</h3>
+                <p>配置完成后，自动对新 DNS 进行 Ping 测试。支持绿色、黄色、红色的彩色直观评级，为您评估网络质量提供参考。</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>智能网卡防呆识别</h3>
+                <p>自动过滤虚拟网卡和未连接设备，精准提取有效网卡供您选择。内置严格的 IPv4 格式校验逻辑，彻底杜绝输错导致断网。</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💻</div>
+                <h3>全版本系统兼容</h3>
+                <p>底层代码经过精心重构，完美向下兼容至 <b>Windows 7</b>，向上支持至 <b>Windows 11</b> 最新版本，中英文系统均不乱码。</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🍃</div>
+                <h3>纯净开源零依赖</h3>
+                <p>纯原生的 Windows CMD / PowerShell 脚本，体积仅几 KB。无需安装任何第三方软件，无后台驻留，无弹窗广告。</p>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>Copyright &copy; 2024. 由AI和 <a href="https://github.com/wuw111" target="_blank">wuw111</a> 开发并开源。</p>
+        <p>Hosted on <a href="https://github.com" target="_blank">GitHub Pages</a></p>
+    </footer>
+
+</body>
+</html>
