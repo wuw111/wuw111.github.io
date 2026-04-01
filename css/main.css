@@ -201,3 +201,14 @@ body
 {
     background-color: rgba(0, 0, 0, 0.05);
 }
+.lang-switch {
+    border: 1px solid #fff; /* 白色边框 */
+    padding: 5px 10px;      /* 内边距 */
+    border-radius: 4px;     /* 圆角 */
+    transition: all 0.3s;   /* 过渡动画 */
+}
+
+.lang-switch:hover {
+    background-color: #fff; /* 悬停时背景变白 */
+    color: #333 !important; /* 悬停时文字变黑 */
+}
