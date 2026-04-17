@@ -1,0 +1,437 @@
+--- START OF FILE developer.html ---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开发者 API - UEssential 官方文档</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ================= 核心变量与重置 ================= */
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --bg-card-hover: #334155;
+            --bg-code: #0b1120;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --accent: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --border: #334155;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --code-family: 'Fira Code', Consolas, Monaco, 'Courier New', Courier, monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* ================= 导航栏 ================= */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #3b82f6, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { color: var(--text-muted); font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+
+        /* ================= 页面主布局 ================= */
+        .page-header {
+            padding: 8rem 2rem 3rem;
+            text-align: center;
+            background: linear-gradient(to bottom, #1e293b, #0f172a);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .page-header h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .page-header p { color: var(--text-muted); max-width: 700px; margin: 0 auto; }
+
+        .layout-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: flex;
+            gap: 3rem;
+            align-items: flex-start;
+        }
+
+        /* ================= 侧边导航栏 ================= */
+        .sidebar {
+            width: 250px;
+            position: sticky;
+            top: 6rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .sidebar h3 {
+            font-size: 1rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            margin-top: 1.5rem;
+        }
+        .sidebar h3:first-child { margin-top: 0; }
+
+        .sidebar ul li { margin-bottom: 0.5rem; }
+        .sidebar ul li a {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            color: var(--text-main);
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+        .sidebar ul li a:hover {
+            background: var(--bg-card-hover);
+            color: var(--primary);
+        }
+
+        /* ================= 命令/API卡片区域 ================= */
+        .content { flex-grow: 1; min-width: 0; }
+        
+        .section-anchor {
+            scroll-margin-top: 6rem;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .cmd-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cmd-card:hover { border-color: var(--primary); }
+
+        .cmd-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .cmd-title {
+            font-family: var(--code-family);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .badge-return { background: rgba(59, 130, 246, 0.1); color: var(--primary); border: 1px solid rgba(59, 130, 246, 0.2); }
+        
+        .cmd-desc { color: var(--text-main); margin-bottom: 1rem; }
+        
+        .api-params {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-muted);
+        }
+        .api-params li { margin-bottom: 0.4rem; }
+        .api-params code {
+            background: var(--bg-dark);
+            color: var(--accent);
+            padding: 0.1em 0.4em;
+            border-radius: 4px;
+            font-family: var(--code-family);
+            font-size: 0.9em;
+        }
+        .api-params .type { color: var(--warning); font-size: 0.9em; }
+
+        .cmd-usage {
+            background: var(--bg-code);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: var(--code-family);
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            overflow-x: auto;
+            border: 1px solid #1e293b;
+        }
+        .cmd-usage pre { margin: 0; }
+        
+        /* 简易代码高亮 */
+        .token.keyword { color: #c678dd; }
+        .token.function { color: #61afef; }
+        .token.string { color: #98c379; }
+        .token.comment { color: #5c6370; font-style: italic; }
+        .token.number { color: #d19a66; }
+
+        .cmd-note {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        
+        .cmd-note i {
+            color: var(--warning);
+            margin-top: 0.2rem;
+            flex-shrink: 0;
+        }
+        .cmd-note p { margin: 0; min-width: 0; overflow-wrap: break-word; }
+
+        /* ================= 响应式 ================= */
+        @media (max-width: 900px) {
+            .layout-container { flex-direction: column; }
+            .sidebar { width: 100%; position: relative; top: 0; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; }
+            .sidebar h3 { margin: 0; width: 100%; }
+            .sidebar ul { display: flex; flex-wrap: wrap; gap: 0.5rem; width: 100%; }
+            .sidebar ul li { margin: 0; }
+            .sidebar ul li a { background: var(--bg-dark); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">UEssential</div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">主页</a></li>
+                    <li><a href="commands.html">命令与权限</a></li>
+                    <li><a href="features.html">功能大全</a></li>
+                    <li><a href="developer.html" class="active">开发者 API</a></li>
+                    <li><a href="contact.html">联系与注意事项</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 页面标题 -->
+    <div class="page-header">
+        <h1>开发者跨插件 API 指南</h1>
+        <p>基于 LLSE 的 <code>ll.export</code> / <code>ll.import</code> 机制，UEssential 向外暴露了 6 个强劲的数据层接口，允许你的插件无缝调用其高精度 TPS 监控、玩家画像库以及“绝对无损”的离线经济支付管线。</p>
+    </div>
+
+    <div class="layout-container">
+        <!-- 侧边导航 -->
+        <aside class="sidebar">
+            <h3>概览</h3>
+            <ul>
+                <li><a href="#quick-start">📦 快速开始调用</a></li>
+            </ul>
+            <h3>API 接口文档</h3>
+            <ul>
+                <li><a href="#api-tps">⏱️ TPS 监控相关接口</a></li>
+                <li><a href="#api-player">👤 玩家数据与审计</a></li>
+                <li><a href="#api-economy">💰 离线经济转账管线</a></li>
+            </ul>
+            <h3>开发者提示</h3>
+            <ul>
+                <li><a href="#api-notice">⚠️ 接口调用注意事项</a></li>
+            </ul>
+        </aside>
+
+        <!-- API 详情内容 -->
+        <main class="content">
+            
+            <h2 id="quick-start" class="section-anchor">📦 快速开始</h2>
+            <div class="cmd-card">
+                <p class="cmd-desc">在您的其他 LLSE 插件（JavaScript）中，您可以使用 <code>ll.import</code> 来引入并在运行时执行这些接口。请注意：为了防止服主在配置文件中关闭了对应的功能模块，调用后务必进行判空处理。</p>
+                <div class="cmd-usage">
+<pre><code><span class="token comment">// 导入方式：ll.import("命名空间", "导出函数名")</span>
+<span class="token keyword">const</span> <span class="token function">getInstantTps</span> <span class="token keyword">=</span> ll.<span class="token function">import</span>(<span class="token string">"UEssential"</span>, <span class="token string">"getTpsInstant"</span>);
+
+<span class="token keyword">if</span> (getInstantTps) {
+    <span class="token keyword">let</span> tps <span class="token keyword">=</span> <span class="token function">getInstantTps</span>();
+    console.<span class="token function">log</span>(<span class="token string">"当前TPS: "</span> <span class="token keyword">+</span> tps);
+} <span class="token keyword">else</span> {
+    console.<span class="token function">log</span>(<span class="token string">"未安装 UEssential 或接口被禁用！"</span>);
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- 分类：TPS 监控 -->
+            <h2 id="api-tps" class="section-anchor"><i class="fas fa-chart-line"></i> TPS 监控接口</h2>
+            
+            <div class="cmd-card">
+                <div class="cmd-header">
+                    <div class="cmd-title">getTpsInstant</div>
+                    <span class="badge badge-return">返回: Float | null</span>
+                </div>
+                <p class="cmd-desc">获取服务器过去 1 秒钟内的高精度瞬时 TPS（Ticks Per Second）。</p>
+                <ul class="api-params">
+                    <li><strong>参数：</strong>无</li>
+                    <li><strong>返回值：</strong>当开启 <code>tps</code> 模块时，返回 <code>Float</code> 值（最高 20.00）。被禁用时返回 <code>null</code>。</li>
+                </ul>
+            </div>
+
+            <div class="cmd-card">
+                <div class="cmd-header">
+                    <div class="cmd-title">getTps1Min</div>
+                    <span class="badge badge-return">返回: Float | null</span>
+                </div>
+                <p class="cmd-desc">获取服务器过去 60 秒的平均 TPS 值，非常适合用于你的其他插件来进行长期性能监控或触发清理任务。</p>
+                <ul class="api-params">
+                    <li><strong>参数：</strong>无</li>
+                    <li><strong>返回值：</strong>返回 1 分钟内的平均 TPS 值。禁用时返回 <code>null</code>。</li>
+                </ul>
+            </div>
+
+            <!-- 分类：玩家数据 -->
+            <h2 id="api-player" class="section-anchor" style="margin-top: 3rem;"><i class="fas fa-users"></i> 玩家数据与审计接口</h2>
+
+            <div class="cmd-card">
+                <div class="cmd-header">
+                    <div class="cmd-title">getOnlineTime</div>
+                    <span class="badge badge-return">返回: Float | null</span>
+                </div>
+                <p class="cmd-desc">直接从 UEssential 高性能 KVDB 玩家数据库中获取指定玩家的累积历史游玩时间（哪怕他当前离线）。</p>
+                <ul class="api-params">
+                    <li><code>xuid</code> <span class="type">(String)</span> - 目标玩家的 16 位 XUID。</li>
+                    <li><strong>返回值：</strong>返回玩家的总在线时长（单位：分钟）。无记录返回 <code>0</code>，禁用模块则返回 <code>null</code>。</li>
+                </ul>
+                <div class="cmd-usage">
+<pre><code><span class="token keyword">const</span> <span class="token function">getOnlineTime</span> <span class="token keyword">=</span> ll.<span class="token function">import</span>(<span class="token string">"UEssential"</span>, <span class="token string">"getOnlineTime"</span>);
+<span class="token keyword">let</span> playTime <span class="token keyword">=</span> getOnlineTime <span class="token keyword">?</span> <span class="token function">getOnlineTime</span>(<span class="token string">"2535421234567890"</span>) <span class="token keyword">:</span> <span class="token number">0</span>;</code></pre>
+                </div>
+            </div>
+
+            <div class="cmd-card">
+                <div class="cmd-header">
+                    <div class="cmd-title">queryPlayers</div>
+                    <span class="badge badge-return">返回: Array&lt;Object&gt; | null</span>
+                </div>
+                <p class="cmd-desc">根据玩家名称的片段模糊搜索玩家画像库。支持匹配<strong>当前名称</strong>和<strong>曾用名记录</strong>，可用于自行开发带查水表功能的插件。</p>
+                <ul class="api-params">
+                    <li><code>queryStr</code> <span class="type">(String)</span> - 要搜索的玩家名称片段（不区分大小写，最少需要 3 个字符）。</li>
+                    <li><strong>返回值：</strong>包含对象 <code>{ xuid, name, onlineTime }</code> 的数组。查无此人返回空数组 <code>[]</code>。</li>
+                </ul>
+            </div>
+
+            <div class="cmd-card">
+                <div class="cmd-header">
+                    <div class="cmd-title">isBanned</div>
+                    <span class="badge badge-return">返回: Boolean | null</span>
+                </div>
+                <p class="cmd-desc">对一个玩家身份进行综合的本地黑名单拦截检测（支持多维度模糊匹配拦截）。</p>
+                <ul class="api-params">
+                    <li><code>xuid</code> <span class="type">(String | null)</span> - 玩家 XUID</li>
+                    <li><code>name</code> <span class="type">(String | null)</span> - 玩家游戏内名称</li>
+                    <li><code>ip</code> <span class="type">(String | null)</span> - 玩家连接 IP（接口内部会自动剥离多余端口）</li>
+                    <li><code>clientId</code> <span class="type">(String | null)</span> - 设备的物理特征码</li>
+                    <li><strong>返回值：</strong><code>true</code> 表示命中黑名单，<code>false</code> 表示安全。禁用则返回 <code>null</code>。</li>
+                </ul>
+                <div class="cmd-note"><i class="fas fa-info-circle"></i><p>当你无法获取全量数据时，缺失的数据可以传入 <code>null</code> 进行空安全检测。</p></div>
+            </div>
+
+            <!-- 分类：离线经济 -->
+            <h2 id="api-economy" class="section-anchor" style="margin-top: 3rem;"><i class="fas fa-coins"></i> 无损跨插件转账管线</h2>
+
+            <div class="cmd-card" style="border-color: rgba(16, 185, 129, 0.3);">
+                <div class="cmd-header">
+                    <div class="cmd-title">transferMoneyApi</div>
+                    <span class="badge badge-return" style="color: var(--accent); border-color: rgba(16, 185, 129, 0.2);">返回: Boolean</span>
+                </div>
+                <p class="cmd-desc"><strong>核心重磅接口：</strong>为指定玩家增加或扣除资金。它完美抹平了底层 LLMoney 与“原版计分板”经济机制上的差异。如果使用计分板且玩家不在线，该接口会<strong>自动将你的操作推入离线结算队列</strong>，当玩家下次上线时自动扣除或发放，绝不丢单！</p>
+                <ul class="api-params">
+                    <li><code>targetXuid</code> <span class="type">(String)</span> - 目标玩家的 XUID (必填)。</li>
+                    <li><code>targetName</code> <span class="type">(String | null)</span> - 目标玩家名称。若无法提供可传 <code>null</code>，仅用于离线挂账日志。</li>
+                    <li><code>amount</code> <span class="type">(Number)</span> - 金额。<span style="color: var(--accent);">正数表示增加款项</span>，<span style="color: var(--danger);">负数表示扣除款项</span>。</li>
+                    <li><code>note</code> <span class="type">(String)</span> - 资金变动备注留言（玩家上线时会在屏幕中央展示此留言）。</li>
+                    <li><code>senderIdentity</code> <span class="type">(String)</span> - 发起方名称标识（例如你写的插件的英文名）。</li>
+                </ul>
+                <div class="cmd-usage">
+<pre><code><span class="token keyword">const</span> <span class="token function">ecoTransfer</span> <span class="token keyword">=</span> ll.<span class="token function">import</span>(<span class="token string">"UEssential"</span>, <span class="token string">"transferMoneyApi"</span>);
+
+<span class="token comment">// 【示例】 - 商店插件的离线或在线扣款（扣1000）：</span>
+<span class="token keyword">if</span> (ecoTransfer) {
+    <span class="token keyword">let</span> success <span class="token keyword">=</span> <span class="token function">ecoTransfer</span>(<span class="token string">"253542..."</span>, <span class="token string">"Steve"</span>, <span class="token number">-1000</span>, <span class="token string">"购买钻石剑"</span>, <span class="token string">"MyShop"</span>);
+    <span class="token keyword">if</span> (!success) console.<span class="token function">log</span>(<span class="token string">"在线扣费失败：玩家余额不足"</span>);
+}</code></pre>
+                </div>
+                <div class="cmd-note"><i class="fas fa-exclamation-triangle"></i><p>处理在线玩家的扣款（负数）时，如果其余额不足，接口将严格拦截并返回 <code>false</code>。但如果是针对“离线玩家”进行计分板扣费，由于无法凭空读取离线计分板，将会直接塞入强制扣费列队（可能会导致他上线时分数变为负数）。</p></div>
+            </div>
+
+            <!-- 开发者提示 -->
+            <h2 id="api-notice" class="section-anchor" style="margin-top: 3rem;"><i class="fas fa-user-shield"></i> 开发者注意事项</h2>
+            <div class="cmd-card">
+                <p>1. <strong>模块开关检测</strong>：因为服主极有可能在 <code>config.json</code> 中关闭了某些非必需模块（如关闭了数据库或TPS模块），这会导致接口方法虽然被导入成功，但在执行时直接返回 <code>null</code>。<strong>务必在你的逻辑中进行非空（Null Safety）校验</strong>，否则可能引起你的插件崩溃。</p>
+                <p style="margin-top: 1rem;">2. <strong>极速响应与无阻塞</strong>：绝大多数 API 直接从 UEssential 内存状态或底层的高性能 KVDatabase 读取数据，耗时在亚毫秒级别，属于同步即时响应，可放心在诸如 <code>onTick</code> 或其他高频交互事件中使用。</p>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- 底部 -->
+    <footer style="background: var(--bg-card); border-top: 1px solid var(--border); padding: 3rem 2rem; text-align: center; margin-top: 4rem;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; color: var(--text-muted);">
+            <p>&copy; 2026 UEssential Plugin. All rights reserved.</p>
+            <p>Designed for Minecraft Bedrock Edition Server.</p>
+            <p>Author: <a href="https://github.com/wuw111/" target="_blank" style="color: var(--primary); font-weight: 600;">wuw111</a> | Version 0.9.4</p>
+        </div>
+    </footer>
+
+    <!-- 平滑滚动脚本 -->
+    <script>
+        document.querySelectorAll('.sidebar a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
