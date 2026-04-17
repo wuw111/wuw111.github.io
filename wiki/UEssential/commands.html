@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>命令与权限 - UEssential 官方文档</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ================= 核心变量与重置 ================= */
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --bg-card-hover: #334155;
+            --bg-code: #0b1120;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --accent: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --border: #334155;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --code-family: 'Fira Code', Consolas, Monaco, 'Courier New', Courier, monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* ================= 导航栏 (复用主页样式) ================= */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #3b82f6, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { color: var(--text-muted); font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+
+        /* ================= 页面主布局 ================= */
+        .page-header {
+            padding: 8rem 2rem 3rem;
+            text-align: center;
+            background: linear-gradient(to bottom, #1e293b, #0f172a);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .page-header h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .page-header p { color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+
+        .layout-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: flex;
+            gap: 3rem;
+            align-items: flex-start;
+        }
+
+        /* ================= 侧边导航栏 ================= */
+        .sidebar {
+            width: 250px;
+            position: sticky;
+            top: 6rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .sidebar h3 {
+            font-size: 1rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            margin-top: 1.5rem;
+        }
+        .sidebar h3:first-child { margin-top: 0; }
+
+        .sidebar ul li { margin-bottom: 0.5rem; }
+        .sidebar ul li a {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            color: var(--text-main);
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+        .sidebar ul li a:hover {
+            background: var(--bg-card-hover);
+            color: var(--primary);
+        }
+
+        /* ================= 命令卡片区域 ================= */
+        .content { flex-grow: 1; min-width: 0; }
+        
+        .section-anchor {
+            scroll-margin-top: 6rem;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .cmd-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cmd-card:hover { border-color: var(--primary); }
+
+        .cmd-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .cmd-title {
+            font-family: var(--code-family);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .badge-any { background: rgba(16, 185, 129, 0.1); color: var(--accent); border: 1px solid rgba(16, 185, 129, 0.2); }
+        .badge-admin { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); }
+        .badge-console { background: rgba(245, 158, 11, 0.1); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.2); }
+
+        .cmd-desc { color: var(--text-main); margin-bottom: 1rem; }
+        
+        .cmd-usage {
+            background: var(--bg-code);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: var(--code-family);
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            overflow-x: auto;
+            border: 1px solid #1e293b;
+        }
+
+        .cmd-usage span.arg { color: #60a5fa; }
+        .cmd-usage span.opt { color: #94a3b8; }
+        
+        .cmd-note {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        
+        .cmd-note i {
+            color: var(--warning);
+            margin-top: 0.2rem;
+            flex-shrink: 0;
+        }
+
+        /* ✨✨✨ 这是本次的终极修正 ✨✨✨ */
+        .cmd-note p {
+            margin: 0;
+            min-width: 0; /* 关键：允许flex子元素被压缩 */
+            overflow-wrap: break-word; /* 关键：强制长单词换行 */
+        }
+        
+        .cmd-note code, .cmd-desc code {
+            background-color: var(--bg-code);
+            color: var(--warning);
+            padding: 0.1em 0.4em;
+            border-radius: 4px;
+            font-family: var(--code-family);
+            font-size: 0.9em;
+        }
+
+
+        /* ================= 响应式 ================= */
+        @media (max-width: 900px) {
+            .layout-container { flex-direction: column; }
+            .sidebar { width: 100%; position: relative; top: 0; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; }
+            .sidebar h3 { margin: 0; width: 100%; }
+            .sidebar ul { display: flex; flex-wrap: wrap; gap: 0.5rem; width: 100%; }
+            .sidebar ul li { margin: 0; }
+            .sidebar ul li a { background: var(--bg-dark); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">UEssential</div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">主页</a></li>
+                    <li><a href="commands.html" class="active">命令与权限</a></li>
+                    <li><a href="features.html">功能大全</a></li>
+                    <li><a href="contact.html">联系与注意事项</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 页面标题 -->
+    <div class="page-header">
+        <h1>命令与权限列表</h1>
+        <p>几乎所有指令都支持 <strong>GUI表单操作</strong>。当您不确定参数时，直接输入主命令即可呼出可视化菜单进行操作。</p>
+    </div>
+
+    <div class="layout-container">
+        <!-- 侧边导航 -->
+        <aside class="sidebar">
+            <h3>玩家功能指令</h3>
+            <ul>
+                <li><a href="#cat-teleport">传送与地标 (TPR/TPA)</a></li>
+                <li><a href="#cat-home">家园系统 (Home)</a></li>
+                <li><a href="#cat-survival">基础生存 (Suicide/Back)</a></li>
+                <li><a href="#cat-eco">经济与杂项 (Money/Lang)</a></li>
+            </ul>
+            <h3>管理员专属</h3>
+            <ul>
+                <li><a href="#cat-admin-manage">玩家管理与封禁</a></li>
+                <li><a href="#cat-admin-db">数据库与统计</a></li>
+                <li><a href="#cat-admin-sys">系统与自定义映射</a></li>
+            </ul>
+        </aside>
+
+        <!-- 命令详情内容 -->
+        <main class="content">
+            
+            <!-- 分类：传送与地标 -->
+            <h2 id="cat-teleport" class="section-anchor"><i class="fas fa-location-arrow"></i> 传送与地标</h2>
+            
+            <div class="cmd-card">
+                <div class="cmd-header">
+                    <div class="cmd-title">/tpr</div>
+                    <span class="badge badge-any">普通玩家</span>
+                </div>
+                <p class="cmd-desc">执行随机传送。系统将自动为你寻找安全的着陆点（避开岩浆、虚空、墙体）。</p>
+                <div class="cmd-usage">
+                    /tpr
+                </div>
+                <div class="cmd-note"><i class="fas fa-info-circle"></i><p>计费与冷却时间受动态公式影响。传送期间会附加抗性提升与失明效果以防卡顿伤害。</p></div>
+            </div>
+
+            <div class="cmd-card">
+                <div class="cmd-header">
+                    <div class="cmd-title">/tpa 及相关组合</div>
+                    <span class="badge badge-any">普通玩家</span>
+                </div>
+                <p class="cmd-desc">玩家之间的互相传送请求系统。包括传送到对方身边，或将对方拉到自己身边。</p>
+                <div class="cmd-usage">
+                    /tpa <br>
+                    /tpacancel <span class="opt"># 取消已发出的请求并按比例退款</span><br>
+                    /ac <span class="opt">[玩家名] # 同意请求</span><br>
+                    /de <span class="opt">[玩家名] # 拒绝请求</span><br>
+                    /tpaset <span class="opt"># 开启/关闭接收 TPA 请求</span>
+                </div>
+                <div class="cmd-note"><i class="fas fa-info-circle"></i><p>支持财产限制（防止小号滥用）、支持手续费、支持过期自动退款。</p></div>
+            </div>
+
+            <div class="cmd-card">
+                <div class="cmd-header">
+                    <div class="cmd-title">/warp</div>
+                    <span class="badge badge-any">普通玩家</span>
+                </div>
+                <p class="cmd-desc">前往服务器官方设定的公共地标。</p>
+                <div class="cmd-usage">
+                    /warp <span class="opt"># 打开地标GUI列表</span><br>
+                    /warp go <span class="arg">&lt;地标名称&gt;</span>
+                </div>
+            </div>
+
+            <!-- 分类：家园系统 -->
+            <h2 id="cat-home" class="section-anchor"><i class="fas fa-campground"></i> 家园系统</h2>
+
+            <div class="cmd-card">
+                <div class="cmd-header">
+                    <div class="cmd-title">/home</div>
+                    <span class="badge badge-any">普通玩家</span>
+                </div>
+                <p class="cmd-desc">管理个人家园，支持添加、删除、前往以及将家园“公开发布”。</p>
+                <div class="cmd-usage">
+                    /home <span class="opt"># 打开家园主GUI</span><br>
+                    /home add <span class="arg">&lt;名称&gt;</span><br>
+                    /home go <span class="arg">&lt;名称&gt;</span><br>
+                    /home delete <span class="arg">&lt;名称&gt;</span><br>
+                    /home publish <span class="opt"># 打开发布公开家园GUI</span>
+                </div>
+                <div class="cmd-note"><i class="fas fa-info-circle"></i><p>随添加数量增多，添加家园的费用可通过数学公式成倍增长。</p></div>
+            </div>
+
+            <div class="cmd-card">
+                <div class="cmd-header">
+                    <div class="cmd-title">/homewarp</div>
+                    <span class="badge badge-any">普通玩家</span>
+                </div>
+                <p class="cmd-desc">打开全服玩家发布的“公开家园”列表并进行传送。</p>
+                <div class="cmd-usage">/homewarp</div>
+            </div>
+
+            <!-- 分类：基础生存 -->
+            <h2 id="cat-survival" class="section-anchor"><i class="fas fa-heartbeat"></i> 基础生存</h2>
+
+            <div class="cmd-card">
+                <div class="cmd-header">
+                    <div class="cmd-title">/back</div>
+                    <span class="badge badge-any">普通玩家</span>
+                </div>
+                <p class="cmd-desc">传送回最近的死亡点。</p>
+                <div class="cmd-usage">
+                    /back <span class="opt"># 默认传送到上一次死亡点</span><br>
+                    /back gui <span class="opt"># 打开GUI选择历史死亡记录</span>
+                </div>
+                <div class="cmd-note"><i class="fas fa-info-circle"></i><p>支持返回越久远的死亡记录，可能产生的费用越高（可通过公式自定义）。</p></div>
+            </div>
+
+            <div class="cmd-card">
+                <div class="cmd-header">
+                    <div class="cmd-title">/suicide</div>
+                    <span class="badge badge-any">普通玩家</span>
+                </div>
+                <p class="cmd-desc">立刻结束自己的生命。</p>
+                <div class="cmd-usage">/suicide</div>
+            </div>
+
+            <div class="cmd-card">
+                <div class="cmd-header">
+                    <div class="cmd-title">/tps</div>
+                    <span class="badge badge-any">普通玩家</span>
+                </div>
+                <p class="cmd-desc">玩家查询当前服务器实时 TPS（需在配置文件开启 <code>tps</code>功能开关）。</p>
+                <div class="cmd-usage">/tps</div>
+            </div>
+
+            <!-- 分类：经济与杂项 -->
+            <h2 id="cat-eco" class="section-anchor"><i class="fas fa-coins"></i> 经济与系统杂项</h2>
+
+            <div class="cmd-card">
+                <div class="cmd-header">
+                    <div class="cmd-title">/moneysystem</div>
+                    <span class="badge badge-any">普通玩家</span>
+                </div>
+                <p class="cmd-desc">呼出经济中心大厅，可向其他在线或离线玩家转账。</p>
+                <div class="cmd-usage">/moneysystem</div>
+                <div class="cmd-note"><i class="fas fa-info-circle"></i><p>支持税收。转账时可添加不超过 50 字的备注留言。支持向离线玩家打款缓存队列。</p></div>
+            </div>
+
+            <div class="cmd-card">
+                <div class="cmd-header">
+                    <div class="cmd-title">/languagesue</div>
+                    <span class="badge badge-any">普通玩家</span>
+                </div>
+                <p class="cmd-desc">切换插件对您个人的提示语言（默认支持中英双语，视服主配置而定）。</p>
+                <div class="cmd-usage">/languagesue</div>
+            </div>
+            
+            <div class="cmd-card">
+                <div class="cmd-header">
+                    <div class="cmd-title">/notice</div>
+                    <span class="badge badge-any">普通玩家</span>
+                </div>
+                <p class="cmd-desc">重新查看服务器的欢迎公告。</p>
+                <div class="cmd-usage">/notice</div>
+            </div>
+
+            <!-- 分类：管理员专属 (玩家管理) -->
+            <h2 id="cat-admin-manage" class="section-anchor" style="margin-top: 3rem;"><i class="fas fa-user-shield"></i> 管理员 - 玩家管理</h2>
+
+            <div class="cmd-card" style="border-color: rgba(239, 68, 68, 0.3);">
+                <div class="cmd-header">
+                    <div class="cmd-title">/playermanage</div>
+                    <span class="badge badge-admin">OP 权限</span>
+                </div>
+                <p class="cmd-desc">全能玩家管理后台（支持视奸、替身说话、强制执行命令、增删资金、查阅背包NBT、崩溃客户端等）。</p>
+                <div class="cmd-usage">
+                    /playermanage <span class="opt"># 打开在线玩家列表GUI</span><br>
+                    /playermanage <span class="arg">&lt;玩家名&gt;</span> <span class="arg">&lt;action&gt;</span> <span class="opt">[参数]</span><br>
+                    <span class="opt"># action 支持: look, talkas, cmdas, money, status, crash</span>
+                </div>
+                <div class="cmd-note"><i class="fas fa-exclamation-triangle"></i><p>此功能极为强大，其中背包 NBT 复制功能仅限 config 中的 SuperAdmin 使用。</p></div>
+            </div>
+
+            <div class="cmd-card" style="border-color: rgba(239, 68, 68, 0.3);">
+                <div class="cmd-header">
+                    <div class="cmd-title">/ban 与 /unban</div>
+                    <span class="badge badge-admin">OP 权限</span> <span class="badge badge-console">控制台支持</span>
+                </div>
+                <p class="cmd-desc">三位一体封禁系统。支持记录封禁理由和时长（天）。</p>
+                <div class="cmd-usage">
+                    /ban <span class="opt"># 打开封禁选择GUI</span><br>
+                    /ban <span class="arg">&lt;目标玩家名或XUID&gt;</span> <span class="opt"># 控制台快捷封禁</span><br>
+                    /unban <span class="opt"># 打开解封选择GUI</span><br>
+                    /unban <span class="arg">&lt;目标玩家名或XUID&gt;</span> <span class="opt"># 控制台快捷解封</span>
+                </div>
+                <div class="cmd-note"><i class="fas fa-info-circle"></i><p>将同时记录玩家的名称、XUID、历史IP和设备ClientID进行多重拦截。</p></div>
+            </div>
+
+            <!-- 分类：管理员专属 (数据库) -->
+            <h2 id="cat-admin-db" class="section-anchor"><i class="fas fa-database"></i> 管理员 - 数据库与统计</h2>
+
+            <div class="cmd-card" style="border-color: rgba(239, 68, 68, 0.3);">
+                <div class="cmd-header">
+                    <div class="cmd-title">/playerdatabase</div>
+                    <span class="badge badge-admin">OP 权限</span>
+                </div>
+                <p class="cmd-desc">底层 KVDatabase 玩家图鉴库管理。</p>
+                <div class="cmd-usage">
+                    /playerdatabase <span class="opt"># 打开面板查看近期注册玩家概况</span><br>
+                    /playerdatabase refresh <span class="opt"># 重算注册表数据</span><br>
+                    /playerdatabase export <span class="opt"># 将 KVDB 全量导出为 JSON 备份</span><br>
+                    /playerdatabase query <span class="arg">&lt;名称片段&gt;</span> <span class="opt"># 检索玩家曾用名及画像</span>
+                </div>
+                <div class="cmd-note"><i class="fas fa-info-circle"></i><p>检索功能可直接查阅已离线玩家的累计在线时长、历史IP，并支持对其进行离线封禁或资金扣除。</p></div>
+            </div>
+
+            <div class="cmd-card" style="border-color: rgba(239, 68, 68, 0.3);">
+                <div class="cmd-header">
+                    <div class="cmd-title">/tpsadmin</div>
+                    <span class="badge badge-admin">OP 权限</span> <span class="badge badge-console">控制台支持</span>
+                </div>
+                <p class="cmd-desc">获取服务器 30s、2m、5m、10m 的平均高精度 TPS，并输出柱状图。</p>
+                <div class="cmd-usage">/tpsadmin</div>
+            </div>
+
+            <!-- 分类：管理员专属 (系统功能) -->
+            <h2 id="cat-admin-sys" class="section-anchor"><i class="fas fa-cogs"></i> 管理员 - 系统功能设置</h2>
+
+            <div class="cmd-card" style="border-color: rgba(239, 68, 68, 0.3);">
+                <div class="cmd-header">
+                    <div class="cmd-title">/warpset 与 /homewarpadmin</div>
+                    <span class="badge badge-admin">OP 权限</span>
+                </div>
+                <p class="cmd-desc">地标管理及违规公开家园管理。</p>
+                <div class="cmd-usage">
+                    /warpset <span class="opt"># 以当前坐标或指定坐标新增/编辑/删除公共地标</span><br>
+                    /homewarpadmin <span class="opt"># 强制下架玩家发布的违规公开家园</span>
+                </div>
+            </div>
+
+            <div class="cmd-card" style="border-color: rgba(239, 68, 68, 0.3);">
+                <div class="cmd-header">
+                    <div class="cmd-title">/customcommand (或 /cuscmd)</div>
+                    <span class="badge badge-admin">OP 权限 (需SuperAdmin)</span>
+                </div>
+                <p class="cmd-desc">自定义命令映射系统。可在游戏内直接通过 GUI 创造新命令来映射原生指令或其它插件指令。</p>
+                <div class="cmd-usage">/customcommand</div>
+                <!-- ✨✨✨ 这是本次的终极修正 (HTML 结构) ✨✨✨ -->
+                <div class="cmd-note">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>出于安全考虑，仅 <code>config.json</code> 中 <code>customCommands.superAdmins</code> 数组内的玩家可创建“以后台身份执行”的越权指令及执行删除操作。</p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- 底部复用 -->
+    <footer style="background: var(--bg-card); border-top: 1px solid var(--border); padding: 3rem 2rem; text-align: center; margin-top: 4rem;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; color: var(--text-muted);">
+            <p>&copy; 2024 UEssential Plugin. All rights reserved.</p>
+            <p>Designed for Minecraft Bedrock Edition Server.</p>
+            <p>Author: <a href="https://github.com/wuw111/" target="_blank" style="color: var(--primary); font-weight: 600;">wuw111</a> | Version 0.9.4</p>
+        </div>
+    </footer>
+
+    <!-- 平滑滚动锚点调整小脚本 -->
+    <script>
+        document.querySelectorAll('.sidebar a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

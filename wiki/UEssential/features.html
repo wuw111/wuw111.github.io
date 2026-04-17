@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>功能大全 - UEssential 官方文档</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ================= 核心变量与通用样式 (同主页) ================= */
+        :root {
+            --bg-dark: #0f172a; --bg-card: #1e293b; --bg-card-hover: #334155;
+            --text-main: #f8fafc; --text-muted: #94a3b8;
+            --primary: #3b82f6; --primary-hover: #2563eb; --accent: #10b981;
+            --border: #334155;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-family); background-color: var(--bg-dark); color: var(--text-main); line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* ================= 导航栏 ================= */
+        header { position: fixed; top: 0; width: 100%; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); z-index: 1000; }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; background: linear-gradient(to right, #3b82f6, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { color: var(--text-muted); font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+
+        /* ================= 头部 ================= */
+        .page-header { padding: 8rem 2rem 3rem; text-align: center; background: linear-gradient(to bottom, #1e293b, #0f172a); border-bottom: 1px solid var(--border); }
+        .page-header h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .page-header p { color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+
+        /* ================= 功能网格 ================= */
+        .features-container { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+        .feature-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; transition: transform 0.3s, border-color 0.3s; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+        .feature-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        
+        /* 装饰性的背景发光 */
+        .feature-card::before { content: ''; position: absolute; top: -50px; right: -50px; width: 100px; height: 100px; background: var(--primary); opacity: 0.1; filter: blur(40px); border-radius: 50%; }
+
+        .feature-icon { font-size: 2.5rem; color: var(--primary); margin-bottom: 1.5rem; }
+        .feature-title { font-size: 1.3rem; margin-bottom: 1rem; color: var(--text-main); }
+        .feature-desc { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; flex-grow: 1; }
+        
+        .feature-list { margin-bottom: 2rem; }
+        .feature-list li { font-size: 0.9rem; color: #cbd5e1; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+        .feature-list li i { color: var(--accent); font-size: 0.8rem; }
+
+        .btn-learn-more { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem; background: rgba(59, 130, 246, 0.1); color: var(--primary); border-radius: 8px; font-weight: 600; font-size: 0.9rem; transition: background 0.2s; align-self: flex-start; }
+        .btn-learn-more:hover { background: var(--primary); color: white; }
+
+        /* 响应式 */
+        @media (max-width: 768px) { .nav-links { display: none; } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo">UEssential</div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">主页</a></li>
+                    <li><a href="commands.html">命令与权限</a></li>
+                    <li><a href="features.html" class="active">功能大全</a></li>
+                    <li><a href="contact.html">联系与注意事项</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <h1>模块与功能大全</h1>
+        <p>UEssential 采用高度模块化的设计，所有功能均可在 `config.json` 中独立开启或关闭。点击下方模块了解详细的运作机制。</p>
+    </div>
+
+    <div class="features-container">
+        
+        <!-- 卡片：TPA -->
+        <div class="feature-card" id="tpa">
+            <i class="fas fa-people-arrows feature-icon"></i>
+            <h2 class="feature-title">TPA 玩家传送系统</h2>
+            <p class="feature-desc">安全、带经济验证的玩家互传功能，彻底杜绝小号骚扰与无意义的传送滥用。</p>
+            <ul class="feature-list">
+                <li><i class="fas fa-check"></i> 支持 TPA 与 TPA Here 两种模式</li>
+                <li><i class="fas fa-check"></i> 请求超时自动取消并按比例退还手续费</li>
+                <li><i class="fas fa-check"></i> 支持最低资产门槛拦截</li>
+            </ul>
+            <a href="tpa.html" class="btn-learn-more">阅读专栏 (开发中) <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <!-- 卡片：TPR -->
+        <div class="feature-card" id="tpr">
+            <i class="fas fa-random feature-icon"></i>
+            <h2 class="feature-title">TPR 智能随机传送</h2>
+            <p class="feature-desc">不仅仅是随机坐标，更是智能寻路。自动避开恶劣环境，保证玩家落地安全。</p>
+            <ul class="feature-list">
+                <li><i class="fas fa-check"></i> 智能规避岩浆、水域、虚空、墙体</li>
+                <li><i class="fas fa-check"></i> 支持分维度单独设置范围与限制</li>
+                <li><i class="fas fa-check"></i> 多次重试机制，找不到安全点全额退款</li>
+            </ul>
+            <a href="tpr.html" class="btn-learn-more">阅读专栏 (开发中) <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <!-- 卡片：Home -->
+        <div class="feature-card" id="home">
+            <i class="fas fa-campground feature-icon"></i>
+            <h2 class="feature-title">家园与公开地标</h2>
+            <p class="feature-desc">私人领地传送与玩家经济生态的完美结合。玩家可以将自己的家园收费公开。</p>
+            <ul class="feature-list">
+                <li><i class="fas fa-check"></i> 公式化的私人家园添加与传送计费</li>
+                <li><i class="fas fa-check"></i> 允许玩家将家园打包“公开发布”到全服</li>
+                <li><i class="fas fa-check"></i> 严格的公开期限控制与发布数量限制</li>
+            </ul>
+            <a href="#" class="btn-learn-more">阅读专栏 (开发中) <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <!-- 卡片：Economy -->
+        <div class="feature-card" id="economy">
+            <i class="fas fa-coins feature-icon"></i>
+            <h2 class="feature-title">无缝离线经济体系</h2>
+            <p class="feature-desc">支持对接原生计分板和 LLMoney。首创计分板离线资金列队缓存机制。</p>
+            <ul class="feature-list">
+                <li><i class="fas fa-check"></i> 可自定义跨玩家转账的手续费税率</li>
+                <li><i class="fas fa-check"></i> GUI转账防手滑机制（离线玩家需全拼）</li>
+                <li><i class="fas fa-check"></i> 离线转账资金挂起，目标上线自动到账提醒</li>
+            </ul>
+            <a href="#" class="btn-learn-more">阅读专栏 (开发中) <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <!-- 卡片：PlayerManage -->
+        <div class="feature-card" id="playermanage">
+            <i class="fas fa-user-shield feature-icon"></i>
+            <h2 class="feature-title">全息玩家管理 (PM)</h2>
+            <p class="feature-desc">管理员的终极武器，无需繁琐指令，一键实现全方位的玩家操作与审计。</p>
+            <ul class="feature-list">
+                <li><i class="fas fa-check"></i> 在线视奸、替身发言、强制执行命令</li>
+                <li><i class="fas fa-check"></i> 可视化查看目标背包与物品 NBT 结构</li>
+                <li><i class="fas fa-check"></i> SuperAdmin 特权：一键克隆玩家背包物品</li>
+            </ul>
+            <a href="#" class="btn-learn-more">阅读专栏 (开发中) <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <!-- 卡片：Ban & DB -->
+        <div class="feature-card" id="ban-db">
+            <i class="fas fa-ban feature-icon"></i>
+            <h2 class="feature-title">三位一体封禁与审计</h2>
+            <p class="feature-desc">内置高性能 KVDatabase 玩家画像库。全方位立体拦截熊孩子。</p>
+            <ul class="feature-list">
+                <li><i class="fas fa-check"></i> 记录玩家所有历史 IP、CID 与曾用名</li>
+                <li><i class="fas fa-check"></i> 接入 BlackBE 与 UniteBan 云端反作弊接口</li>
+                <li><i class="fas fa-check"></i> 本地所有敏感操作自动写入每日 CSV 日志</li>
+            </ul>
+            <a href="#" class="btn-learn-more">阅读专栏 (开发中) <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+    </div>
+
+    <!-- 底部复用 -->
+    <footer style="background: var(--bg-card); border-top: 1px solid var(--border); padding: 3rem 2rem; text-align: center;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; color: var(--text-muted);">
+            <p>&copy; 2024 UEssential Plugin. All rights reserved.</p>
+            <p>Author: <a href="https://github.com/wuw111/" target="_blank" style="color: var(--primary);">wuw111</a> | Version 0.9.4</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UEssential - 基岩版全能基础生存插件</title>
+    <!-- 引入 FontAwesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ================= 核心变量与重置 ================= */
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --bg-card-hover: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --accent: #10b981;
+            --border: #334155;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* ================= 导航栏 ================= */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #3b82f6, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary);
+        }
+
+        /* ================= 英雄区域 (Hero) ================= */
+        .hero {
+            padding: 10rem 2rem 6rem;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--bg-card);
+            border-color: var(--text-muted);
+            transform: translateY(-2px);
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* ================= 核心优势 ================= */
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border-color: var(--primary);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* ================= 底部版权 ================= */
+        footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-content p { color: var(--text-muted); }
+        .footer-content a { color: var(--primary); font-weight: 600; }
+        .footer-content a:hover { text-decoration: underline; }
+
+        /* ================= 响应式 ================= */
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* 移动端可后续补充汉堡菜单 */
+            .hero h1 { font-size: 2.5rem; }
+            .btn-group { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">UEssential</div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="active">主页</a></li>
+                    <li><a href="commands.html">命令与权限</a></li>
+                    <li><a href="features.html">功能大全</a></li>
+                    <li><a href="contact.html">联系与注意事项</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <main>
+        <section class="hero">
+            <span class="version-badge">当前版本 v0.9.4 | 支持 LLMoney & 计分板</span>
+            <h1>下一代基岩版<br>全能基础生存插件</h1>
+            <p>基于先进的动态数学公式计费、内置 KVDatabase 玩家画像库、微秒级 TPS 波动监控、以及全天候 CSV 安全审计日志。服主首选的高可用、模块化管理利器。</p>
+            <div class="btn-group">
+                <a href="features.html" class="btn btn-primary"><i class="fas fa-book-open"></i> 浏览功能大全</a>
+                <a href="https://github.com/wuw111/" target="_blank" class="btn btn-outline"><i class="fab fa-github"></i> 访问作者 GitHub</a>
+            </div>
+        </section>
+
+        <!-- 核心优势 -->
+        <section class="section-container">
+            <h2 class="section-title">硬核级核心优势</h2>
+            <div class="grid-cards">
+                <!-- 优势 1 -->
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-calculator"></i></div>
+                    <h3>动态数学公式计费</h3>
+                    <p>摒弃死板的固定收费。插件内置安全的 JS 函数沙盒，你可以针对 TPR、TPA、地标等配置 <code>costFormula: "50 * Math.pow(1.05, count)"</code>，让费用随玩家单日使用次数呈指数或线性增长，完美平衡服务器经济！</p>
+                </div>
+                <!-- 优势 2 -->
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-database"></i></div>
+                    <h3>KVDatabase 玩家图鉴库</h3>
+                    <p>自动记录玩家的曾用名、所有使用过的 IP 地址、设备 ClientID 以及精准的累积在线时长。无惧熊孩子改名换姓，支持跨插件开放 API 直接读取玩家画像。</p>
+                </div>
+                <!-- 优势 3 -->
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>微秒级环形 TPS 监控</h3>
+                    <p>内存级环形数组处理 10 分钟满载数据 (12000 ticks)。摒弃传统的瞬时卡顿判断，为管理员提供近 30秒、2分钟、10分钟的真实 TPS 波动柱状图分析。</p>
+                </div>
+                <!-- 优势 4 -->
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>三位一体反作弊封禁</h3>
+                    <p>不仅支持本地基于 XUID、IP、设备的深度黑名单拦截，更无缝接入 BlackBE 与 UniteBan 云端反作弊接口，在玩家进服前即可实现云端拦截，并支持本地日志追溯。</p>
+                </div>
+                <!-- 优势 5 -->
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-file-csv"></i></div>
+                    <h3>全天候 CSV 安全审计</h3>
+                    <p>内置高性能日志队列，对全服所有经济流转、地标传送、查水表操作、后台资金修改等敏感操作进行 CSV 格式归档。有据可查，服主查账的好帮手。</p>
+                </div>
+                <!-- 优势 6 -->
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-envelope-open-text"></i></div>
+                    <h3>完美的离线操作列队</h3>
+                    <p>对方不在线也能转账？使用计分板经济时，系统会将转账及管理员的罚款存入暂存列队，待目标玩家上线时自动结算。更有全局跨插件 API 支持你的其他扩展！</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 主要功能快速导览 -->
+        <section class="section-container" style="background: var(--bg-card); border-radius: 20px; padding: 4rem;">
+            <h2 class="section-title">功能模块概览</h2>
+            <div class="grid-cards" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                <a href="features.html#tpr" class="card" style="text-align: center; padding: 1.5rem;">
+                    <i class="fas fa-random card-icon" style="font-size: 2rem;"></i>
+                    <h4>TPR 随机传送</h4>
+                    <p style="font-size: 0.85rem; margin-top: 0.5rem;">多维安全着陆点扫描</p>
+                </a>
+                <a href="features.html#tpa" class="card" style="text-align: center; padding: 1.5rem;">
+                    <i class="fas fa-people-arrows card-icon" style="font-size: 2rem;"></i>
+                    <h4>TPA 玩家传送</h4>
+                    <p style="font-size: 0.85rem; margin-top: 0.5rem;">带资产验证与超时退款</p>
+                </a>
+                <a href="features.html#economy" class="card" style="text-align: center; padding: 1.5rem;">
+                    <i class="fas fa-coins card-icon" style="font-size: 2rem;"></i>
+                    <h4>多经济系统对接</h4>
+                    <p style="font-size: 0.85rem; margin-top: 0.5rem;">支持税收与离线经济事务</p>
+                </a>
+                <a href="features.html#admin" class="card" style="text-align: center; padding: 1.5rem;">
+                    <i class="fas fa-user-shield card-icon" style="font-size: 2rem;"></i>
+                    <h4>PlayerManage</h4>
+                    <p style="font-size: 0.85rem; margin-top: 0.5rem;">视奸、替身命令、NBT查改</p>
+                </a>
+            </div>
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="features.html" class="btn btn-outline">查看详细功能列表 <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 底部 -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 UEssential Plugin. All rights reserved.</p>
+            <p>Designed for Minecraft Bedrock Edition Server.</p>
+            <p>Author: <a href="https://github.com/wuw111/" target="_blank">wuw111</a> | Version 0.9.4</p>
+        </div>
+    </footer>
+
+</body>
+</html>
