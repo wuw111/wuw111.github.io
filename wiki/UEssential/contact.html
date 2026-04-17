@@ -112,18 +112,13 @@
             </div>
 
             <div class="alert alert-warning">
-                <h3><i class="fas fa-database"></i> KVDatabase 死锁说明</h3>
-                <p>底层玩家画像库采用了高性能的 <code>KVDatabase</code> 引擎。如果您的服务器发生了非正常崩溃（如直接关闭终端进程），可能会导致数据库文件死锁。再次启动时若提示“初始化失败”，请尝试重启服务端释放文件占用。</p>
-            </div>
-
-            <div class="alert alert-warning">
                 <h3><i class="fas fa-user-secret"></i> 高危权限 (SuperAdmin) 设置</h3>
-                <p>对于 <code>/playermanage</code> 中的【克隆玩家物品NBT】以及 <code>/customcommand</code> 的【创建后台身份映射指令】功能，仅 OP 权限是<strong>不够</strong>的。您必须在配置文件 <code>customCommands.superAdmins</code> 数组中准确填入服主本人的 <strong>16位 XUID 纯数字</strong>，方可解锁这些越权操作。</p>
+                <p>对于 <code>/playermanage</code> 中的【克隆玩家物品NBT】以及 <code>/customcommand</code> 的【创建后台身份映射指令】功能，仅 OP 权限是<strong>不够</strong>的。您必须在配置文件 <code>customCommands.superAdmins</code> 数组中准确填入服主本人以及核心管理成员的 <strong>16位 XUID 纯数字</strong>，只有XUID在超级管理员名单中的玩家方可解锁这些高级操作。</p>
             </div>
 
             <div class="alert">
                 <h3><i class="fas fa-money-check-alt"></i> 关于离线经济挂起机制</h3>
-                <p>当您使用原生【计分板】作为经济核心时，向离线玩家转账（或后台扣费）并不会报错，而是会存入 <code>offline_transfers.json</code> 队列中。**款项将在该离线玩家下一次进服时的 3 秒后自动结算并弹出提示框**，请向您的玩家说明此特性以避免误会。</p>
+                <p>为了避免潜在地故障，当您使用【计分板】作为经济核心时，向离线玩家转账（或后台扣费）并不会报错，而是会存入 <code>offline_transfers.json</code> 队列中。**款项将在该离线玩家下一次进服时的 3 秒后自动结算并弹出提示框**。LLMoney则不会存入离线队列。</p>
             </div>
 
         </div>
@@ -133,7 +128,7 @@
     <!-- 底部复用 -->
     <footer style="background: var(--bg-card); border-top: 1px solid var(--border); padding: 3rem 2rem; text-align: center; margin-top: 4rem;">
         <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; color: var(--text-muted);">
-            <p>&copy; 2024 UEssential Plugin. All rights reserved.</p>
+            <p>&copy; 2026 UEssential Plugin. All rights reserved.</p>
             <p>Author: <a href="https://github.com/wuw111/" target="_blank" style="color: var(--primary);">wuw111</a> | Version 0.9.4</p>
         </div>
     </footer>
