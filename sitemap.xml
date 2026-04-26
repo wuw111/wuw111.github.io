@@ -1,62 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
+  <!-- 根目录 -->
+  <url>
+    <loc>https://ucraft.top/</loc>
+    <lastmod>2026-04-26T02:24:36Z</lastmod>
+    <priority>1.00</priority>
+  </url>
 
-<url>
-  <loc>https://ucraft.top/</loc>
-  <lastmod>2026-04-01T06:13:57+00:00</lastmod>
-  <priority>1.00</priority>
-</url>
-<url>
-  <loc>https://ucraft.top/index.html</loc>
-  <lastmod>2026-04-01T06:13:57+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://ucraft.top/version.html</loc>
-  <lastmod>2026-04-01T06:13:57+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://ucraft.top/tools.html</loc>
-  <lastmod>2026-04-01T06:13:57+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://ucraft.top/about.html</loc>
-  <lastmod>2026-04-01T06:13:57+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://ucraft.top/index_en.html</loc>
-  <lastmod>2026-04-01T06:13:57+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://ucraft.top/join.html</loc>
-  <lastmod>2026-04-01T06:13:57+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://ucraft.top/announces.html</loc>
-  <lastmod>2026-04-01T06:13:57+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://ucraft.top/home.html</loc>
-  <lastmod>2026-04-01T06:13:57+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://ucraft.top/ydog01/index.html</loc>
-  <lastmod>2026-04-01T06:13:57+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
+  <!-- 高权重页面 (0.80) -->
+  <url>
+    <loc>https://ucraft.top/index.html</loc>
+    <lastmod>2026-04-26T02:24:36Z</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://ucraft.top/version.html</loc>
+    <lastmod>2026-04-26T02:24:36Z</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://ucraft.top/tools.html</loc>
+    <lastmod>2026-04-26T02:24:36Z</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://ucraft.top/about.html</loc>
+    <lastmod>2026-04-26T02:24:36Z</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://ucraft.top/index_en.html</loc>
+    <lastmod>2026-04-26T02:24:36Z</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://ucraft.top/join.html</loc>
+    <lastmod>2026-04-26T02:24:36Z</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://ucraft.top/announces.html</loc>
+    <lastmod>2026-04-26T02:24:36Z</lastmod>
+    <priority>0.80</priority>
+  </url>
 
+  <!-- 中权重页面 (0.64) -->
+  <url>
+    <loc>https://ucraft.top/home.html</loc>
+    <lastmod>2026-04-26T02:24:36Z</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://ucraft.top/ydog01/index.html</loc>
+    <lastmod>2026-04-26T02:24:36Z</lastmod>
+    <priority>0.64</priority>
+  </url>
+
+  <!-- 默认低权重页面 (0.50) -->
+  <url>
+    <loc>https://ucraft.top/JE/Wiki/index.html</loc>
+    <lastmod>2026-04-26T02:24:36Z</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://ucraft.top/JE/Wiki/%E9%99%84%E9%AD%94.html</loc>
+    <lastmod>2026-04-26T02:24:36Z</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://ucraft.top/wiki/UEssential/commands.html</loc>
+    <lastmod>2026-04-26T02:24:36Z</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://ucraft.top/wiki/UEssential/contact.html</loc>
+    <lastmod>2026-04-26T02:24:36Z</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://ucraft.top/wiki/UEssential/developer.html</loc>
+    <lastmod>2026-04-26T02:24:36Z</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://ucraft.top/wiki/UEssential/features.html</loc>
+    <lastmod>2026-04-26T02:24:36Z</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://ucraft.top/wiki/UEssential/index.html</loc>
+    <lastmod>2026-04-26T02:24:36Z</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://ucraft.top/wuw111/index.html</loc>
+    <lastmod>2026-04-26T02:24:36Z</lastmod>
+    <priority>0.50</priority>
+  </url>
 
 </urlset>
