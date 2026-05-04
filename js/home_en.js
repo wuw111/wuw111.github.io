@@ -1,11 +1,9 @@
 var countInput;
 var resultDisplay;
-var calculateBtn;
 function init()
 {
     countInput = document.getElementById('count');
     resultDisplay = document.getElementById('result');
-    calculateBtn = document.getElementById('calculateBtn');
     bindEvents();
     calculate();
 }
@@ -33,17 +31,17 @@ function validateInput()
     var homeCount = Number(value);
     if (value === '')
     {
-        showError('请输入Home数量');
+        showError('Please enter the number of Homes');
         return false;
     }
     if (isNaN(homeCount))
     {
-        showError('请输入有效的数字');
+        showError('Please enter a valid number');
         return false;
     }
     if (homeCount < 0 || homeCount > 150)
     {
-        showError('请输入0到150之间的数字');
+        showError('Please enter a number from 0 to 150');
         return false;
     }
     return true;
@@ -58,12 +56,12 @@ function calculate()
     var homeCount = Number(inputValue);
     if (isNaN(homeCount) || homeCount < 0 || homeCount > 150)
     {
-        showError('请输入0到150之间的数字');
+        showError('Please enter a number from 0 to 150');
         return;
     }
     var cost = Math.round(200 * homeCount + homeCount * Math.pow(10, 1.2 + 0.005 * homeCount));
     var formattedCost = cost.toLocaleString();
-    resultDisplay.textContent = '新建第 ' + (homeCount + 1) + ' 个Home需要 ' + formattedCost + ' 金币';
+    resultDisplay.textContent = 'Creating Home #' + (homeCount + 1) + ' costs ' + formattedCost + ' gold';
     resultDisplay.className = 'result success';
 }
 function showError(message)
