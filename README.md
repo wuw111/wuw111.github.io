@@ -1,54 +1,70 @@
-# U-craftBE Minecraft 服务器
+# U-craftBE Minecraft Server
 
-![服务器横幅](textures/banner.jpg)
+> **🌐 Language** · [简体中文](README.zh-CN.md)
 
-*最后更新: 2025-12-06*
+![Server Banner](textures/banner.jpg)
 
-## 项目简介
+*Last updated: 2026-05-05*
 
-U-craftBE 是一个**稳定运行超过5年**的 **Minecraft 基岩版服务器**，致力于为玩家提供多元化的游戏体验。服务器采用高性能硬件配置，持续更新维护，打造了一个友好、稳定的游戏社区环境。
+---
 
-## 服务器特色
+## About
 
-| 特色 | 说明 |
-|------|------|
-| **长期稳定** | 自 2020 年持续服务至今 |
-| **多样化玩法** | 包含生存服、生电服、小游戏服等多个分区 |
-| **最新版本** | 生存服支持 1.21.X，小游戏服兼容 1.16-最新版 |
-| **高性能硬件** | Intel i7-14700K 处理器，确保流畅体验 |
-| **活跃社区** | 稳定的玩家群体和友好的交流氛围 |
-| **定期活动** | 不定期举办各种游戏内活动 |
+U-craftBE is a **Minecraft Bedrock Edition server with over 5 years of stable operation**, dedicated to providing players with a diverse gaming experience. The server is equipped with high-performance hardware and continuously maintained, creating a friendly and stable community environment.
 
-## 如何加入
+---
 
-1. **下载客户端**
-2. **阅读服务器规章**
-3. **添加服务器地址**
-4. **加入交流群**
+## Server Features
 
-## 交流与支持
+| Feature | Description |
+|---------|-------------|
+| **Long-term Stability** | Continuously operating since 2020 |
+| **Diverse Gameplay** | Includes Survival Server, Technical Server, Mini-game Server, and more |
+| **Latest Version** | Survival server supports 1.21.X, Mini-game server supports 1.16 - latest |
+| **High-performance Hardware** | Intel i7-14700K processor for smooth gameplay |
+| **Active Community** | Stable player base with a friendly atmosphere |
+| **Regular Events** | Various in-game events held periodically |
 
-### **官方QQ交流群: 892855989**
+---
 
-- **技术支持**: 群内提供实时技术支持和问题解答
-- **社区互动**: 玩家交流、活动通知、资源分享
-- **最新资讯**: 服务器更新、维护通知、活动预告
+## How to Join
 
-## 技术驱动
+1. **Download the client**
+2. **Read the server rules**
+3. **Add the server address**
+4. **Join our community group**
 
-本项目由 **石山强力驱动**，确保了服务器的稳定性和性能优化。
+---
 
-了解更多技术细节可参考：[技术介绍视频](https://www.bilibili.com/video/BV1GJ411x7h7)
+## Community & Support
 
-## 快速开始
+### Official QQ Group: `892855989`
 
-1. 克隆或下载本项目到本地
-2. 使用浏览器打开 `wuw111.github.io` 即可访问服务器网站
-3. 根据页面指引下载客户端并加入服务器
+- **Technical Support**: Real-time assistance and troubleshooting within the group
+- **Community Interaction**: Player discussions, event notifications, resource sharing
+- **Latest News**: Server updates, maintenance notices, event announcements
 
-## 许可证
+---
 
-本项目仅用于 U-craftBE 服务器宣传，版权归服务器所有者所有。
+## Powered By
+
+This project is **powered by Shishan**, ensuring server stability and performance optimization.
+
+For more technical details: [Technical Introduction Video](https://www.bilibili.com/video/BV1GJ411x7h7)
+
+---
+
+## Quick Start
+
+1. Clone or download this repository to your local machine
+2. Open `wuw111.github.io` in your browser to access the server website
+3. Follow the instructions on the page to download the client and join the server
+
+---
+
+## License
+
+This project is for promotional purposes of the U-craftBE server only. All rights belong to the server owner.
 
 ---
 
