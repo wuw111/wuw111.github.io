@@ -1,6 +1,6 @@
-# 🎮 U-craftBE Minecraft 服务器
+# U-craftBE Minecraft 服务器
 
-> **🌐 语言** · [English](README.md) | [简体中文](README.zh-CN.md)
+> **🌐 语言** · [English](README.md)
 
 ![服务器横幅](textures/banner.jpg)
 
@@ -38,7 +38,7 @@ U-craftBE 是一个**稳定运行超过5年**的 **Minecraft 基岩版服务器*
 
 ## 交流与支持
 
-### 📢 官方QQ交流群: `892855989`
+### 官方QQ交流群: `892855989`
 
 - **技术支持**: 群内提供实时技术支持和问题解答
 - **社区互动**: 玩家交流、活动通知、资源分享

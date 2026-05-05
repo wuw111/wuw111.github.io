@@ -1,6 +1,6 @@
-# 🎮 U-craftBE Minecraft Server
+# U-craftBE Minecraft Server
 
-> **🌐 Language** · [English](README.md) | [简体中文](README.zh-CN.md)
+> **🌐 Language** · [简体中文](README.zh-CN.md)
 
 ![Server Banner](textures/banner.jpg)
 
@@ -38,7 +38,7 @@ U-craftBE is a **Minecraft Bedrock Edition server with over 5 years of stable op
 
 ## Community & Support
 
-### 📢 Official QQ Group: `892855989`
+### Official QQ Group: `892855989`
 
 - **Technical Support**: Real-time assistance and troubleshooting within the group
 - **Community Interaction**: Player discussions, event notifications, resource sharing
@@ -68,4 +68,4 @@ This project is for promotional purposes of the U-craftBE server only. All right
 
 ---
 
-*"wuw is adorably silly" -- by ydog01*
+*wuw笨笨的可爱捏 -- by ydog01*
