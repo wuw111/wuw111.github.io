@@ -4,7 +4,7 @@
 
 ![Server Banner](textures/banner.jpg)
 
-*Last updated: 2025-12-06*
+*Last updated: 2026-05-05*
 
 ---
 
