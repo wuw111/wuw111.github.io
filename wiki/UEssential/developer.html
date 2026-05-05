@@ -171,6 +171,7 @@
             font-weight: 600;
         }
         .badge-return { background: rgba(59, 130, 246, 0.1); color: var(--primary); border: 1px solid rgba(59, 130, 246, 0.2); }
+        .badge-new { background: rgba(16, 185, 129, 0.1); color: var(--accent); border: 1px solid rgba(16, 185, 129, 0.2); }
         
         .cmd-desc { color: var(--text-main); margin-bottom: 1rem; }
         
@@ -258,7 +259,7 @@
     <!-- 页面标题 -->
     <div class="page-header">
         <h1>开发者跨插件 API 指南</h1>
-        <p>基于 LLSE 的 <code>ll.export</code> / <code>ll.import</code> 机制，UEssential 向外暴露了 6 个强劲的数据层接口，允许你的插件无缝调用其高精度 TPS 监控、玩家画像库以及“绝对无损”的离线经济支付管线。</p>
+        <p>基于 LLSE 的 <code>ll.export</code> / <code>ll.import</code> 机制，UEssential 向外暴露了多项强劲的数据层接口，允许你的插件无缝调用其高精度 TPS 监控、全息玩家画像库以及“绝对无损”的离线经济支付管线。</p>
     </div>
 
     <div class="layout-container">
@@ -331,18 +332,40 @@
 
             <div class="cmd-card">
                 <div class="cmd-header">
+                    <div class="cmd-title">getPlayerData <span class="badge badge-new" style="margin-left: 10px;">v0.9.5 新增</span></div>
+                    <span class="badge badge-return">返回: Object | Any | null</span>
+                </div>
+                <p class="cmd-desc">直接从 UEssential 高性能 KVDB 与注册数据表中检索指定玩家的全量画像信息（包括名称、曾用名、注册时间、最后上线时间、IP记录、设备特征码与总游玩时长）。</p>
+                <ul class="api-params">
+                    <li><code>xuid</code> <span class="type">(String)</span> - 目标玩家的 16 位 XUID。</li>
+                    <li><code>field</code> <span class="type">(String | 可选)</span> - 若填入具体字段名（如 <code>onlineTime</code>, <code>IPs</code>, <code>clientIDs</code>, <code>registerDate</code> 等），则直接返回该字段对应的值。留空则返回包含所有字段的结构化对象。</li>
+                    <li><strong>返回值：</strong>返回查询到的对象或指定字段的数据。无记录或模块被禁用时返回 <code>null</code>。</li>
+                </ul>
+                <div class="cmd-usage">
+<pre><code><span class="token keyword">const</span> <span class="token function">getPlayerData</span> <span class="token keyword">=</span> ll.<span class="token function">import</span>(<span class="token string">"UEssential"</span>, <span class="token string">"getPlayerData"</span>);
+
+<span class="token comment">// 【示例1】仅获取单个字段</span>
+<span class="token keyword">let</span> isOldPlayer <span class="token keyword">=</span> <span class="token function">getPlayerData</span>(<span class="token string">"253542..."</span>, <span class="token string">"onlineTime"</span>) <span class="token keyword">></span> <span class="token number">60</span>;
+
+<span class="token comment">// 【示例2】获取玩家全量数据对象</span>
+<span class="token keyword">let</span> data <span class="token keyword">=</span> <span class="token function">getPlayerData</span>(<span class="token string">"253542..."</span>);
+<span class="token keyword">if</span> (data) {
+    console.<span class="token function">log</span>(<span class="token string">"注册时间: "</span> <span class="token keyword">+</span> data.registerDate);
+    console.<span class="token function">log</span>(<span class="token string">"曾用名数量: "</span> <span class="token keyword">+</span> data.historyname.length);
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="cmd-card">
+                <div class="cmd-header">
                     <div class="cmd-title">getOnlineTime</div>
                     <span class="badge badge-return">返回: Float | null</span>
                 </div>
-                <p class="cmd-desc">直接从 UEssential 高性能 KVDB 玩家数据库中获取指定玩家的累积历史游玩时间（哪怕他当前离线）。</p>
+                <p class="cmd-desc"><em>(快捷获取)</em> 从数据库中快捷获取指定玩家的累积历史游玩时间（哪怕他当前离线）。</p>
                 <ul class="api-params">
                     <li><code>xuid</code> <span class="type">(String)</span> - 目标玩家的 16 位 XUID。</li>
                     <li><strong>返回值：</strong>返回玩家的总在线时长（单位：分钟）。无记录返回 <code>0</code>，禁用模块则返回 <code>null</code>。</li>
                 </ul>
-                <div class="cmd-usage">
-<pre><code><span class="token keyword">const</span> <span class="token function">getOnlineTime</span> <span class="token keyword">=</span> ll.<span class="token function">import</span>(<span class="token string">"UEssential"</span>, <span class="token string">"getOnlineTime"</span>);
-<span class="token keyword">let</span> playTime <span class="token keyword">=</span> getOnlineTime <span class="token keyword">?</span> <span class="token function">getOnlineTime</span>(<span class="token string">"2535421234567890"</span>) <span class="token keyword">:</span> <span class="token number">0</span>;</code></pre>
-                </div>
             </div>
 
             <div class="cmd-card">
@@ -352,7 +375,7 @@
                 </div>
                 <p class="cmd-desc">根据玩家名称的片段模糊搜索玩家画像库。支持匹配<strong>当前名称</strong>和<strong>曾用名记录</strong>，可用于自行开发带查水表功能的插件。</p>
                 <ul class="api-params">
-                    <li><code>queryStr</code> <span class="type">(String)</span> - 要搜索的玩家名称片段（不区分大小写，最少需要 3 个字符）。</li>
+                    <li><code>queryStr</code> <span class="type">(String)</span> - 要搜索的玩家名称片段（不区分大小写，受配置文件 <code>queryMinLength</code> 限制，默认最少需 3 个字符）。</li>
                     <li><strong>返回值：</strong>包含对象 <code>{ xuid, name, onlineTime }</code> 的数组。查无此人返回空数组 <code>[]</code>。</li>
                 </ul>
             </div>
@@ -381,24 +404,31 @@
                     <div class="cmd-title">transferMoneyApi</div>
                     <span class="badge badge-return" style="color: var(--accent); border-color: rgba(16, 185, 129, 0.2);">返回: Boolean</span>
                 </div>
-                <p class="cmd-desc"><strong>核心重磅接口：</strong>为指定玩家增加或扣除资金。它完美抹平了底层 LLMoney 与“原版计分板”经济机制上的差异。如果使用计分板且玩家不在线，该接口会<strong>自动将你的操作推入离线结算队列</strong>，当玩家下次上线时自动扣除或发放，绝不丢单！</p>
+                <p class="cmd-desc"><strong>核心重磅接口：</strong>为指定玩家增加或扣除资金。它完美抹平了底层 LLMoney 与“原版计分板”经济机制上的差异，并能在所有操作的留言尾部自动打上 <code>[Amount Change:XXX]</code> 的防篡改变动戳。如果你传入了特殊设定的参数，它还能提供完备的“安全强制离线扣款”能力或离线挂单能力。</p>
                 <ul class="api-params">
                     <li><code>targetXuid</code> <span class="type">(String)</span> - 目标玩家的 XUID (必填)。</li>
-                    <li><code>targetName</code> <span class="type">(String | null)</span> - 目标玩家名称。若无法提供可传 <code>null</code>，仅用于离线挂账日志。</li>
-                    <li><code>amount</code> <span class="type">(Number)</span> - 金额。<span style="color: var(--accent);">正数表示增加款项</span>，<span style="color: var(--danger);">负数表示扣除款项</span>。</li>
+                    <li><code>targetName</code> <span class="type">(String | null)</span> - 目标玩家名称。若无法提供可传 <code>null</code>，仅用于离线挂账日志记录。</li>
+                    <li><code>amount</code> <span class="type">(Number)</span> - 金额。<span style="color: var(--accent);">正数表示增加款项</span>，<span style="color: var(--danger);">负数表示扣除款项</span>。（若传入 <code>0</code>，则会向用户发送一条离线/在线的经济账户纯文本通知，不会造成实际资金变动）。</li>
                     <li><code>note</code> <span class="type">(String)</span> - 资金变动备注留言（玩家上线时会在屏幕中央展示此留言）。</li>
                     <li><code>senderIdentity</code> <span class="type">(String)</span> - 发起方名称标识（例如你写的插件的英文名）。</li>
+                    <li><code>strict</code> <span class="type">(Boolean | 可选)</span> - <strong>【v0.9.5 新增】</strong>是否启用严格模式。设为 <code>true</code> 时，如果服务器使用的是“记分板经济”且玩家处于离线状态，引擎会直接获取他的离线计分板进行金额安全检查与计算覆盖，若其余额不足以支付该笔扣款（负数），将严格拦截并返回 <code>false</code>。若留空或设为 <code>false</code>，针对记分板离线玩家则继续采用挂账列队模式（可能导致离线扣款导致上线变成负数）。<em>注：LLMoney 环境下该参数无视，始终立刻执行。</em></li>
                 </ul>
                 <div class="cmd-usage">
 <pre><code><span class="token keyword">const</span> <span class="token function">ecoTransfer</span> <span class="token keyword">=</span> ll.<span class="token function">import</span>(<span class="token string">"UEssential"</span>, <span class="token string">"transferMoneyApi"</span>);
 
-<span class="token comment">// 【示例】 - 商店插件的离线或在线扣款（扣1000）：</span>
+<span class="token comment">// 【示例1】 - 商店插件的严格扣款（扣1000）：</span>
 <span class="token keyword">if</span> (ecoTransfer) {
-    <span class="token keyword">let</span> success <span class="token keyword">=</span> <span class="token function">ecoTransfer</span>(<span class="token string">"253542..."</span>, <span class="token string">"Steve"</span>, <span class="token number">-1000</span>, <span class="token string">"购买钻石剑"</span>, <span class="token string">"MyShop"</span>);
-    <span class="token keyword">if</span> (!success) console.<span class="token function">log</span>(<span class="token string">"在线扣费失败：玩家余额不足"</span>);
+    <span class="token comment">// 第六个参数传入 true 启用严格模式保障不会扣为负数</span>
+    <span class="token keyword">let</span> success <span class="token keyword">=</span> <span class="token function">ecoTransfer</span>(<span class="token string">"253542..."</span>, <span class="token string">"Steve"</span>, <span class="token number">-1000</span>, <span class="token string">"购买钻石剑"</span>, <span class="token string">"MyShop"</span>, <span class="token keyword">true</span>);
+    <span class="token keyword">if</span> (!success) console.<span class="token function">log</span>(<span class="token string">"扣费失败：余额不足或玩家数据异常"</span>);
+}
+
+<span class="token comment">// 【示例2】 - 向离线玩家发送无需金额变动的纯系统通知信</span>
+<span class="token keyword">if</span> (ecoTransfer) {
+    <span class="token function">ecoTransfer</span>(<span class="token string">"253542..."</span>, <span class="token keyword">null</span>, <span class="token number">0</span>, <span class="token string">"您的竞拍商品已被他人出价超过！"</span>, <span class="token string">"AuctionHost"</span>);
 }</code></pre>
                 </div>
-                <div class="cmd-note"><i class="fas fa-exclamation-triangle"></i><p>处理在线玩家的扣款（负数）时，如果其余额不足，接口将严格拦截并返回 <code>false</code>。但如果是针对“离线玩家”进行计分板扣费，由于无法凭空读取离线计分板，将会直接塞入强制扣费列队（可能会导致他上线时分数变为负数）。</p></div>
+                <div class="cmd-note"><i class="fas fa-check-circle"></i><p>本接口完全向下兼容。针对 v0.9.4 或更早版本的旧插件代码调用，JavaScript 会自动将缺失的 <code>strict</code> 参数作为 <code>undefined</code>（等同于 false）处理，旧版逻辑和行为不会受到任何影响。</p></div>
             </div>
 
             <!-- 开发者提示 -->
@@ -416,7 +446,7 @@
         <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; color: var(--text-muted);">
             <p>&copy; 2026 UEssential Plugin. All rights reserved.</p>
             <p>Designed for Minecraft Bedrock Edition Server.</p>
-            <p>Author: <a href="https://github.com/wuw111/" target="_blank" style="color: var(--primary); font-weight: 600;">wuw111</a> | Version 0.9.4</p>
+            <p>Author: <a href="https://github.com/wuw111/" target="_blank" style="color: var(--primary); font-weight: 600;">wuw111</a> | Version 0.9.5</p>
         </div>
     </footer>
 
