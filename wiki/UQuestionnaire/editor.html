@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UQuestionnaire 可视化问卷编辑器</title>
+    <!-- 引入 Tailwind CSS 进行专业样式布局 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Vue 3 核心库处理复杂数据逻辑 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- 引入 FontAwesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #f3f4f6; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        .fade-enter-active, .fade-leave-active { transition: opacity 0.3s ease; }
+        .fade-enter-from, .fade-leave-to { opacity: 0; }
+    </style>
+</head>
+<body>
+    <div id="app" class="flex h-screen overflow-hidden text-gray-800">
+        
+        <!-- 左侧导航栏 (问卷列表) -->
+        <div class="w-72 bg-white border-r shadow-lg flex flex-col z-10">
+            <div class="p-4 bg-blue-600 text-white flex justify-between items-center">
+                <h1 class="font-bold text-lg"><i class="fa-solid fa-clipboard-list mr-2"></i>问卷管理</h1>
+            </div>
+            <div class="p-4 border-b flex flex-col gap-2">
+                <label class="cursor-pointer bg-green-500 hover:bg-green-600 text-white text-center py-2 rounded shadow transition">
+                    <i class="fa-solid fa-file-import mr-1"></i> 导入 questions.json
+                    <input type="file" class="hidden" accept=".json" @change="importJson">
+                </label>
+                <button @click="exportJson" class="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded shadow transition">
+                    <i class="fa-solid fa-file-export mr-1"></i> 导出保存
+                </button>
+                <button @click="createNewQnaire" class="bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 rounded border transition mt-2">
+                    <i class="fa-solid fa-plus mr-1"></i> 新建空白问卷
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-2 space-y-2">
+                <div v-if="Object.keys(jsonData.list).length === 0" class="text-center text-gray-400 mt-4 text-sm">
+                    暂无问卷数据<br>请导入或新建
+                </div>
+                <div v-for="(qData, qId) in jsonData.list" :key="qId" 
+                     @click="selectQnaire(qId)"
+                     :class="['p-3 rounded cursor-pointer border transition', currentQId === qId ? 'bg-blue-50 border-blue-400' : 'bg-white hover:bg-gray-50']">
+                    <div class="font-bold text-sm truncate">{{ qData.title || '未命名问卷' }}</div>
+                    <div class="text-xs text-gray-500 mt-1">ID: {{ qId }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧编辑区 -->
+        <div class="flex-1 flex flex-col overflow-hidden relative">
+            <div v-if="!currentQId" class="flex-1 flex items-center justify-center text-gray-400 flex-col">
+                <i class="fa-solid fa-pen-ruler text-6xl mb-4 text-gray-300"></i>
+                <p class="text-xl">请从左侧选择或新建一个问卷以开始编辑</p>
+            </div>
+            
+            <div v-else class="flex-1 overflow-y-auto p-6 scrollbar-hide">
+                <div class="max-w-4xl mx-auto space-y-6">
+                    
+                    <!-- 顶部栏 -->
+                    <div class="flex justify-between items-center pb-4 border-b">
+                        <h2 class="text-2xl font-bold text-gray-800">编辑问卷</h2>
+                        <button @click="deleteCurrentQnaire" class="text-red-500 hover:bg-red-50 px-3 py-1 rounded transition border border-red-200">
+                            <i class="fa-solid fa-trash mr-1"></i> 删除此问卷
+                        </button>
+                    </div>
+
+                    <!-- 基础设置 -->
+                    <div class="bg-white p-5 rounded-lg shadow border border-gray-200">
+                        <h3 class="text-lg font-bold mb-4 border-l-4 border-blue-500 pl-2">基础配置</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">问卷系统ID (英文/数字)</label>
+                                <input type="text" v-model="currentQIdEdit" @blur="updateQnaireId" class="w-full border rounded p-2 focus:ring focus:ring-blue-200 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">问卷标题 (展示给玩家)</label>
+                                <input type="text" v-model="currentQData.title" class="w-full border rounded p-2 focus:ring focus:ring-blue-200 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">开始时间 (YYYY-MM-DD HH:mm:ss)</label>
+                                <input type="text" v-model="currentQData.startTime" placeholder="空表示无限制" class="w-full border rounded p-2 focus:ring focus:ring-blue-200 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">结束时间 (YYYY-MM-DD HH:mm:ss)</label>
+                                <input type="text" v-model="currentQData.endTime" placeholder="空表示无限制" class="w-full border rounded p-2 focus:ring focus:ring-blue-200 outline-none">
+                            </div>
+                            <div class="col-span-2 flex items-center mt-2">
+                                <input type="checkbox" id="allowMulti" v-model="currentQData.allowMultiple" class="w-4 h-4 text-blue-600 rounded">
+                                <label for="allowMulti" class="ml-2 font-semibold">允许玩家重复多次提交此问卷</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 条件与奖励 -->
+                    <div class="grid grid-cols-2 gap-6">
+                        <!-- 限制条件 -->
+                        <div class="bg-white p-5 rounded-lg shadow border border-gray-200">
+                            <h3 class="text-lg font-bold mb-4 border-l-4 border-yellow-500 pl-2">填写条件 (计分板)</h3>
+                            <div v-for="(val, sbName) in currentQData.conditions.scoreboards" :key="sbName" class="flex gap-2 mb-2">
+                                <input type="text" :value="sbName" @change="updateSbKey(sbName, $event.target.value)" placeholder="计分板名称" class="flex-1 border rounded p-1 text-sm">
+                                <input type="number" v-model.number="currentQData.conditions.scoreboards[sbName]" placeholder="最低分数" class="w-24 border rounded p-1 text-sm">
+                                <button @click="deleteSb(sbName)" class="text-red-500 px-2"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            <button @click="addSb" class="text-blue-500 text-sm mt-2"><i class="fa-solid fa-plus"></i> 添加计分板限制</button>
+                        </div>
+
+                        <!-- 奖励设置 -->
+                        <div class="bg-white p-5 rounded-lg shadow border border-gray-200">
+                            <h3 class="text-lg font-bold mb-4 border-l-4 border-green-500 pl-2">提交奖励</h3>
+                            <div class="mb-3">
+                                <label class="block text-sm font-semibold mb-1">经济奖励 (Money)</label>
+                                <input type="number" v-model.number="currentQData.rewards.money" class="w-full border rounded p-2 focus:ring focus:ring-blue-200 outline-none">
+                            </div>
+                            <div class="mb-3">
+                                <label class="block text-sm font-semibold mb-1">物品奖励 (SNBT 数组)</label>
+                                <div v-for="(item, idx) in currentQData.rewards.items" :key="'i'+idx" class="flex gap-2 mb-1">
+                                    <input type="text" v-model="currentQData.rewards.items[idx]" class="flex-1 border rounded p-1 text-sm font-mono" placeholder='例如: {"Count":1b,"Name":"minecraft:apple"}'>
+                                    <button @click="currentQData.rewards.items.splice(idx, 1)" class="text-red-500 px-2"><i class="fa-solid fa-xmark"></i></button>
+                                </div>
+                                <button @click="currentQData.rewards.items.push('')" class="text-blue-500 text-sm mt-1"><i class="fa-solid fa-plus"></i> 添加物品</button>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">指令奖励 (支持 %name% 变量)</label>
+                                <div v-for="(cmd, idx) in currentQData.rewards.cmds" :key="'c'+idx" class="flex gap-2 mb-1">
+                                    <input type="text" v-model="currentQData.rewards.cmds[idx]" class="flex-1 border rounded p-1 text-sm font-mono" placeholder='例如: give %name% diamond 1'>
+                                    <button @click="currentQData.rewards.cmds.splice(idx, 1)" class="text-red-500 px-2"><i class="fa-solid fa-xmark"></i></button>
+                                </div>
+                                <button @click="currentQData.rewards.cmds.push('')" class="text-blue-500 text-sm mt-1"><i class="fa-solid fa-plus"></i> 添加指令</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 题目列表 -->
+                    <div class="bg-white p-5 rounded-lg shadow border border-gray-200">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-bold border-l-4 border-purple-500 pl-2">题目树管理 (逻辑流)</h3>
+                            <button @click="addQuestion" class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded shadow text-sm">
+                                <i class="fa-solid fa-plus mr-1"></i> 新增题目
+                            </button>
+                        </div>
+
+                        <div v-if="currentQData.questions.length === 0" class="text-center text-gray-400 py-6">
+                            尚未添加任何题目
+                        </div>
+
+                        <!-- 循环渲染题目 -->
+                        <div v-for="(q, qIdx) in currentQData.questions" :key="qIdx" class="mb-4 border rounded-lg overflow-hidden bg-gray-50">
+                            <!-- 题目 Header -->
+                            <div class="bg-gray-200 px-4 py-2 flex justify-between items-center border-b">
+                                <div class="font-bold">
+                                    <span class="bg-gray-800 text-white px-2 py-1 rounded text-xs mr-2">Q{{ qIdx + 1 }}</span>
+                                    <input type="text" v-model="q.id" class="bg-transparent border-b border-gray-400 focus:border-blue-500 outline-none w-24 font-mono text-sm" placeholder="题目ID(如q1)">
+                                </div>
+                                <div class="flex gap-2 text-gray-600">
+                                    <button @click="moveQuestion(qIdx, -1)" :disabled="qIdx === 0" class="hover:text-blue-600 disabled:opacity-30"><i class="fa-solid fa-arrow-up"></i></button>
+                                    <button @click="moveQuestion(qIdx, 1)" :disabled="qIdx === currentQData.questions.length - 1" class="hover:text-blue-600 disabled:opacity-30"><i class="fa-solid fa-arrow-down"></i></button>
+                                    <button @click="removeQuestion(qIdx)" class="hover:text-red-600 ml-2"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </div>
+                            
+                            <!-- 题目 Body -->
+                            <div class="p-4 space-y-4">
+                                <div class="flex gap-4">
+                                    <div class="w-1/4">
+                                        <label class="block text-sm font-semibold mb-1">题目类型</label>
+                                        <select v-model="q.type" @change="handleTypeChange(q)" class="w-full border rounded p-2 focus:ring focus:ring-blue-200 outline-none bg-white">
+                                            <option value="single">单选题 (下拉菜单)</option>
+                                            <option value="multi">多选题 (复选框)</option>
+                                            <option value="text">文本题 (输入框)</option>
+                                            <option value="rating">评分题 (数字)</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex-1">
+                                        <label class="block text-sm font-semibold mb-1">题目标题</label>
+                                        <input type="text" v-model="q.title" class="w-full border rounded p-2 focus:ring focus:ring-blue-200 outline-none bg-white" placeholder="请输入向玩家展示的提问内容">
+                                    </div>
+                                    <div class="w-24 flex items-center justify-center mt-6">
+                                        <input type="checkbox" v-model="q.required" :id="'req'+qIdx" class="w-4 h-4 text-blue-600 rounded">
+                                        <label :for="'req'+qIdx" class="ml-2 text-sm font-semibold">必答题</label>
+                                    </div>
+                                </div>
+
+                                <!-- 题型专属配置 -->
+                                <div class="p-3 bg-white rounded border border-gray-200 shadow-sm">
+                                    <!-- 单选/多选 选项配置 -->
+                                    <div v-if="q.type === 'single' || q.type === 'multi'">
+                                        <label class="block text-sm font-semibold mb-2">选项列表配置</label>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <div v-for="(opt, oIdx) in q.options" :key="oIdx" class="flex gap-1">
+                                                <input type="text" v-model="q.options[oIdx]" class="flex-1 border rounded p-1 text-sm outline-none focus:border-blue-400">
+                                                <button @click="q.options.splice(oIdx, 1)" class="text-red-500 px-2 bg-red-50 rounded"><i class="fa-solid fa-xmark"></i></button>
+                                            </div>
+                                        </div>
+                                        <button @click="q.options.push('新选项')" class="text-blue-500 text-sm mt-2"><i class="fa-solid fa-plus"></i> 添加选项</button>
+                                        
+                                        <!-- 多选特有属性 -->
+                                        <div v-if="q.type === 'multi'" class="mt-3 pt-3 border-t">
+                                            <label class="text-sm font-semibold mr-2">最多允许选择几项？</label>
+                                            <input type="number" v-model.number="q.maxSelect" class="border rounded p-1 text-sm w-20" placeholder="不限留空">
+                                        </div>
+                                    </div>
+
+                                    <!-- 评分特有属性 -->
+                                    <div v-if="q.type === 'rating'" class="flex gap-4">
+                                        <div>
+                                            <label class="text-sm font-semibold mr-2">最低分</label>
+                                            <input type="number" v-model.number="q.min" class="border rounded p-1 text-sm w-20">
+                                        </div>
+                                        <div>
+                                            <label class="text-sm font-semibold mr-2">最高分</label>
+                                            <input type="number" v-model.number="q.max" class="border rounded p-1 text-sm w-20">
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 文本题提示 -->
+                                    <div v-if="q.type === 'text'" class="text-sm text-gray-500">
+                                        玩家将在此题目弹出的窗口中自由输入文本。
+                                    </div>
+                                </div>
+
+                                <!-- 逻辑依赖分支 (DependsOn) -->
+                                <div class="mt-2">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <input type="checkbox" :checked="!!q.dependsOn" @change="toggleDepends(q)" :id="'dep'+qIdx" class="w-4 h-4 text-purple-600 rounded">
+                                        <label :for="'dep'+qIdx" class="text-sm font-bold text-purple-700">启用题目级联 (逻辑跳题依赖)</label>
+                                    </div>
+                                    <div v-if="q.dependsOn" class="p-3 bg-purple-50 rounded border border-purple-200 flex flex-col gap-2">
+                                        <div class="text-xs text-purple-600">只有当玩家在指定的前置题目中选择了包含特定关键字的内容时，此题才会显示。</div>
+                                        <div class="flex gap-2 items-center">
+                                            <span class="text-sm font-semibold">依赖的前置题目ID:</span>
+                                            <input type="text" v-model="q.dependsOn.qId" class="border rounded p-1 text-sm w-32 outline-none font-mono" placeholder="如 q1">
+                                        </div>
+                                        <div>
+                                            <span class="text-sm font-semibold block mb-1">当玩家在前置题的答案中包含以下关键字时触发 (数组):</span>
+                                            <div class="flex flex-wrap gap-2">
+                                                <div v-for="(kwd, kIdx) in q.dependsOn.contains" :key="kIdx" class="flex">
+                                                    <input type="text" v-model="q.dependsOn.contains[kIdx]" class="border rounded-l p-1 text-sm w-24 outline-none">
+                                                    <button @click="q.dependsOn.contains.splice(kIdx, 1)" class="bg-red-500 text-white px-2 rounded-r"><i class="fa-solid fa-xmark"></i></button>
+                                                </div>
+                                                <button @click="q.dependsOn.contains.push('')" class="bg-purple-200 hover:bg-purple-300 text-purple-700 px-2 rounded text-sm"><i class="fa-solid fa-plus"></i> 加词</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 底部占位，防止贴底 -->
+                    <div class="h-10"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    // 全局数据根节点
+                    jsonData: {
+                        list: {}
+                    },
+                    currentQId: null,
+                    currentQIdEdit: "",
+                }
+            },
+            computed: {
+                currentQData() {
+                    return this.currentQId ? this.jsonData.list[this.currentQId] : null;
+                }
+            },
+            methods: {
+                // 导入数据
+                importJson(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        try {
+                            const parsed = JSON.parse(event.target.result);
+                            if (parsed && parsed.list) {
+                                this.jsonData = parsed;
+                                this.currentQId = null;
+                                alert("数据导入成功！");
+                            } else {
+                                alert("JSON 格式不符合插件规范，找不到根节点 'list'。");
+                            }
+                        } catch (err) {
+                            alert("解析 JSON 失败: " + err.message);
+                        }
+                    };
+                    reader.readAsText(file);
+                    e.target.value = ''; // Reset input
+                },
+                // 导出数据
+                exportJson() {
+                    const dataStr = JSON.stringify(this.jsonData, null, 4);
+                    const blob = new Blob([dataStr], { type: "application/json" });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "questions.json";
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                },
+                // 选择问卷
+                selectQnaire(id) {
+                    this.currentQId = id;
+                    this.currentQIdEdit = id;
+                },
+                // 修改键名(ID)
+                updateQnaireId() {
+                    const newId = this.currentQIdEdit.trim();
+                    if (!newId || newId === this.currentQId) {
+                        this.currentQIdEdit = this.currentQId;
+                        return;
+                    }
+                    if (this.jsonData.list[newId]) {
+                        alert("该ID已存在，请使用其他名称！");
+                        this.currentQIdEdit = this.currentQId;
+                        return;
+                    }
+                    // Vue中替换对象的Key
+                    const data = this.jsonData.list[this.currentQId];
+                    delete this.jsonData.list[this.currentQId];
+                    this.jsonData.list[newId] = data;
+                    this.currentQId = newId;
+                },
+                // 新建问卷
+                createNewQnaire() {
+                    const baseId = "new_questionnaire";
+                    let newId = baseId;
+                    let counter = 1;
+                    while (this.jsonData.list[newId]) {
+                        newId = `${baseId}_${counter}`;
+                        counter++;
+                    }
+                    
+                    this.jsonData.list[newId] = {
+                        title: "全新的问卷标题",
+                        startTime: "",
+                        endTime: "",
+                        conditions: { scoreboards: {} },
+                        rewards: { money: 0, items: [], cmds: [] },
+                        allowMultiple: false,
+                        questions: []
+                    };
+                    this.selectQnaire(newId);
+                },
+                // 删除问卷
+                deleteCurrentQnaire() {
+                    if (confirm(`确定要彻底删除问卷 [${this.currentQId}] 吗？`)) {
+                        delete this.jsonData.list[this.currentQId];
+                        this.currentQId = null;
+                    }
+                },
+                // 计分板操作
+                addSb() {
+                    this.jsonData.list[this.currentQId].conditions.scoreboards["new_sb"] = 1;
+                },
+                updateSbKey(oldKey, newKey) {
+                    if (oldKey === newKey || !newKey) return;
+                    const val = this.currentQData.conditions.scoreboards[oldKey];
+                    delete this.currentQData.conditions.scoreboards[oldKey];
+                    this.currentQData.conditions.scoreboards[newKey] = val;
+                },
+                deleteSb(key) {
+                    delete this.currentQData.conditions.scoreboards[key];
+                },
+                // 题目增删改
+                addQuestion() {
+                    const idNum = this.currentQData.questions.length + 1;
+                    this.currentQData.questions.push({
+                        id: "q" + idNum,
+                        type: "single",
+                        title: "新题目",
+                        required: true,
+                        options: ["选项1", "选项2"]
+                    });
+                },
+                removeQuestion(idx) {
+                    if(confirm("确定删除此题目吗？")) {
+                        this.currentQData.questions.splice(idx, 1);
+                    }
+                },
+                moveQuestion(idx, dir) {
+                    const target = idx + dir;
+                    if (target < 0 || target >= this.currentQData.questions.length) return;
+                    const arr = this.currentQData.questions;
+                    const temp = arr[idx];
+                    arr[idx] = arr[target];
+                    arr[target] = temp;
+                },
+                handleTypeChange(q) {
+                    // 清理不相关的属性并初始化必要属性
+                    if (q.type === 'single' || q.type === 'multi') {
+                        if (!q.options) q.options = ["选项1", "选项2"];
+                        if (q.type === 'multi' && q.maxSelect === undefined) q.maxSelect = 2;
+                        delete q.min; delete q.max;
+                    } else if (q.type === 'rating') {
+                        if (q.min === undefined) q.min = 1;
+                        if (q.max === undefined) q.max = 10;
+                        delete q.options; delete q.maxSelect;
+                    } else if (q.type === 'text') {
+                        delete q.options; delete q.maxSelect; delete q.min; delete q.max;
+                    }
+                },
+                toggleDepends(q) {
+                    if (q.dependsOn) {
+                        delete q.dependsOn;
+                    } else {
+                        q.dependsOn = { qId: "", contains: [""] };
+                    }
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
