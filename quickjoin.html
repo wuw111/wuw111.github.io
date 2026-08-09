@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>正在添加 U-craftBE 服务器...</title>
+    <title>U-craftBE - 一键添加服务器</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #121212;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Arial, sans-serif;
+            background: #0d0e12;
+            background-image: 
+                radial-gradient(at 50% 0%, rgba(56, 142, 60, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(156, 39, 176, 0.1) 0px, transparent 50%);
             color: #ffffff;
             display: flex;
             justify-content: center;
@@ -20,100 +24,204 @@
             min-height: 100vh;
             padding: 20px;
         }
+
         .card {
-            background-color: #1e1e1e;
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 30px 24px;
-            max-width: 420px;
+            background: rgba(22, 24, 30, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 36px 28px;
+            max-width: 400px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6),
+                        0 0 40px rgba(76, 175, 80, 0.1);
+            animation: fadeIn 0.6s ease-out;
         }
-        .icon {
-            width: 64px;
-            height: 64px;
-            margin-bottom: 20px;
-            display: inline-block;
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        h1 {
-            font-size: 20px;
-            color: #4caf50;
+
+        /* 像素风或精致的服务器图标 */
+        .icon-wrapper {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 16px;
+            background: linear-gradient(135deg, #2e7d32, #1b5e20);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(46, 125, 50, 0.4);
+        }
+
+        .icon-wrapper svg {
+            width: 40px;
+            height: 40px;
+            fill: #ffffff;
+        }
+
+        .server-title {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #a5d6a7, #4caf50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: #e0e0e0;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        /* 进度条样式 */
+        .progress-container {
+            background: rgba(255, 255, 255, 0.06);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
             margin-bottom: 12px;
         }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #4caf50, #81c784);
+            border-radius: 3px;
+            transition: width 1s linear;
+        }
+
         .timer-text {
-            font-size: 15px;
-            color: #cccccc;
+            font-size: 13px;
+            color: #a0a0a0;
             margin-bottom: 20px;
         }
-        .countdown {
-            color: #ff9800;
+
+        .timer-text span {
+            color: #4caf50;
             font-weight: bold;
-            font-size: 18px;
         }
-        .tip {
-            font-size: 13px;
+
+        .tip-box {
+            font-size: 12px;
             color: #888888;
-            line-height: 1.6;
+            line-height: 1.5;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
             margin-bottom: 24px;
-            background-color: #282828;
-            padding: 10px;
-            border-radius: 6px;
         }
+
+        /* 按钮组 */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
         .btn {
-            display: inline-block;
+            display: block;
             width: 100%;
-            padding: 12px 0;
-            background-color: #388e3c;
-            color: #ffffff;
+            padding: 13px 0;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 10px;
             text-decoration: none;
-            font-weight: bold;
-            border-radius: 6px;
-            transition: background-color 0.2s;
+            transition: all 0.25s ease;
+            box-sizing: border-box;
         }
-        .btn:hover {
-            background-color: #2e7d32;
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+            background: linear-gradient(135deg, #66bb6a, #388e3c);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #cccccc;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
         }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <!-- SVG 简易草方块图标 -->
-        <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="64" height="64" rx="12" fill="#2E7D32"/>
-            <path d="M0 16L32 0L64 16V32L32 48L0 32V16Z" fill="#4CAF50"/>
-            <path d="M0 32L32 48V64L0 48V32Z" fill="#795548"/>
-            <path d="M32 48L64 32V48L32 64V48Z" fill="#5D4037"/>
-        </svg>
+        <!-- 图标 (Minecraft 立方体风格) -->
+        <div class="icon-wrapper">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+        </div>
 
-        <h1>正在为您一键添加服务器</h1>
-        
-        <p class="timer-text">将在 <span id="timer" class="countdown">3</span> 秒后自动唤醒 Minecraft...</p>
-        
-        <p class="tip">如未启动 Minecraft 请尝试换一个浏览器打开。</p>
+        <div class="server-title">U-craftBE</div>
+        <div class="subtitle">正在为您一键添加服务器</div>
 
-        <a id="mc-btn" href="#" class="btn">手动打开 Minecraft</a>
+        <!-- 倒计时进度条 -->
+        <div class="progress-container">
+            <div id="progress-bar" class="progress-bar"></div>
+        </div>
+        <div class="timer-text">将在 <span id="timer">3</span> 秒后尝试启动游戏...</div>
+
+        <!-- 提示文本 -->
+        <div class="tip-box">
+            💡 如未启动 Minecraft，请尝试换一个浏览器打开。
+        </div>
+
+        <!-- 操作按钮 -->
+        <div class="btn-group">
+            <a id="mc-btn" href="#" class="btn btn-primary">手动启动 Minecraft</a>
+            <a href="https://ucraft.top" class="btn btn-secondary">返回官网首页</a>
+        </div>
     </div>
 
     <script>
-        // 服务器连接 Protocol URI
+        // 服务器连接 URI 协议
         const serverUri = "minecraft://?addExternalServer=%C2%A7d%C2%A7k%C2%A7l|%C2%A7r%C2%A7l%C2%A75U%C2%A7f-%C2%A7ac%C2%A7gr%C2%A7ba%C2%A7df%C2%A76t%C2%A7k%C2%A7d||play.ucraft.top:32123";
 
-        // 设置手动打开按钮的链接
+        // 设置手动打开按钮的 href
         document.getElementById('mc-btn').href = serverUri;
 
-        let timeLeft = 3;
+        let totalTime = 3;
+        let timeLeft = totalTime;
+        
         const timerElement = document.getElementById('timer');
+        const progressBar = document.getElementById('progress-bar');
 
-        // 倒计时逻辑
+        // 初始化进度条
+        setTimeout(() => {
+            progressBar.style.width = '100%';
+        }, 50);
+
+        // 1秒定时器更新数字
         const countdownInterval = setInterval(() => {
             timeLeft--;
-            timerElement.textContent = timeLeft;
+            if (timerElement) {
+                timerElement.textContent = timeLeft;
+            }
 
             if (timeLeft <= 0) {
                 clearInterval(countdownInterval);
-                // 倒计时结束，尝试唤起 Minecraft
+                // 唤醒 Minecraft
                 window.location.href = serverUri;
             }
         }, 1000);
