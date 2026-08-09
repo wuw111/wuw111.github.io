@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>正在添加 U-craftBE 服务器...</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .card {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 30px 24px;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        .icon {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        h1 {
+            font-size: 20px;
+            color: #4caf50;
+            margin-bottom: 12px;
+        }
+        .timer-text {
+            font-size: 15px;
+            color: #cccccc;
+            margin-bottom: 20px;
+        }
+        .countdown {
+            color: #ff9800;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .tip {
+            font-size: 13px;
+            color: #888888;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            background-color: #282828;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 12px 0;
+            background-color: #388e3c;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+        .btn:hover {
+            background-color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- SVG 简易草方块图标 -->
+        <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="12" fill="#2E7D32"/>
+            <path d="M0 16L32 0L64 16V32L32 48L0 32V16Z" fill="#4CAF50"/>
+            <path d="M0 32L32 48V64L0 48V32Z" fill="#795548"/>
+            <path d="M32 48L64 32V48L32 64V48Z" fill="#5D4037"/>
+        </svg>
+
+        <h1>正在为您一键添加服务器</h1>
+        
+        <p class="timer-text">将在 <span id="timer" class="countdown">3</span> 秒后自动唤醒 Minecraft...</p>
+        
+        <p class="tip">如未启动 Minecraft 请尝试换一个浏览器打开。</p>
+
+        <a id="mc-btn" href="#" class="btn">手动打开 Minecraft</a>
+    </div>
+
+    <script>
+        // 服务器连接 Protocol URI
+        const serverUri = "minecraft://?addExternalServer=%C2%A7d%C2%A7k%C2%A7l|%C2%A7r%C2%A7l%C2%A75U%C2%A7f-%C2%A7ac%C2%A7gr%C2%A7ba%C2%A7df%C2%A76t%C2%A7k%C2%A7d||play.ucraft.top:32123";
+
+        // 设置手动打开按钮的链接
+        document.getElementById('mc-btn').href = serverUri;
+
+        let timeLeft = 3;
+        const timerElement = document.getElementById('timer');
+
+        // 倒计时逻辑
+        const countdownInterval = setInterval(() => {
+            timeLeft--;
+            timerElement.textContent = timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(countdownInterval);
+                // 倒计时结束，尝试唤起 Minecraft
+                window.location.href = serverUri;
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
