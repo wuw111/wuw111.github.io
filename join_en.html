@@ -3,63 +3,1585 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>U-craft Server</title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/join.css">
+
+    <title>★ U-craft Official Website · Server Selection Hub ★</title>
+
     <link rel="shortcut icon" href="textures/favicon.png" type="image/png">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(
+                    circle at 50% 0,
+                    rgba(57, 101, 155, .28),
+                    transparent 750px
+                ),
+                #091322;
+            font-family:
+                "Segoe UI",
+                -apple-system,
+                BlinkMacSystemFont,
+                "Helvetica Neue",
+                Arial,
+                sans-serif;
+            color: #d8e5f3;
+            font-size: 12px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Tech/Monospace font stack */
+        .tech-font {
+            font-family: "Consolas", "JetBrains Mono", "Courier New", monospace;
+            letter-spacing: 0.5px;
+        }
+
+        /* =========================================================
+           Top Navigation
+        ========================================================= */
+
+        .top-nav {
+            min-height: 48px;
+            padding: 7px 0;
+            text-align: center;
+            background:
+                linear-gradient(
+                    to bottom,
+                    #36465d 0%,
+                    #202c3f 48%,
+                    #121a27 49%,
+                    #111925 100%
+                );
+            border-bottom: 2px solid #d99a1c;
+            box-shadow:
+                0 2px 10px rgba(0,0,0,.75),
+                inset 0 1px rgba(255,255,255,.12);
+        }
+
+        .nav-btn {
+            display: inline-block;
+            margin: 0 4px;
+            padding: 5px 14px;
+            color: #fff;
+            font-size: 12px;
+            font-weight: bold;
+            border: 1px solid #7198c0;
+            border-radius: 3px;
+            background:
+                linear-gradient(
+                    to bottom,
+                    #62a9e7 0%,
+                    #2b6da8 47%,
+                    #174b7b 48%,
+                    #2869a2 100%
+                );
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,.35),
+                0 2px 4px rgba(0,0,0,.55);
+            text-shadow: 1px 1px 2px #000;
+            transition: .08s;
+            user-select: none;
+        }
+
+        .nav-btn:hover {
+            filter: brightness(1.18);
+        }
+
+        .nav-btn:active {
+            transform: translateY(1px);
+        }
+
+        .nav-btn.quick {
+            border-color: #ef826f;
+            background:
+                linear-gradient(
+                    to bottom,
+                    #f06a56,
+                    #b63b2e 48%,
+                    #79231c 49%,
+                    #b84335
+                );
+        }
+
+        /* =========================================================
+           Main Wrapper
+        ========================================================= */
+
+        .main-wrapper {
+            width: 1000px;
+            max-width: calc(100% - 20px);
+            margin: 18px auto 35px;
+            background: #0d1829;
+            border: 3px solid #435f86;
+            box-shadow:
+                0 0 35px rgba(0,0,0,.9),
+                inset 0 0 20px rgba(0,0,0,.8);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        /* =========================================================
+           Banner & Metallic Flow Title
+        ========================================================= */
+
+        .header-banner {
+            position: relative;
+            padding: 24px 20px 22px;
+            text-align: center;
+            background:
+                linear-gradient(
+                    to bottom,
+                    #223d64 0%,
+                    #142844 50%,
+                    #0b1729 100%
+                );
+            border-bottom: 2px solid #d99a1c;
+            box-shadow: inset 0 1px rgba(255,255,255,.12);
+        }
+
+        .header-banner::before,
+        .header-banner::after {
+            content: "◆";
+            position: absolute;
+            top: 24px;
+            color: #d8a039;
+            font-size: 14px;
+            opacity: .85;
+            text-shadow: 0 0 8px #ffd068;
+        }
+
+        .header-banner::before { left: 24px; }
+        .header-banner::after { right: 24px; }
+
+        .server-title {
+            display: inline-block;
+            font-size: 30px;
+            line-height: 1.2;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            background: linear-gradient(
+                110deg,
+                #f6d27a 0%,
+                #fffbe0 35%,
+                #ffffff 50%,
+                #f6d27a 65%,
+                #e5aa2d 100%
+            );
+            background-size: 250% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.65);
+            animation: textShine 5s ease-in-out infinite;
+        }
+
+        @keyframes textShine {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .server-subtitle {
+            margin-top: 8px;
+            color: #6fd5ff;
+            font-size: 13px;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(13,76,128,.8);
+        }
+
+        .header-small {
+            margin-top: 8px;
+            color: #7e94af;
+            font-size: 10px;
+        }
+
+        /* =========================================================
+           Announcement Marquee
+        ========================================================= */
+
+        .marquee-box {
+            min-height: 30px;
+            display: flex;
+            align-items: center;
+            padding: 6px 12px;
+            color: #ffd95f;
+            background: linear-gradient(to bottom, #0b111b, #070c14);
+            border-top: 1px solid #182a44;
+            border-bottom: 1px solid #182a44;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .marquee-title {
+            margin-right: 10px;
+            color: #ff9d3d;
+            white-space: nowrap;
+        }
+
+        .marquee-text {
+            overflow: hidden;
+            white-space: nowrap;
+            flex: 1;
+        }
+
+        .marquee-text span {
+            display: inline-block;
+            animation: marquee 26s linear infinite;
+        }
+
+        @keyframes marquee {
+            from { transform: translateX(100%); }
+            to { transform: translateX(-100%); }
+        }
+
+        /* =========================================================
+           Real-time Server Monitor Panel
+        ========================================================= */
+
+        .status-dashboard {
+            margin: 12px 15px 0;
+            border: 1px solid #345379;
+            background: linear-gradient(to bottom, #182d48, #0e1c2f);
+            box-shadow:
+                inset 0 1px rgba(255,255,255,.05),
+                0 2px 6px rgba(0,0,0,.5);
+        }
+
+        .status-title {
+            padding: 7px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #294566;
+            color: #f6ce76;
+            font-size: 12px;
+            font-weight: bold;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .status-stats-badge {
+            background: #091322;
+            border: 1px solid #294566;
+            color: #55e69e;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: normal;
+        }
+
+        .status-refresh {
+            color: #7692ae;
+            font-size: 10px;
+            font-weight: normal;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .status-card {
+            min-height: 86px;
+            padding: 10px 12px;
+            border-right: 1px solid #223c5a;
+        }
+
+        .status-card:last-child {
+            border-right: 0;
+        }
+
+        .status-card-name {
+            color: #dbeafb;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-card-status {
+            margin-top: 5px;
+            font-size: 11px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .status-card-meta {
+            margin-top: 5px;
+            color: #748ba4;
+            font-size: 9px;
+            line-height: 1.5;
+        }
+
+        .status-online {
+            color: #46d888;
+            text-shadow: 0 0 5px rgba(70,216,136,.45);
+        }
+
+        .status-online .status-dot {
+            box-shadow: 0 0 6px #46d888;
+            animation: pulse-dot 1.8s infinite ease-in-out;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.45; transform: scale(0.8); }
+        }
+
+        .status-offline {
+            color: #ee6767;
+        }
+
+        .status-loading {
+            color: #edc564;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            margin-right: 6px;
+            border-radius: 50%;
+            background: currentColor;
+            flex-shrink: 0;
+        }
+
+        /* Ping Signal Bars */
+        .ping-bars {
+            display: inline-flex;
+            align-items: flex-end;
+            gap: 1.5px;
+            height: 10px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        .ping-bars span {
+            width: 2.5px;
+            background: #39526e;
+            border-radius: 0.5px;
+        }
+
+        .ping-bars span:nth-child(1) { height: 3px; }
+        .ping-bars span:nth-child(2) { height: 5px; }
+        .ping-bars span:nth-child(3) { height: 7.5px; }
+        .ping-bars span:nth-child(4) { height: 10px; }
+
+        .ping-bars.ping-good span { background: #46d888; }
+        .ping-bars.ping-medium span:nth-child(-n+3) { background: #e7bd42; }
+        .ping-bars.ping-bad span:nth-child(-n+1) { background: #ee6767; }
+
+        /* =========================================================
+           Tips Panel
+        ========================================================= */
+
+        .tips-panel {
+            margin: 12px 15px;
+            padding: 9px 11px;
+            border: 1px dashed #ad7820;
+            color: #eec763;
+            background:
+                linear-gradient(
+                    to right,
+                    rgba(65,45,10,.72),
+                    rgba(39,27,7,.82)
+                );
+            line-height: 1.65;
+        }
+
+        /* =========================================================
+           Section Block
+        ========================================================= */
+
+        .section-block {
+            margin: 15px;
+            background: #122137;
+            border: 1px solid #2d4d76;
+            box-shadow:
+                0 2px 10px rgba(0,0,0,.55),
+                inset 0 1px rgba(255,255,255,.035);
+            border-radius: 3px;
+        }
+
+        .section-header {
+            min-height: 38px;
+            padding: 7px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            background:
+                linear-gradient(
+                    to bottom,
+                    #345477 0%,
+                    #243f61 48%,
+                    #1b304b 49%,
+                    #15263c 100%
+                );
+            border-bottom: 1px solid #43678f;
+            color: #fff;
+            font-size: 13px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        .section-count {
+            color: #8ca7c3;
+            font-size: 9px;
+            font-weight: normal;
+        }
+
+        /* =========================================================
+           Badges
+        ========================================================= */
+
+        .badge-hot {
+            padding: 2px 6px;
+            color: white;
+            border-radius: 2px;
+            border: 1px solid #ff7666;
+            background: linear-gradient(#ed4a37, #a82116);
+            font-size: 9px;
+            font-weight: bold;
+        }
+
+        .badge-new {
+            padding: 2px 6px;
+            color: white;
+            border-radius: 2px;
+            border: 1px solid #63c3ff;
+            background: linear-gradient(#58aee3, #1c5f94);
+            font-size: 9px;
+            font-weight: bold;
+        }
+
+        /* =========================================================
+           Server Buttons
+        ========================================================= */
+
+        .server-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 7px;
+            padding: 12px;
+        }
+
+        .server-btn {
+            min-height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 7px;
+            padding: 7px 8px;
+            color: #1b2d3e;
+            border: 1px solid #6d829b;
+            border-radius: 3px;
+            background:
+                linear-gradient(
+                    to bottom,
+                    #ffffff 0%,
+                    #eef3f8 47%,
+                    #c6d3e0 48%,
+                    #eef4fa 100%
+                );
+            box-shadow:
+                inset 0 1px 0 #fff,
+                0 2px 3px rgba(0,0,0,.45);
+            font-size: 11px;
+            font-weight: bold;
+            transition: transform .06s, box-shadow .06s, background .06s;
+            user-select: none;
+        }
+
+        .server-btn:hover {
+            color: #713f00;
+            border-color: #d39a00;
+            background:
+                linear-gradient(
+                    to bottom,
+                    #fffef1 0%,
+                    #ffe899 47%,
+                    #f4c42c 48%,
+                    #fff0a5 100%
+                );
+            box-shadow:
+                inset 0 1px 0 #fff,
+                0 3px 6px rgba(0,0,0,.65);
+            transform: translateY(-1px);
+        }
+
+        .server-btn:active {
+            transform: translateY(1px);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,.50);
+        }
+
+        /* ★ Featured Premium Route ★ */
+        .server-btn.featured {
+            color: #5c3500;
+            border: 1px solid #d49b16;
+            background:
+                linear-gradient(
+                    to bottom,
+                    #fffbe8 0%,
+                    #ffe68d 47%,
+                    #f3bc20 48%,
+                    #ffea9f 100%
+                );
+            box-shadow:
+                inset 0 1px 0 #fff,
+                0 2px 5px rgba(212,155,22,.45);
+        }
+
+        .server-btn.featured .server-sub {
+            color: #8c5b0d;
+        }
+
+        .server-btn.featured:hover {
+            color: #3b2000;
+            border-color: #ffa800;
+            background:
+                linear-gradient(
+                    to bottom,
+                    #ffffff 0%,
+                    #ffed9f 47%,
+                    #f8cb38 48%,
+                    #fff3b8 100%
+                );
+            box-shadow:
+                inset 0 1px 0 #fff,
+                0 3px 8px rgba(243,188,32,.7);
+        }
+
+        .server-main-text {
+            min-width: 0;
+        }
+
+        .server-name {
+            line-height: 1.35;
+            display: block;
+        }
+
+        .server-sub {
+            margin-top: 3px;
+            color: #738394;
+            font-size: 8px;
+            font-weight: normal;
+            display: block;
+        }
+
+        /* =========================================================
+           ISP Tags
+        ========================================================= */
+
+        .tag {
+            display: inline-block;
+            min-width: 28px;
+            margin-right: 4px;
+            padding: 1px 4px;
+            color: white;
+            border-radius: 2px;
+            font-size: 9px;
+            font-weight: normal;
+            text-align: center;
+        }
+
+        .tag-ct { background: #005cad; }
+        .tag-cu { background: #d80015; }
+        .tag-cm { background: #007fbd; }
+        .tag-bgp { background: #7047a9; }
+        .tag-vip { background: #a47b08; }
+
+        /* =========================================================
+           State Indicators
+        ========================================================= */
+
+        .server-state {
+            flex-shrink: 0;
+            font-size: 9px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .state-online { color: #00883e; }
+        .state-busy { color: #c6311f; }
+        .state-maintenance { color: #b88600; }
+        .state-offline { color: #9a1c1c; }
+
+        /* =========================================================
+           Backup Lines
+        ========================================================= */
+
+        .backup-intro {
+            margin: 12px 12px 0;
+            padding: 8px 10px;
+            border: 1px dashed #516883;
+            color: #9badc0;
+            background: #0c1727;
+            line-height: 1.6;
+        }
+
+        .backup-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 7px;
+            padding: 12px;
+        }
+
+        .backup-btn {
+            min-height: 53px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 7px 8px;
+            border: 1px dashed #71869d;
+            color: #273848;
+            background: linear-gradient(to bottom, #f7f9fc, #dae3eb);
+            border-radius: 3px;
+            box-shadow:
+                inset 0 1px #fff,
+                0 2px 3px rgba(0,0,0,.4);
+            transition: .06s;
+            user-select: none;
+        }
+
+        .backup-btn:hover {
+            color: #713f00;
+            border-color: #d39a00;
+            background: linear-gradient(to bottom, #fffef0, #e8cf75);
+            transform: translateY(-1px);
+        }
+
+        .backup-btn:active {
+            transform: translateY(1px);
+        }
+
+        .backup-name {
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .backup-address {
+            margin-top: 4px;
+            color: #708194;
+            font-size: 8px;
+        }
+
+        /* =========================================================
+           Community
+        ========================================================= */
+
+        .community-box {
+            display: flex;
+            align-items: center;
+            margin: 15px;
+            padding: 14px;
+            border: 1px solid #294465;
+            background: linear-gradient(to bottom, #0b1525, #08101b);
+        }
+
+        .qr-img {
+            width: 125px;
+            height: 125px;
+            padding: 3px;
+            margin-right: 18px;
+            border: 2px solid #47678e;
+            background: white;
+            border-radius: 2px;
+        }
+
+        .community-info h3 {
+            color: #5ccfff;
+            font-size: 15px;
+            margin-bottom: 7px;
+        }
+
+        .community-info p {
+            color: #8ca5bf;
+            line-height: 1.75;
+            margin-bottom: 4px;
+        }
+
+        /* =========================================================
+           Footer
+        ========================================================= */
+
+        .footer {
+            padding: 19px 15px;
+            text-align: center;
+            background: #060b13;
+            border-top: 1px solid #182a43;
+            color: #536a84;
+            line-height: 1.8;
+            font-size: 10px;
+        }
+
+        .footer .gold {
+            color: #8b6b2b;
+        }
+
+        /* =========================================================
+           Toast Notification
+        ========================================================= */
+
+        .toast-msg {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%) translateY(50px);
+            opacity: 0;
+            background: linear-gradient(to bottom, #2b4669, #152438);
+            border: 1px solid #d99a1c;
+            color: #fff;
+            padding: 9px 18px;
+            border-radius: 4px;
+            font-size: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.2);
+            pointer-events: none;
+            transition: all 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            z-index: 9999;
+            text-align: center;
+        }
+
+        .toast-msg.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* =========================================================
+           Responsive
+        ========================================================= */
+
+        @media (max-width: 950px) {
+            .main-wrapper {
+                width: calc(100% - 20px);
+            }
+
+            .server-grid,
+            .backup-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .server-title {
+                font-size: 22px;
+            }
+
+            .server-subtitle {
+                font-size: 11px;
+            }
+
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .status-card {
+                border-right: none;
+                border-bottom: 1px solid #223c5a;
+            }
+
+            .status-card:last-child {
+                border-bottom: none;
+            }
+
+            .server-grid,
+            .backup-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .community-box {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .qr-img {
+                margin: 0 0 12px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .server-grid,
+            .backup-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-banner::before,
+            .header-banner::after {
+                display: none;
+            }
+        }
+    </style>
 </head>
-<body class="join-page">
-<div style="text-align:center;padding:20px 0 0;">
-    <a href="index_en.html" style="display:inline-block;padding:8px 20px;background-color:#f0f7ff;color:#4a90e2;text-decoration:none;border-radius:20px;font-weight:500;border:1px solid #d0e3ff;margin-right:10px;">← Back to Home</a>
-    <a href="join.html" style="display:inline-block;padding:8px 20px;background-color:#f0f7ff;color:#4a90e2;text-decoration:none;border-radius:20px;font-weight:500;border:1px solid #d0e3ff;">🌐 简体中文</a>
+
+<body>
+
+<!-- =========================================================
+     Top Navigation
+========================================================= -->
+
+<div class="top-nav">
+    <a href="index.html" class="nav-btn">
+        🏠 Main Portal
+    </a>
+
+    <a href="index.html" class="nav-btn">
+        🇨🇳 中文版 (Chinese)
+    </a>
+
+    <a id="nav-quick-join" href="#" class="nav-btn quick" data-server="survivalMain" data-label="Survival Main">
+        ⚡ Quick Join Survival
+    </a>
 </div>
 
-    <div>
-        <div id="default-editor-page__placeholder" class="panel">
-            <link rel="stylesheet" href="css/plugins.css">
-            <link rel="stylesheet" href="css/style.css">
-            <section class="wrapper bg-gradient-primary">
-                <div class="container py-18 pt-md-14 pb-md-14">
-                    <div class="row text-center">
-                        <div class="col-lg-9 col-xxl-7 mx-auto">
-                            <h2 class="display-1 mb-4">U-craft Bedrock Edition<br>Server Official Website</h2>
-                            <p class="lead fs-24 lh-sm px-md-5 px-xl-15 px-xxl-10 mb-7">One-click add server ↓ (Tip: Requires Minecraft Bedrock Edition app. If it doesn't work, please visit via browser)</p>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <span></span>
-                        <span>
-                            <a href="minecraft://?addExternalServer=%C2%A7d%C2%A7k%C2%A7l|%C2%A7r%C2%A7l%C2%A75U%C2%A7f-%C2%A7ac%C2%A7gr%C2%A7ba%C2%A7df%C2%A76t%C2%A7k%C2%A7d||play.ucraft.top:32123" class="btn btn-lg btn-outline-primary rounded-pill mx-1">[HOT] Add Survival Server 1</a>
-                            <a href="minecraft://?addExternalServer=%C2%A7d%C2%A7k%C2%A7l|%C2%A7r%C2%A7l%C2%A75U%C2%A7f-%C2%A7ac%C2%A7gr%C2%A7ba%C2%A7df%C2%A76t%C2%A7k%C2%A7d||p1.ucraft.fun:32123" class="btn btn-lg btn-outline-primary rounded-pill mx-1">Add Survival Backup Server</a>
-                            <a href="minecraft://?addExternalServer=%C2%A7d%C2%A7k%C2%A7l|%C2%A7r%C2%A7l%C2%A75U%C2%A7f-%C2%A7ac%C2%A7gr%C2%A7ba%C2%A7df%C2%A76t%C2%A7k%C2%A7d||ucraft.fun:15058" class="btn btn-lg btn-outline-primary rounded-pill mx-1">Add Minigame Server</a>
-                            <a href="index_en.html" class="btn btn-lg btn-outline-primary rounded-pill mx-1">Back to Home</a>
-                        </span>
-                    </div>
-                    <div class="row mt-10">
-                        <div class="col-lg-8 mx-auto">
-                            <figure></figure>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="wrapper bg-gradient-primary">
-                <div class="container pt-14 pb-8">
-                    <div class="row text-center">
-                        <div class="col-lg-9 col-xxl-7 mx-auto">
-                            <h2 class="display-1 mb-4">Scan QR Code to Join Group</h2>
-                            <p class="lead fs-24 lh-sm px-md-5 px-xl-15 px-xxl-10 mb-7">Encounter issues while playing? Ask for help in the group</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <div class="wechat-group pb-12">
-                <img src="textures/QQ_card.png" class="c3544" alt="QQ Group QR Code">
-            </div>
-            <div class="description">© 2024 U-craft Server. All Rights Reserved</div>
+<!-- =========================================================
+     Main Window
+========================================================= -->
+
+<div class="main-wrapper">
+
+    <!-- Banner -->
+    <div class="header-banner">
+        <div class="server-title">
+            ★ U-craft · Server Selection Hub ★
+        </div>
+        <div class="server-subtitle">
+            [ Bedrock Survival ｜ Dedicated ISP Lines ｜ Backup Nodes ｜ Mini-Games Hub ]
+        </div>
+        <div class="header-small tech-font">
+            Minecraft Bedrock Edition · External Server Link Portal
         </div>
     </div>
-    
-    <script src="js/jquery.js"></script>
-    <script src="js/main.js"></script>
+
+    <!-- Announcement -->
+    <div class="marquee-box">
+        <div class="marquee-title">📢 Announcement</div>
+        <div class="marquee-text">
+            <span>
+                Welcome to U-craft! Please select a server node matching your ISP or region. Clicking any route will copy the address and attempt to launch Minecraft Bedrock. If the main route is unreachable, try the backup nodes.
+            </span>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         REAL SERVER STATUS
+    ====================================================== -->
+
+    <div class="status-dashboard">
+        <div class="status-title">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span>◆ SERVER STATUS · Real-time Monitor</span>
+                <span class="status-stats-badge tech-font" id="status-total-online">Counting online players...</span>
+            </div>
+            <span class="status-refresh tech-font" id="status-refresh">Loading status...</span>
+        </div>
+
+        <div class="status-grid">
+            <div class="status-card" data-server-target="survivalMain">
+                <div class="status-card-name">Survival Main Node</div>
+                <div class="status-card-status status-loading">
+                    <span class="status-dot"></span>Pinging...
+                </div>
+                <div class="status-card-meta tech-font">Loading...</div>
+            </div>
+
+            <div class="status-card" data-server-target="survivalBackup">
+                <div class="status-card-name">Survival Backup Node</div>
+                <div class="status-card-status status-loading">
+                    <span class="status-dot"></span>Pinging...
+                </div>
+                <div class="status-card-meta tech-font">Loading...</div>
+            </div>
+
+            <div class="status-card" data-server-target="minigames">
+                <div class="status-card-name">Mini-Games Hub</div>
+                <div class="status-card-status status-loading">
+                    <span class="status-dot"></span>Pinging...
+                </div>
+                <div class="status-card-meta tech-font">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Instructions -->
+    <div class="tips-panel">
+        <strong>⚔ Connection Guide:</strong>
+        Click any server button below to launch Minecraft Bedrock Edition and copy the address to your clipboard automatically.
+        <br>
+        <strong>※</strong> Node selection will not affect your in-game data; all routes share identical world progress. Intelligent DNS automatically resolves the lowest-latency route.
+    </div>
+
+    <!-- =====================================================
+         National · U-craft Bedrock Survival Server
+    ====================================================== -->
+
+    <div class="section-block">
+        <div class="section-header">
+            <span>🌐【Main Lines · Bedrock Survival Server】</span>
+            <div style="display: flex; align-items: center; gap: 6px;">
+                <span class="badge-hot">HOT RECOMMENDED</span>
+                <span class="section-count">Telecom / Mobile / Unicom / BGP</span>
+            </div>
+        </div>
+
+        <div class="server-grid">
+            <!-- ★ Featured Golden Nodes ★ -->
+            <a class="server-btn featured" data-server="survivalMain" data-label="U-craft Main">
+                <span class="server-main-text">
+                    <span class="backup-name"><span class="tag tag-bgp">BGP</span> Triple-Line BGP</span>
+                    <span class="server-sub">Telecom · Mobile · Unicom · Main Route</span>
+                </span>
+                <span class="server-state state-online">Best</span>
+            </a>
+
+            <a class="server-btn featured" data-server="survivalMain" data-label="Zhejiang Telecom">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-ct">CT</span> Zhejiang Telecom</span>
+                    <span class="server-sub">Primary Dedicated Line · Main Route</span>
+                </span>
+                <span class="server-state state-online">Best</span>
+            </a>
+
+            <a class="server-btn featured" data-server="survivalMain" data-label="Shanghai Telecom">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-ct">CT</span> Shanghai Telecom</span>
+                    <span class="server-sub">Primary Dedicated Line · Main Route</span>
+                </span>
+                <span class="server-state state-online">Best</span>
+            </a>
+
+            <a class="server-btn featured" data-server="survivalMain" data-label="Guangdong Mobile">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-cm">CM</span> Guangdong Mobile</span>
+                    <span class="server-sub">Optimized Mobile Line · China Mobile</span>
+                </span>
+                <span class="server-state state-online">Smooth</span>
+            </a>
+
+            <!-- Beijing -->
+            <a class="server-btn" data-server="survivalMain" data-label="Beijing Telecom">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-ct">CT</span> Beijing Telecom</span>
+                    <span class="server-sub">China Telecom Node</span>
+                </span>
+                <span class="server-state state-online">Online</span>
+            </a>
+
+            <a class="server-btn" data-server="survivalMain" data-label="Beijing Mobile">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-cm">CM</span> Beijing Mobile</span>
+                    <span class="server-sub">China Mobile Node</span>
+                </span>
+                <span class="server-state state-online">Online</span>
+            </a>
+
+            <a class="server-btn" data-server="survivalMain" data-label="Beijing Unicom">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-cu">CU</span> Beijing Unicom</span>
+                    <span class="server-sub">China Unicom Node</span>
+                </span>
+                <span class="server-state state-online">Online</span>
+            </a>
+
+            <!-- Shanghai -->
+            <a class="server-btn" data-server="survivalMain" data-label="Shanghai Telecom">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-ct">CT</span> Shanghai Telecom</span>
+                    <span class="server-sub">China Telecom Node</span>
+                </span>
+                <span class="server-state state-online">Online</span>
+            </a>
+
+            <a class="server-btn" data-server="survivalMain" data-label="Shanghai Mobile">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-cm">CM</span> Shanghai Mobile</span>
+                    <span class="server-sub">China Mobile Node</span>
+                </span>
+                <span class="server-state state-online">Online</span>
+            </a>
+
+            <a class="server-btn" data-server="survivalMain" data-label="Shanghai Unicom">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-cu">CU</span> Shanghai Unicom</span>
+                    <span class="server-sub">China Unicom Node</span>
+                </span>
+                <span class="server-state state-online">Online</span>
+            </a>
+
+            <!-- Jiangsu -->
+            <a class="server-btn" data-server="survivalMain" data-label="Jiangsu Telecom">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-ct">CT</span> Jiangsu Telecom</span>
+                    <span class="server-sub">China Telecom Node</span>
+                </span>
+                <span class="server-state state-online">Online</span>
+            </a>
+
+            <a class="server-btn" data-server="survivalMain" data-label="Jiangsu Mobile">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-cm">CM</span> Jiangsu Mobile</span>
+                    <span class="server-sub">China Mobile Node</span>
+                </span>
+                <span class="server-state state-online">Smooth</span>
+            </a>
+
+            <a class="server-btn" data-server="survivalMain" data-label="Jiangsu Unicom">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-cu">CU</span> Jiangsu Unicom</span>
+                    <span class="server-sub">China Unicom Node</span>
+                </span>
+                <span class="server-state state-online">Online</span>
+            </a>
+
+            <!-- Zhejiang -->
+            <a class="server-btn" data-server="survivalMain" data-label="Zhejiang Telecom">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-ct">CT</span> Zhejiang Telecom</span>
+                    <span class="server-sub">China Telecom Node</span>
+                </span>
+                <span class="server-state state-online">Best</span>
+            </a>
+
+            <a class="server-btn" data-server="survivalMain" data-label="Zhejiang Mobile">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-cm">CM</span> Zhejiang Mobile</span>
+                    <span class="server-sub">China Mobile Node</span>
+                </span>
+                <span class="server-state state-online">Smooth</span>
+            </a>
+
+            <a class="server-btn" data-server="survivalMain" data-label="Zhejiang Unicom">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-cu">CU</span> Zhejiang Unicom</span>
+                    <span class="server-sub">China Unicom Node</span>
+                </span>
+                <span class="server-state state-online">Online</span>
+            </a>
+
+            <!-- Guangdong -->
+            <a class="server-btn" data-server="survivalMain" data-label="Guangdong Telecom">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-ct">CT</span> Guangdong Telecom</span>
+                    <span class="server-sub">China Telecom Node</span>
+                </span>
+                <span class="server-state state-online">Best</span>
+            </a>
+
+            <a class="server-btn" data-server="survivalMain" data-label="Guangdong Mobile">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-cm">CM</span> Guangdong Mobile</span>
+                    <span class="server-sub">China Mobile Node</span>
+                </span>
+                <span class="server-state state-online">Smooth</span>
+            </a>
+
+            <a class="server-btn" data-server="survivalMain" data-label="Guangdong Unicom">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-cu">CU</span> Guangdong Unicom</span>
+                    <span class="server-sub">China Unicom Node</span>
+                </span>
+                <span class="server-state state-online">Online</span>
+            </a>
+
+            <!-- Shandong -->
+            <a class="server-btn" data-server="survivalMain" data-label="Shandong Telecom">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-ct">CT</span> Shandong Telecom</span>
+                    <span class="server-sub">China Telecom Node</span>
+                </span>
+                <span class="server-state state-online">Online</span>
+            </a>
+
+            <a class="server-btn" data-server="survivalMain" data-label="Shandong Mobile">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-cm">CM</span> Shandong Mobile</span>
+                    <span class="server-sub">China Mobile Node</span>
+                </span>
+                <span class="server-state state-online">Online</span>
+            </a>
+
+            <a class="server-btn" data-server="survivalMain" data-label="Shandong Unicom">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-cu">CU</span> Shandong Unicom</span>
+                    <span class="server-sub">China Unicom Node</span>
+                </span>
+                <span class="server-state state-online">Online</span>
+            </a>
+
+            <!-- Fujian -->
+            <a class="server-btn" data-server="survivalMain" data-label="Fujian Telecom">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-ct">CT</span> Fujian Telecom</span>
+                    <span class="server-sub">China Telecom Node</span>
+                </span>
+                <span class="server-state state-online">Smooth</span>
+            </a>
+
+            <a class="server-btn" data-server="survivalMain" data-label="Fujian Mobile">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-cm">CM</span> Fujian Mobile</span>
+                    <span class="server-sub">China Mobile Node</span>
+                </span>
+                <span class="server-state state-online">Online</span>
+            </a>
+
+            <a class="server-btn" data-server="survivalMain" data-label="Fujian Unicom">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-cu">CU</span> Fujian Unicom</span>
+                    <span class="server-sub">China Unicom Node</span>
+                </span>
+                <span class="server-state state-online">Online</span>
+            </a>
+
+            <!-- Sichuan -->
+            <a class="server-btn" data-server="survivalMain" data-label="Sichuan Telecom">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-ct">CT</span> Sichuan Telecom</span>
+                    <span class="server-sub">China Telecom Node</span>
+                </span>
+                <span class="server-state state-online">Online</span>
+            </a>
+
+            <a class="server-btn" data-server="survivalMain" data-label="Sichuan Mobile">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-cm">CM</span> Sichuan Mobile</span>
+                    <span class="server-sub">China Mobile Node</span>
+                </span>
+                <span class="server-state state-online">Smooth</span>
+            </a>
+
+            <a class="server-btn" data-server="survivalMain" data-label="Sichuan Unicom">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-cu">CU</span> Sichuan Unicom</span>
+                    <span class="server-sub">China Unicom Node</span>
+                </span>
+                <span class="server-state state-online">Online</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         Backup Lines
+    ====================================================== -->
+
+    <div class="section-block">
+        <div class="section-header">
+            <span>🛡【Backup · Survival High-Speed Channels】</span>
+            <span class="badge-new">BACKUP</span>
+        </div>
+
+        <div class="backup-intro">
+            If you encounter connection difficulties with the main nodes, please connect via any backup address below. Contact community staff if you need assistance.
+        </div>
+
+        <div class="backup-grid">
+            <a class="backup-btn" data-server="survivalBackup" data-label="Survival Backup">
+                <span class="backup-name">[Survival] Main Backup</span>
+                <span class="backup-address dynamic-address tech-font">Loading config...</span>
+            </a>
+
+            <a class="backup-btn" data-server="survivalBackup" data-label="Telecom Backup">
+                <span class="backup-name"><span class="tag tag-ct">CT</span> Telecom Backup</span>
+                <span class="backup-address tech-font">Backup Route</span>
+            </a>
+
+            <a class="backup-btn" data-server="survivalBackup" data-label="Mobile Backup">
+                <span class="backup-name"><span class="tag tag-cm">CM</span> Mobile Backup</span>
+                <span class="backup-address tech-font">Backup Route</span>
+            </a>
+
+            <a class="backup-btn" data-server="survivalBackup" data-label="Unicom Backup">
+                <span class="backup-name"><span class="tag tag-cu">CU</span> Unicom Backup</span>
+                <span class="backup-address tech-font">Backup Route</span>
+            </a>
+
+            <a class="backup-btn" data-server="survivalBackup" data-label="National BGP">
+                <span class="backup-name"><span class="tag tag-bgp">BGP</span> National BGP</span>
+                <span class="backup-address tech-font">Multi Network</span>
+            </a>
+
+            <a class="backup-btn" data-server="survivalBackup" data-label="National Express">
+                <span class="backup-name"><span class="tag tag-vip">VIP</span> National Express</span>
+                <span class="backup-address tech-font">High Speed</span>
+            </a>
+
+            <a class="backup-btn" data-server="survivalBackup" data-label="EduNet Backup">
+                <span class="backup-name"><span class="tag tag-bgp">BGP</span> EduNet Backup</span>
+                <span class="backup-address tech-font">Education Network</span>
+            </a>
+
+            <a class="backup-btn" data-server="survivalBackup" data-label="Dual Line VIP">
+                <span class="backup-name"><span class="tag tag-vip">VIP</span> Dual Line VIP</span>
+                <span class="backup-address tech-font">Dual Network</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         Mini Games
+    ====================================================== -->
+
+    <div class="section-block">
+        <div class="section-header">
+            <span>🎲【Mini-Games Network】</span>
+            <span class="badge-hot">NEW</span>
+        </div>
+
+        <div class="server-grid">
+            <a class="server-btn" data-server="minigames" data-label="Guangdong Telecom MiniGames">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-ct">CT</span> [GD Telecom] Mini-Games</span>
+                    <span class="server-sub">Mini Games Lobby</span>
+                </span>
+                <span class="server-state state-online">Best</span>
+            </a>
+
+            <a class="server-btn" data-server="minigames" data-label="Zhejiang Mobile MiniGames">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-cm">CM</span> [ZJ Mobile] Mini-Games</span>
+                    <span class="server-sub">Mini Games Lobby</span>
+                </span>
+                <span class="server-state state-online">Online</span>
+            </a>
+
+            <a class="server-btn" data-server="minigames" data-label="Shanghai Unicom MiniGames">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-cu">CU</span> [SH Unicom] Mini-Games</span>
+                    <span class="server-sub">Mini Games Lobby</span>
+                </span>
+                <span class="server-state state-online">Online</span>
+            </a>
+
+            <a class="server-btn" data-server="minigames" data-label="National MiniGames Lobby">
+                <span class="server-main-text">
+                    <span class="server-name"><span class="tag tag-bgp">BGP</span> [National] Mini-Games</span>
+                    <span class="server-sub">Multi Network Lobby</span>
+                </span>
+                <span class="server-state state-online">Online</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         Community Group
+    ====================================================== -->
+
+    <div class="community-box">
+        <img src="textures/QQ_card.png" class="qr-img" alt="Community QR Code">
+        <div class="community-info">
+            <h3>💬 Join the Official U-craft Community Group</h3>
+            <p>Encountering network issues, gameplay questions, or server bugs? Reach out to our management team in the community.</p>
+            <p>Community events, major updates, and player discussions are regularly announced in the group.</p>
+            <p>Please adhere to server rules and maintain friendly sportsmanship.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>★ U-craft Official Minecraft Bedrock Server ★</p>
+        <p class="gold">© 2024 U-craft Server · All Rights Reserved.</p>
+        <p>This server is not affiliated with Mojang Studios / Microsoft.</p>
+    </div>
+
+</div>
+
+<!-- Toast Message -->
+<div id="toast-msg" class="toast-msg tech-font">Server address copied!</div>
+
+<script>
+/* ============================================================
+   ★ Global Server Configuration (SERVER_CONFIG)
+============================================================ */
+const SERVER_CONFIG = {
+    // 1. Survival Main Route
+    survivalMain: {
+        host: "play.ucraft.top",
+        port: 32123,
+        name: "Survival Main",
+        mcTitle: "§d§k§l|§r§l§5U§f-§ac§gr§ba§df§6t§k§d|"
+    },
+    // 2. Survival Backup Route
+    survivalBackup: {
+        host: "p1.ucraft.fun",
+        port: 32123,
+        name: "Survival Backup",
+        mcTitle: "U-craft [Backup]"
+    },
+    // 3. Mini-Games Server
+    minigames: {
+        host: "ucraft.fun",
+        port: 32124,
+        name: "Mini-Games Hub",
+        mcTitle: "U-craft [MiniGames]"
+    },
+
+    // Status API & Refresh interval (ms)
+    statusApi: "https://motd.minebbs.com/api/status",
+    refreshInterval: 60000
+};
+
+
+/* ============================================================
+   ★ Official Minecraft Click Audio (Preloaded)
+============================================================ */
+const MC_CLICK_AUDIO = new Audio("https://zh.minecraft.wiki/images/Click.ogg?cce17&format=original");
+MC_CLICK_AUDIO.preload = "auto";
+
+function playMinecraftClickSound() {
+    try {
+        const sound = MC_CLICK_AUDIO.cloneNode();
+        sound.volume = 0.55;
+        sound.play().catch(() => {});
+    } catch (e) {}
+}
+
+
+/* ============================================================
+   Toast Notifications & Clipboard Handler
+============================================================ */
+let toastTimer = null;
+function showToast(message) {
+    const toast = document.getElementById("toast-msg");
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2800);
+}
+
+function copyToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text);
+    } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+            return Promise.resolve();
+        } catch (err) {
+            document.body.removeChild(textarea);
+            return Promise.reject(err);
+        }
+    }
+}
+
+
+/* ============================================================
+   Initialize Interactive Buttons and Links
+============================================================ */
+function initInteractiveButtons() {
+    // 1. Populate dynamic backup addresses
+    document.querySelectorAll(".dynamic-address").forEach(el => {
+        el.textContent = `${SERVER_CONFIG.survivalBackup.host}:${SERVER_CONFIG.survivalBackup.port}`;
+    });
+
+    // 2. Bind all data-server elements
+    const serverButtons = document.querySelectorAll("[data-server]");
+    serverButtons.forEach(btn => {
+        const serverKey = btn.dataset.server;
+        const config = SERVER_CONFIG[serverKey];
+        if (!config) return;
+
+        const routeLabel = btn.dataset.label ? ` [${btn.dataset.label}]` : "";
+        const titleEncoded = encodeURIComponent(`${config.mcTitle}${routeLabel}`);
+        const address = `${config.host}:${config.port}`;
+        const mcUri = `minecraft://?addExternalServer=${titleEncoded}||${address}`;
+
+        btn.setAttribute("href", mcUri);
+
+        btn.addEventListener("click", () => {
+            playMinecraftClickSound();
+            copyToClipboard(address).then(() => {
+                showToast(`⚡ Copied: ${address} (Launching client...)`);
+            }).catch(() => {
+                showToast(`⚡ Launching Minecraft: ${address}`);
+            });
+        });
+    });
+}
+
+
+/* ============================================================
+   HTML Safety Escape & Signal Bars
+============================================================ */
+function escapeHTML(value) {
+    if (value === null || value === undefined) return "";
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function renderPingBars(delayNum) {
+    let levelClass = "ping-good";
+    if (delayNum > 150) levelClass = "ping-bad";
+    else if (delayNum > 70) levelClass = "ping-medium";
+
+    return `<span class="ping-bars ${levelClass}" title="Latency: ${delayNum}ms">
+        <span></span><span></span><span></span><span></span>
+    </span>`;
+}
+
+function setStatusRefresh(text) {
+    const el = document.getElementById("status-refresh");
+    if (el) el.textContent = text;
+}
+
+
+/* ============================================================
+   Query Single Server Status (MineBBS Probe)
+============================================================ */
+async function queryServer(card, config) {
+    const statusElement = card.querySelector(".status-card-status");
+    const metaElement = card.querySelector(".status-card-meta");
+    const ip = config.host;
+    const port = config.port;
+
+    statusElement.className = "status-card-status status-loading";
+    statusElement.innerHTML = '<span class="status-dot"></span>Pinging...';
+
+    const start = performance.now();
+
+    try {
+        const params = new URLSearchParams({
+            ip: ip,
+            port: port,
+            stype: "be"
+        });
+
+        const response = await fetch(`${SERVER_CONFIG.statusApi}?${params.toString()}`, {
+            method: "GET",
+            cache: "no-store"
+        });
+
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const data = await response.json();
+        const elapsed = Math.round(performance.now() - start);
+
+        if (!data || data.status !== "online") {
+            statusElement.className = "status-card-status status-offline";
+            statusElement.innerHTML = '<span class="status-dot"></span>Offline';
+            metaElement.textContent = `${ip}:${port} · Connection unreachable`;
+            return { online: false, players: 0 };
+        }
+
+        // Determine latency
+        const delayValue = data.delay !== undefined ? parseInt(data.delay, 10) : elapsed;
+        const pingIndicator = renderPingBars(delayValue);
+
+        // Status render
+        statusElement.className = "status-card-status status-online";
+        statusElement.innerHTML = `<span class="status-dot"></span>Operational ${pingIndicator}`;
+
+        let onlineCount = 0;
+        let playersText = "Unknown players";
+
+        if (data.players && data.players.online !== undefined) {
+            onlineCount = parseInt(data.players.online, 10) || 0;
+            const max = escapeHTML(data.players.max ?? "?");
+            playersText = `${onlineCount} / ${max} Players`;
+        }
+
+        const version = data.version ? escapeHTML(data.version) : "Bedrock";
+        const delayText = `${delayValue}ms`;
+        const motd = data.pureMotd || data.motd || "";
+        const motdShort = escapeHTML(String(motd).replace(/\s+/g, " ").trim()).slice(0, 35);
+
+        metaElement.innerHTML =
+            `${playersText} · ${version} · ${delayText}` +
+            (motdShort ? `<br>"${motdShort}"` : "");
+
+        return { online: true, players: onlineCount };
+
+    } catch (error) {
+        console.error(`Server status query failed: ${ip}:${port}`, error);
+        statusElement.className = "status-card-status status-offline";
+        statusElement.innerHTML = '<span class="status-dot"></span>Query Failed';
+        metaElement.textContent = `${ip}:${port} · API unreachable`;
+        return { online: false, players: 0 };
+    }
+}
+
+
+/* ============================================================
+   Refresh All Server Statuses
+============================================================ */
+async function refreshAllStatus() {
+    setStatusRefresh("Updating status...");
+
+    const cards = document.querySelectorAll("[data-server-target]");
+    const queryPromises = [];
+
+    cards.forEach(card => {
+        const targetKey = card.dataset.serverTarget;
+        const config = SERVER_CONFIG[targetKey];
+        if (config) {
+            queryPromises.push(queryServer(card, config));
+        }
+    });
+
+    const results = await Promise.all(queryPromises);
+
+    // Sum overall online player numbers
+    let totalPlayers = 0;
+    let anyOnline = false;
+
+    results.forEach(res => {
+        if (res && res.online) {
+            anyOnline = true;
+            totalPlayers += res.players;
+        }
+    });
+
+    const totalBadge = document.getElementById("status-total-online");
+    if (totalBadge) {
+        if (anyOnline) {
+            totalBadge.textContent = `Online: ${totalPlayers} Players`;
+            totalBadge.style.color = "#55e69e";
+        } else {
+            totalBadge.textContent = `Maintenance / Offline`;
+            totalBadge.style.color = "#ee6767";
+        }
+    }
+
+    const now = new Date();
+    const time = now.toLocaleTimeString("en-US", { hour12: false });
+    setStatusRefresh(`Updated at ${time} · Auto-refresh ${SERVER_CONFIG.refreshInterval / 1000}s`);
+}
+
+
+/* ============================================================
+   Initialization
+============================================================ */
+document.addEventListener("DOMContentLoaded", () => {
+    initInteractiveButtons();
+    refreshAllStatus();
+    setInterval(refreshAllStatus, SERVER_CONFIG.refreshInterval);
+});
+</script>
+
 </body>
 </html>
