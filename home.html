@@ -9,70 +9,78 @@
     <link rel="stylesheet" href="css/home.css">
     <link rel="shortcut icon" href="textures/favicon.png" type="image/png">
 </head>
-<body>
+<body class="page-calculator">
     <nav class="navbar">
         <div class="navbar-container">
-            <h1 class="logo">
-                <a href="index.html">U-craftBE 服务器</a>
-            </h1>
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-mark">U-craft</span>
+                    <span class="logo-sub">服务器官方网站</span>
+                </a>
+            </div>
             <ul class="nav-menu">
                 <li><a href="version.html">客户端</a></li>
-                <li><a href="tools.html">工具</a></li>
+                <li><a href="tools.html" class="is-active">工具</a></li>
                 <li><a href="about.html">关于</a></li>
                 <li class="lang-item"><a href="home_en.html" class="lang-switch">🌐 English</a></li>
             </ul>
         </div>
     </nav>
 
-    <section class="banner home-banner">
-        <div class="banner-content">
-            <h2>Home传送点计算器</h2>
-            <p>精确计算在不同坐标之间传送所需的金币数量</p>
-            <p>规划您的资源分配与传送策略</p>
+    <section class="hero hero--page">
+        <div class="hero-inner">
+            <p class="hero-eyebrow">Tools</p>
+            <h1 class="hero-title">Home传送点计算器</h1>
+            <p class="hero-subtitle">精确计算在新坐标创建 Home 传送点所需的金币数量，规划您的资源分配与传送策略</p>
         </div>
     </section>
 
-    <main class="content-container">
-        <article class="server-info">
-            <h2>Home传送点金币计算器</h2>
-            <div class="info-content">
-                <div class="calculator-container">
-                    <div class="calculator-form">
-                        <div class="form-group">
-                            <label for="count">当前已有的Home数量：</label>
-                            <input type="number" id="count" min="0" max="150" value="1" class="form-input">
-                            <div class="input-hint">请输入0到150之间的数字</div>
-                        </div>
-                        
-                        <div class="result" id="result"></div>
-                        
-                        <div class="calculator-info">
-                            <h3>计算规则说明</h3>
-                            <p>此工具根据服务器内设定的公式计算新建Home传送点所需金币：</p>
-                            <p><strong>计算公式：</strong>金币 = 200 × 当前Home数量 + 当前Home数量 × 10^(1.2 + 0.005 × 当前Home数量)</p>
-                            <p>计算结果已四舍五入到最接近的整数。</p>
-                        </div>
+    <main class="page-main">
+        <section class="page-section page-section--overlap">
+            <div class="calculator-container">
+                <div class="card calculator-form" data-reveal>
+                    <div class="form-group">
+                        <label for="count">当前已有的 Home 数量：</label>
+                        <input type="number" id="count" min="0" max="150" value="1" class="form-input">
+                        <div class="input-hint">请输入 0 到 150 之间的数字</div>
                     </div>
-                    
-                    <div class="usage-tips">
-                        <h3>使用提示</h3>
-                        <ul>
-                            <li>Home传送点是服务器中的重要功能，允许您快速传送到已设置的位置</li>
-                            <li>每次新建Home传送点都需要消耗一定数量的金币</li>
-                            <li>金币消耗会随着您已拥有的Home数量增加而增加</li>
-                            <li>合理规划您的Home位置，避免不必要的金币浪费</li>
-                            <li>计算结果仅供参考，实际消耗以服务器内为准</li>
-                        </ul>
+
+                    <div class="result" id="result"></div>
+
+                    <div class="calculator-info">
+                        <h3>计算规则说明</h3>
+                        <p>此工具根据服务器内设定的公式计算新建 Home 传送点所需金币：</p>
+                        <p><strong>计算公式：</strong>金币 = 200 × 当前 Home 数量 + 当前 Home 数量 × 10^(1.2 + 0.005 × 当前 Home 数量)</p>
+                        <p>计算结果已四舍五入到最接近的整数。</p>
                     </div>
                 </div>
-                
-                <div class="page-actions">
-                    <a href="tools.html" class="back-link">← 返回工具列表</a>
-                    <a href="index.html" class="back-link">返回服务器首页</a>
-                </div>
+
+                <aside class="card usage-tips" data-reveal>
+                    <h3>使用提示</h3>
+                    <ul class="card-list">
+                        <li>Home 传送点是服务器中的重要功能，允许您快速传送到已设置的位置</li>
+                        <li>每次新建 Home 传送点都需要消耗一定数量的金币</li>
+                        <li>金币消耗会随着您已拥有的 Home 数量增加而增加</li>
+                        <li>合理规划您的 Home 位置，避免不必要的金币浪费</li>
+                        <li>计算结果仅供参考，实际消耗以服务器内为准</li>
+                    </ul>
+                </aside>
             </div>
-        </article>
+
+            <div class="page-actions">
+                <a href="tools.html" class="back-link">← 返回工具列表</a>
+                <a href="index.html" class="back-link">返回服务器首页</a>
+            </div>
+        </section>
     </main>
+
+    <footer class="site-footer">
+        <p>
+            © 2020-2026 wuw111.github.io 版权所有 | 此版本由<a href="https://ydog01.github.io" target="_blank">ydog01</a>编写
+        </p>
+        <p>本服务器及旗下相关站点与Mojang以及微软公司没有从属关系</p>
+        <img height="32px" width="48px" src="textures/loading.gif" alt="加载动画">
+    </footer>
 
     <script src="js/jquery.js"></script>
     <script src="js/main.js"></script>

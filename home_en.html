@@ -9,70 +9,79 @@
     <link rel="stylesheet" href="css/home.css">
     <link rel="shortcut icon" href="textures/favicon.png" type="image/png">
 </head>
-<body>
+<body class="page-calculator">
     <nav class="navbar">
         <div class="navbar-container">
-            <h1 class="logo">
-                <a href="index_en.html">U-craftBE Server</a>
-            </h1>
+            <div class="logo">
+                <a href="index_en.html">
+                    <span class="logo-mark">U-craft</span>
+                    <span class="logo-sub">Server Official</span>
+                </a>
+            </div>
             <ul class="nav-menu">
                 <li><a href="version_en.html">Downloads</a></li>
-                <li><a href="tools_en.html">Tools</a></li>
+                <li><a href="tools_en.html" class="is-active">Tools</a></li>
                 <li><a href="about_en.html">About</a></li>
                 <li class="lang-item"><a href="home.html" class="lang-switch">🌐 简体中文</a></li>
             </ul>
         </div>
     </nav>
 
-    <section class="banner home-banner">
-        <div class="banner-content">
-            <h2>Home Teleport Calculator</h2>
-            <p>Accurately calculate the gold coins required for teleporting between coordinates</p>
-            <p>Plan your resource allocation and teleport strategy</p>
+    <section class="hero hero--page">
+        <div class="hero-inner">
+            <p class="hero-eyebrow">Tools</p>
+            <h1 class="hero-title">Home Teleport Calculator</h1>
+            <p class="hero-subtitle">Accurately calculate the gold coins required to create a Home teleport point at a new location</p>
         </div>
     </section>
 
-    <main class="content-container">
-        <article class="server-info">
-            <h2>Home Teleport Gold Calculator</h2>
-            <div class="info-content">
-                <div class="calculator-container">
-                    <div class="calculator-form">
-                        <div class="form-group">
-                            <label for="count">Current number of Homes:</label>
-                            <input type="number" id="count" min="0" max="150" value="1" class="form-input">
-                            <div class="input-hint">Please enter a number from 0 to 150</div>
-                        </div>
-                        
-                        <div class="result" id="result"></div>
-                        
-                        <div class="calculator-info">
-                            <h3>Formula Description</h3>
-                            <p>This tool calculates the gold coins required for creating a new Home teleport point based on the server's formula:</p>
-                            <p><strong>Formula:</strong> Gold = 200 × Current Home Count + Current Home Count × 10^(1.2 + 0.005 × Current Home Count)</p>
-                            <p>Results are rounded to the nearest integer.</p>
-                        </div>
+    <main class="page-main">
+        <section class="page-section page-section--overlap">
+            <div class="calculator-container">
+                <div class="card calculator-form" data-reveal>
+                    <div class="form-group">
+                        <label for="count">Current number of Homes:</label>
+                        <input type="number" id="count" min="0" max="150" value="1" class="form-input">
+                        <div class="input-hint">Please enter a number from 0 to 150</div>
                     </div>
-                    
-                    <div class="usage-tips">
-                        <h3>Usage Tips</h3>
-                        <ul>
-                            <li>Home teleport points are an important feature that allows quick teleportation to set locations</li>
-                            <li>Each new Home teleport point costs a certain amount of gold coins</li>
-                            <li>The gold cost increases with the number of Homes you already have</li>
-                            <li>Plan your Home locations wisely to avoid unnecessary gold waste</li>
-                            <li>Calculation results are for reference only; actual costs are subject to in-game values</li>
-                        </ul>
+
+                    <div class="result" id="result"></div>
+
+                    <div class="calculator-info">
+                        <h3>Formula Description</h3>
+                        <p>This tool calculates the gold coins required for creating a new Home teleport point based on the server's formula:</p>
+                        <p><strong>Formula:</strong> Gold = 200 × Current Home Count + Current Home Count × 10^(1.2 + 0.005 × Current Home Count)</p>
+                        <p>Results are rounded to the nearest integer.</p>
                     </div>
                 </div>
-                
-                <div class="page-actions">
-                    <a href="tools_en.html" class="back-link">← Back to Tools</a>
-                    <a href="index_en.html" class="back-link">Back to Homepage</a>
-                </div>
+
+                <aside class="card usage-tips" data-reveal>
+                    <h3>Usage Tips</h3>
+                    <ul class="card-list">
+                        <li>Home teleport points are an important feature that allows quick teleportation to set locations</li>
+                        <li>Each new Home teleport point costs a certain amount of gold coins</li>
+                        <li>The gold cost increases with the number of Homes you already have</li>
+                        <li>Plan your Home locations wisely to avoid unnecessary gold waste</li>
+                        <li>Calculation results are for reference only; actual costs are subject to in-game values</li>
+                    </ul>
+                </aside>
             </div>
-        </article>
+
+            <div class="page-actions">
+                <a href="tools_en.html" class="back-link">← Back to Tools</a>
+                <a href="index_en.html" class="back-link">Back to Homepage</a>
+            </div>
+        </section>
     </main>
+
+    <footer class="site-footer">
+        <p>
+            © 2020-2026 wuw111.github.io | All Rights Reserved. <br>
+            English version maintained by <a href="https://ydog01.github.io" target="_blank">ydog01</a>
+        </p>
+        <p>This server and its related sites are not affiliated with Mojang or Microsoft.</p>
+        <img height="32px" width="48px" src="textures/loading.gif" alt="Loading animation">
+    </footer>
 
     <script src="js/jquery.js"></script>
     <script src="js/main.js"></script>

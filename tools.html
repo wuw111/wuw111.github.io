@@ -9,60 +9,75 @@
     <link rel="stylesheet" href="css/tools.css">
     <link rel="shortcut icon" href="textures/favicon.png" type="image/png">
 </head>
-<body>
+<body class="page-tools">
     <nav class="navbar">
         <div class="navbar-container">
-            <h1 class="logo">
-                <a href="index.html">U-craftBE 服务器</a>
-            </h1>
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-mark">U-craft</span>
+                    <span class="logo-sub">服务器官方网站</span>
+                </a>
+            </div>
             <ul class="nav-menu">
                 <li><a href="version.html">客户端</a></li>
-                <li><a href="tools.html">工具</a></li>
+                <li><a href="tools.html" class="is-active">工具</a></li>
                 <li><a href="about.html">关于</a></li>
                 <li class="lang-item"><a href="tools_en.html" class="lang-switch">🌐 English</a></li>
             </ul>
         </div>
     </nav>
 
-    <section class="tools-hero">
-        <h1>服务器工具</h1>
-        <p>专为U-craftBE玩家设计的实用工具，提升游戏体验</p>
+    <section class="hero hero--page">
+        <div class="hero-inner">
+            <p class="hero-eyebrow">Tools</p>
+            <h1 class="hero-title">服务器工具</h1>
+            <p class="hero-subtitle">专为 U-craftBE 玩家设计的实用工具，提升游戏体验</p>
+        </div>
     </section>
 
-    <main class="content-container">
-        <div class="tool-wrapper">
-            <article class="tool-card">
-                <h2>Home传送点计算器</h2>
-                <p>
-                    此工具可帮助您精确计算在不同坐标之间传送所需的金币数量。只需输入起始位置与目标位置的坐标，即可快速得出消耗，方便您规划游戏内的资源分配与传送策略。
-                </p>
-                <p>
-                    计算规则严格遵循服务器内设定，确保结果准确可靠。
-                </p>
-                <a href="home.html" class="tool-button">打开计算器</a>
-            </article>
-            <article class="tool-card">
-                <h2>吃掉纳西妲</h2>
-                <p>
-                    来放松一下吧
-                </p>
-                <a href="./ydog01/eatcat/index.html" class="tool-button">开始游戏</a>
-            </article>
-            
+    <main class="page-main">
+        <section class="page-section page-section--overlap">
+            <div class="tool-grid">
+                <article class="card tool-card" data-reveal>
+                    <div class="tool-icon">🧭</div>
+                    <h2>Home传送点计算器</h2>
+                    <p>
+                        此工具可帮助您精确计算在不同坐标之间传送所需的金币数量。只需输入起始位置与目标位置的坐标，即可快速得出消耗，方便您规划游戏内的资源分配与传送策略。
+                    </p>
+                    <p>
+                        计算规则严格遵循服务器内设定，确保结果准确可靠。
+                    </p>
+                    <a href="home.html" class="btn-primary">打开计算器</a>
+                </article>
+                <article class="card tool-card" data-reveal>
+                    <div class="tool-icon">🍃</div>
+                    <h2>吃掉纳西妲</h2>
+                    <p>
+                        来放松一下吧
+                    </p>
+                    <a href="./ydog01/eatcat/index.html" class="btn-primary">开始游戏</a>
+                </article>
+            </div>
+
             <div class="page-actions">
-                <a href="index.html" class="back-link">返回服务器首页</a>
+                <a href="index.html" class="back-link">← 返回服务器首页</a>
             </div>
-            
+
             <div class="hidden-feature">
-                <div class="hidden-link">
-                    <a href="ydog01/index.html" title="探索更多">检查更新</a>
-                </div>
+                <a href="ydog01/index.html" title="探索更多">检查更新</a>
             </div>
-        </div>
+        </section>
     </main>
-    
+
+    <footer class="site-footer">
+        <p>
+            © 2020-2026 wuw111.github.io 版权所有 | 此版本由<a href="https://ydog01.github.io" target="_blank">ydog01</a>编写
+        </p>
+        <p>本服务器及旗下相关站点与Mojang以及微软公司没有从属关系</p>
+        <img height="32px" width="48px" src="textures/loading.gif" alt="加载动画">
+    </footer>
+
     <script src="js/jquery.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/tools.js"></script>
 </body>
 </html>

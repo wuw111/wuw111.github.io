@@ -9,60 +9,76 @@
     <link rel="stylesheet" href="css/tools.css">
     <link rel="shortcut icon" href="textures/favicon.png" type="image/png">
 </head>
-<body>
+<body class="page-tools">
     <nav class="navbar">
         <div class="navbar-container">
-            <h1 class="logo">
-                <a href="index_en.html">U-craftBE Server</a>
-            </h1>
+            <div class="logo">
+                <a href="index_en.html">
+                    <span class="logo-mark">U-craft</span>
+                    <span class="logo-sub">Server Official</span>
+                </a>
+            </div>
             <ul class="nav-menu">
                 <li><a href="version_en.html">Downloads</a></li>
-                <li><a href="tools_en.html">Tools</a></li>
+                <li><a href="tools_en.html" class="is-active">Tools</a></li>
                 <li><a href="about_en.html">About</a></li>
                 <li class="lang-item"><a href="tools.html" class="lang-switch">🌐 简体中文</a></li>
             </ul>
         </div>
     </nav>
 
-    <section class="tools-hero">
-        <h1>Server Tools</h1>
-        <p>Utilities designed for U-craftBE players to enhance your gaming experience</p>
+    <section class="hero hero--page">
+        <div class="hero-inner">
+            <p class="hero-eyebrow">Tools</p>
+            <h1 class="hero-title">Server Tools</h1>
+            <p class="hero-subtitle">Utilities designed for U-craftBE players to enhance your gaming experience</p>
+        </div>
     </section>
 
-    <main class="content-container">
-        <div class="tool-wrapper">
-            <article class="tool-card">
-                <h2>Home Teleport Calculator</h2>
-                <p>
-                    This tool helps you accurately calculate the gold coins required for teleporting between coordinates. Simply enter the coordinates of your starting location and target location to quickly see the cost, making it easy to plan your in-game resource allocation and teleport strategy.
-                </p>
-                <p>
-                    Calculation rules strictly follow server settings, ensuring accurate and reliable results.
-                </p>
-                <a href="home_en.html" class="tool-button">Open Calculator</a>
-            </article>
-            <article class="tool-card">
-                <h2>Eat Nahida</h2>
-                <p>
-                    Just relax
-                </p>
-                <a href="./ydog01/eatcat/index.html" class="tool-button">Play Game</a>
-            </article>
-            
+    <main class="page-main">
+        <section class="page-section page-section--overlap">
+            <div class="tool-grid">
+                <article class="card tool-card" data-reveal>
+                    <div class="tool-icon">🧭</div>
+                    <h2>Home Teleport Calculator</h2>
+                    <p>
+                        This tool helps you accurately calculate the gold coins required for teleporting between coordinates. Simply enter the coordinates of your starting location and target location to quickly see the cost, making it easy to plan your in-game resource allocation and teleport strategy.
+                    </p>
+                    <p>
+                        Calculation rules strictly follow server settings, ensuring accurate and reliable results.
+                    </p>
+                    <a href="home_en.html" class="btn-primary">Open Calculator</a>
+                </article>
+                <article class="card tool-card" data-reveal>
+                    <div class="tool-icon">🍃</div>
+                    <h2>Eat Nahida</h2>
+                    <p>
+                        Just relax
+                    </p>
+                    <a href="./ydog01/eatcat/index.html" class="btn-primary">Play Game</a>
+                </article>
+            </div>
+
             <div class="page-actions">
                 <a href="index_en.html" class="back-link">Back to Homepage</a>
             </div>
-            
+
             <div class="hidden-feature">
-                <div class="hidden-link">
-                    <a href="ydog01/index.html" title="Explore More">Check Updates</a>
-                </div>
+                <a href="ydog01/index.html" title="Explore More">Check Updates</a>
             </div>
-        </div>
+        </section>
     </main>
-    
+
+    <footer class="site-footer">
+        <p>
+            © 2020-2026 wuw111.github.io | All Rights Reserved. <br>
+            English version maintained by <a href="https://ydog01.github.io" target="_blank">ydog01</a>
+        </p>
+        <p>This server and its related sites are not affiliated with Mojang or Microsoft.</p>
+        <img height="32px" width="48px" src="textures/loading.gif" alt="Loading animation">
+    </footer>
+
     <script src="js/jquery.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/tools.js"></script>
 </body>
 </html>
