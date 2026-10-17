@@ -1,214 +1,855 @@
+/* ==========================================================================
+   U-craft 站点通用样式（全站共享）
+   --------------------------------------------------------------------------
+   1. 设计变量      2. 基础排版      3. 顶部导航栏    4. Hero 首屏
+   5. 按钮          6. 页面主体/卡片  7. 页脚         8. 滚动渐入动画
+   9. 响应式
+   ========================================================================== */
+
+/* ---------- 1. 设计变量 ---------- */
+:root
+{
+    --uc-accent: #3498db;
+    --uc-accent-dark: #2472a4;
+    --uc-green: #58a832;
+    --uc-green-dark: #46882a;
+    --uc-ink: #22303d;
+    --uc-text: #3f4c5a;
+    --uc-muted: #64748b;
+    --uc-line: #e6ebf1;
+    --uc-bg: #f4f7fa;
+    --uc-radius: 16px;
+    --uc-radius-sm: 12px;
+    --uc-shadow: 0 12px 32px rgba(15, 35, 60, 0.08);
+    --uc-shadow-lg: 0 18px 44px rgba(15, 35, 60, 0.14);
+    --uc-font: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    --uc-navbar-height: 56px;
+}
+
+/* ---------- 2. 基础排版 ---------- */
+*
+{
+    box-sizing: border-box;
+}
+
 body
 {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    color: #333;
-    background-color: #FCFCFC;
+    font-family: var(--uc-font);
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--uc-text);
+    background-color: #fcfcfc;
+    -webkit-font-smoothing: antialiased;
 }
+
+h1, h2, h3, h4
+{
+    color: var(--uc-ink);
+    line-height: 1.4;
+    font-weight: 700;
+}
+
+h1
+{
+    font-size: clamp(1.6rem, 3.4vw, 2.2rem);
+}
+
+h2
+{
+    font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+}
+
+h3
+{
+    font-size: 1.15rem;
+}
+
+p
+{
+    margin: 10px 0;
+}
+
+a
+{
+    color: var(--uc-accent);
+}
+
+img
+{
+    max-width: 100%;
+    height: auto;
+}
+
+ul
+{
+    padding-left: 22px;
+}
+
+/* ---------- 3. 顶部导航栏 ---------- */
 .navbar
 {
     position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    transition: all 0.4s ease;
     z-index: 100;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
+
 .navbar-container
 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     max-width: 1200px;
+    height: var(--uc-navbar-height);
     margin: 0 auto;
     padding: 0 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 50px;
 }
+
 .logo
 {
     display: flex;
     align-items: center;
+    margin: 0;
 }
+
 .logo a
 {
-    color: #C6CDD4;
-    font-size: 20px;
-    text-decoration: none;
-    transition: all 0.4s ease;
-    padding-top: 0;
     display: flex;
     align-items: center;
+    color: #c6cdd4;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
+
 .logo a:hover
 {
-    color: white;
-    font-size: 22px;
+    color: #fff;
 }
+
+.logo-mark
+{
+    white-space: nowrap;
+}
+
+.logo-sub
+{
+    margin-left: 8px;
+    font-size: 0.82em;
+    font-weight: 400;
+    white-space: nowrap;
+    opacity: 0.85;
+}
+
 .nav-menu
 {
-    list-style: none;
     display: flex;
+    align-items: center;
+    gap: 4px;
     margin: 0;
     padding: 0;
+    list-style: none;
 }
+
 .nav-menu li a
 {
-    color: #C6CDD4;
+    position: relative;
+    display: block;
+    padding: 9px 14px;
+    color: #c6cdd4;
+    font-size: 15px;
     text-decoration: none;
-    padding: 13px 15px;
-    transition: all 0.4s ease;
+    border-radius: 8px;
+    transition: color 0.3s ease, background-color 0.3s ease;
 }
+
 .nav-menu li a:hover
 {
-    color: white;
-    font-size: 18px;
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.12);
 }
-.banner
+
+/* 当前所在页面 */
+.nav-menu li a.is-active
 {
-    background: url('../textures/banner-bg.png') center/cover no-repeat;
-    padding: 150px 0 100px;
+    color: #fff;
+    font-weight: 700;
+}
+
+.nav-menu li a.is-active::after
+{
+    content: "";
+    position: absolute;
+    right: 14px;
+    bottom: 2px;
+    left: 14px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--uc-accent), var(--uc-green));
+}
+
+/* 语言切换按钮 */
+.nav-menu li.lang-item
+{
+    margin-left: 8px;
+}
+
+.nav-menu .lang-switch
+{
+    padding: 5px 14px;
+    font-size: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 999px;
+    transition: all 0.3s ease;
+}
+
+.nav-menu .lang-switch:hover
+{
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* 滚动后的导航栏（白底） */
+.navbar.scrolled
+{
+    background-color: #fff;
+    box-shadow: 0 2px 14px rgba(15, 35, 60, 0.08);
+}
+
+.navbar.scrolled .logo a,
+.navbar.scrolled .nav-menu li a,
+.navbar.scrolled .nav-menu .lang-switch
+{
+    color: #33414f;
+}
+
+.navbar.scrolled .logo a:hover
+{
+    color: var(--uc-accent);
+}
+
+.navbar.scrolled .nav-menu li a:hover
+{
+    color: var(--uc-accent);
+    background-color: #f0f6fb;
+}
+
+.navbar.scrolled .nav-menu li a.is-active
+{
+    color: var(--uc-ink);
+}
+
+.navbar.scrolled .nav-menu .lang-switch
+{
+    border-color: #cbd5e1;
+}
+
+.navbar.scrolled .nav-menu .lang-switch:hover
+{
+    color: var(--uc-accent);
+    background-color: #f0f6fb;
+    border-color: var(--uc-accent);
+}
+
+/* ---------- 4. Hero 首屏 ---------- */
+.hero
+{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: #fff;
     text-align: center;
-    color: rgba(255, 255, 255, 0.9);
+    background: url('../textures/banner-bg.png') center / cover no-repeat;
+    isolation: isolate;
 }
-.banner-content h2
+
+/* 深色遮罩：让文字在复杂背景上依然清晰 */
+.hero::before
 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+        radial-gradient(130% 90% at 50% 0%, rgba(6, 16, 28, 0.35) 0%, rgba(6, 16, 28, 0.8) 72%),
+        linear-gradient(180deg,
+            rgba(6, 16, 28, 0.72) 0%,
+            rgba(6, 16, 28, 0.42) 42%,
+            rgba(6, 16, 28, 0.88) 100%);
 }
-.banner-content p
+
+/* 首页：整屏首屏 */
+.hero--home
 {
-    font-size: 1.2em;
-    margin: 10px 0;
+    min-height: min(94vh, 880px);
+    padding: 160px 24px 120px;
 }
+
+/* 内页：紧凑首屏 */
+.hero--page
+{
+    min-height: 380px;
+    padding: 146px 24px 96px;
+}
+
+.hero-inner
+{
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.hero-eyebrow
+{
+    display: inline-block;
+    margin: 0 0 20px;
+    padding: 6px 16px;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #cfe9ff;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 999px;
+}
+
+.hero-title
+{
+    margin: 0 0 18px;
+    color: #fff;
+    font-size: clamp(1.8rem, 4.4vw, 3rem);
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: 1px;
+    text-shadow: 0 6px 26px rgba(0, 0, 0, 0.55);
+}
+
+.hero--page .hero-title
+{
+    font-size: clamp(1.7rem, 3.6vw, 2.5rem);
+}
+
+.hero-subtitle
+{
+    max-width: 660px;
+    margin: 0 auto 10px;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: clamp(1rem, 2.2vw, 1.18rem);
+    line-height: 1.75;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+}
+
+.hero-badges
+{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin: 24px 0 0;
+}
+
+.hero-badge
+{
+    padding: 7px 16px;
+    color: #eaf6ff;
+    font-size: 0.9rem;
+    background: rgba(52, 152, 219, 0.2);
+    border: 1px solid rgba(120, 200, 255, 0.38);
+    border-radius: 999px;
+}
+
+.hero-badge.green
+{
+    color: #ecffe1;
+    background: rgba(88, 168, 50, 0.22);
+    border-color: rgba(150, 220, 110, 0.42);
+}
+
+.hero-tip
+{
+    margin: 26px 0 0;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.95rem;
+}
+
+/* 向下滚动提示 */
+.hero-scroll
+{
+    position: absolute;
+    left: 50%;
+    bottom: 104px;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: #fff;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    animation: uc-float 2.4s ease-in-out infinite;
+}
+
+.hero-scroll:hover
+{
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #fff;
+}
+
+.hero-scroll svg
+{
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+@keyframes uc-float
+{
+    0%, 100% { transform: translate(-50%, 0); }
+    50%      { transform: translate(-50%, 8px); }
+}
+
+/* ---------- 5. 按钮 ---------- */
 .action-buttons
 {
-    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    margin-top: 34px;
 }
-.btn-primary, .btn-secondary
+
+.btn-primary,
+.btn-secondary
+{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 30px;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    border: 2px solid transparent;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.btn-primary
+{
+    color: #fff;
+    background: linear-gradient(135deg, #6cc24a, #4b9629);
+    border-color: rgba(255, 255, 255, 0.28);
+    box-shadow: 0 12px 26px rgba(64, 130, 30, 0.35);
+}
+
+.btn-primary:hover
+{
+    color: #fff;
+    background: linear-gradient(135deg, #7ed158, #57a931);
+    box-shadow: 0 16px 32px rgba(64, 130, 30, 0.5);
+    transform: translateY(-3px);
+}
+
+.btn-secondary
+{
+    color: var(--uc-accent-dark);
+    background-color: #fff;
+    border-color: #d3e3f0;
+}
+
+.btn-secondary:hover
+{
+    color: var(--uc-accent-dark);
+    background-color: #f2f8fd;
+    border-color: var(--uc-accent);
+    transform: translateY(-3px);
+}
+
+/* 深色背景（Hero）中的次级按钮 */
+.hero .btn-secondary
+{
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(4px);
+}
+
+.hero .btn-secondary:hover
+{
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.22);
+}
+
+/* ---------- 6. 页面主体与卡片 ---------- */
+.page-main
+{
+    padding: 0 0 70px;
+    background-color: var(--uc-bg);
+}
+
+.page-section
+{
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.page-section + .page-section
+{
+    margin-top: 64px;
+}
+
+/* 上移压住首屏底部（首页概览卡 / 内页首个区块） */
+.page-section--overlap
+{
+    position: relative;
+    z-index: 2;
+    margin-top: -70px;
+}
+
+.section-head
+{
+    margin: 0 0 34px;
+    text-align: center;
+}
+
+.section-title
+{
+    margin: 0 0 14px;
+    font-size: clamp(1.4rem, 2.8vw, 1.8rem);
+    color: var(--uc-ink);
+}
+
+.section-title::after
+{
+    content: "";
+    display: block;
+    width: 56px;
+    height: 4px;
+    margin: 14px auto 0;
+    background: linear-gradient(90deg, var(--uc-accent), var(--uc-green));
+    border-radius: 2px;
+}
+
+.section-sub
+{
+    max-width: 660px;
+    margin: 0 auto;
+    color: var(--uc-muted);
+}
+
+.card
+{
+    padding: 32px;
+    background-color: #fff;
+    border: 1px solid var(--uc-line);
+    border-radius: var(--uc-radius);
+    box-shadow: var(--uc-shadow);
+}
+
+.card + .card
+{
+    margin-top: 22px;
+}
+
+/* 卡片内的左对齐标题（带渐变竖条） */
+.card-title
+{
+    position: relative;
+    margin: 0 0 20px;
+    padding-left: 16px;
+    font-size: 1.28rem;
+    color: var(--uc-ink);
+}
+
+.card-title::before
+{
+    content: "";
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, var(--uc-accent), var(--uc-green));
+    border-radius: 2px;
+}
+
+.card-title:first-child
+{
+    margin-top: 0;
+}
+
+.card p:first-of-type
+{
+    margin-top: 0;
+}
+
+.card-link
+{
+    display: inline-block;
+    margin-top: 14px;
+    color: var(--uc-accent);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.card-link:hover
+{
+    color: var(--uc-accent-dark);
+    transform: translateX(3px);
+}
+
+.card-list
+{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.card-list li
+{
+    position: relative;
+    margin: 12px 0;
+    padding-left: 20px;
+    line-height: 1.75;
+}
+
+.card-list li::before
+{
+    content: "⦁";
+    position: absolute;
+    left: 0;
+    color: var(--uc-accent);
+}
+
+.divider
+{
+    height: 1px;
+    margin: 40px 0;
+    background: linear-gradient(to right, transparent, #dfe6ee, transparent);
+}
+
+/* 页尾操作区 */
+.page-actions
+{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 44px;
+}
+
+.back-link
 {
     display: inline-block;
     padding: 12px 24px;
-    margin: 0 10px;
+    color: var(--uc-accent-dark);
+    font-weight: 600;
     text-decoration: none;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-    background-color: transparent;
-    border: 2px solid white;
-    color: white;
-    font-weight: bold;
-}
-.btn-primary:hover, .btn-secondary:hover
-{
-    background-color: rgba(255, 255, 255, 0.2);
-}
-.content-container
-{
-    background-color: white;
-    padding: 20px 0;
-}
-.server-info
-{
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 40px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    margin-top: -50px;
-    position: relative;
-    z-index: 10;
-}
-.server-image
-{
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 20px;
-    border-radius: 4px;
-}
-.info-content
-{
-    line-height: 1.8;
-}
-.info-content h2
-{
-    text-align: center;
-    margin-bottom: 30px;
-    color: #2c3e50;
-}
-.info-content h3
-{
-    color: #3498db;
-    margin-top: 25px;
-    font-size: 1.3em;
-}
-.info-content p
-{
-    line-height: 1.6;
-    margin: 10px 0;
-}
-.info-content a
-{
-    color: #3498db;
-    text-decoration: none;
-    border-bottom: 1px solid #3498db;
-    padding-bottom: 2px;
-    transition: all 0.3s ease;
-}
-.info-content a:hover
-{
-    color: #2980b9;
-    border-bottom-color: #2980b9;
-    padding-bottom: 4px;
-}
-.site-footer
-{
-    text-align: center;
-    padding: 20px 0;
-    background-color: #f5f5f5;
-}
-.site-footer a
-{
-    color: #333;
-    text-decoration: none;
-    background: linear-gradient(to right, #3498db, #3498db) no-repeat;
-    background-size: 0% 2px;
-    background-position: left bottom;
-    transition: background-size 0.3s ease;
-    padding-bottom: 2px;
-}
-.site-footer a:hover
-{
-    background-size: 100% 2px;
-    color: #3498db;
-}
-.navbar.scrolled
-{
-    background-color: white;
-    box-shadow: 0 0 8px #EAEAEA;
-}
-.navbar.scrolled .logo a,
-.navbar.scrolled .nav-menu li a
-{
-    color: #333;
-}
-.navbar.scrolled .btn-primary,
-.navbar.scrolled .btn-secondary
-{
-    border-color: #333;
-    color: #333;
-}
-.navbar.scrolled .btn-primary:hover,
-.navbar.scrolled .btn-secondary:hover
-{
-    background-color: rgba(0, 0, 0, 0.05);
-}
-.lang-switch {
-    border: 1px solid #fff; /* 白色边框 */
-    padding: 5px 10px;      /* 内边距 */
-    border-radius: 4px;     /* 圆角 */
-    transition: all 0.3s;   /* 过渡动画 */
+    background-color: #fff;
+    border: 1px solid #d3e3f0;
+    border-radius: 999px;
+    transition: all 0.25s ease;
 }
 
-.lang-switch:hover {
-    background-color: #fff; /* 悬停时背景变白 */
-    color: #333 !important; /* 悬停时文字变黑 */
+.back-link:hover
+{
+    color: var(--uc-accent-dark);
+    background-color: #f2f8fd;
+    border-color: var(--uc-accent);
+    transform: translateY(-2px);
+}
+
+/* ---------- 7. 页脚 ---------- */
+.site-footer
+{
+    padding: 34px 20px;
+    text-align: center;
+    background-color: #fff;
+    border-top: 1px solid var(--uc-line);
+}
+
+.site-footer p
+{
+    margin: 6px 0;
+    color: var(--uc-muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+.site-footer a
+{
+    color: #33414f;
+    text-decoration: none;
+    background: linear-gradient(to right, var(--uc-accent), var(--uc-accent)) no-repeat;
+    background-size: 0% 2px;
+    background-position: left bottom;
+    padding-bottom: 2px;
+    transition: background-size 0.3s ease, color 0.3s ease;
+}
+
+.site-footer a:hover
+{
+    color: var(--uc-accent);
+    background-size: 100% 2px;
+}
+
+.site-footer img
+{
+    margin-top: 10px;
+    vertical-align: middle;
+}
+
+/* ---------- 8. 滚动渐入动画（由 js/main.js 触发） ---------- */
+.reveal-init
+{
+    opacity: 0;
+}
+
+.reveal-init.is-visible
+{
+    animation: uc-reveal 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@keyframes uc-reveal
+{
+    from
+    {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to
+    {
+        opacity: 1;
+    }
+}
+
+/* ---------- 9. 响应式 ---------- */
+@media (max-width: 768px)
+{
+    .hero--home
+    {
+        min-height: auto;
+        padding: 130px 20px 110px;
+    }
+
+    .hero--page
+    {
+        min-height: 300px;
+        padding: 120px 20px 84px;
+    }
+
+    .page-section
+    {
+        padding: 0 16px;
+    }
+
+    .page-section + .page-section
+    {
+        margin-top: 48px;
+    }
+
+    .page-section--overlap
+    {
+        margin-top: -40px;
+    }
+
+    .card
+    {
+        padding: 22px 20px;
+    }
+
+    .action-buttons
+    {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-primary,
+    .btn-secondary
+    {
+        width: 100%;
+        padding: 14px 20px;
+    }
+
+    .hero-scroll
+    {
+        display: none;
+    }
+}
+
+@media (max-width: 560px)
+{
+    .navbar-container
+    {
+        padding: 0 14px;
+    }
+
+    .logo a
+    {
+        font-size: 17px;
+    }
+
+    .logo-sub
+    {
+        display: none;
+    }
+
+    .nav-menu li a
+    {
+        padding: 9px 9px;
+        font-size: 14px;
+    }
+
+    .nav-menu li a.is-active::after
+    {
+        right: 9px;
+        left: 9px;
+    }
+
+    .nav-menu .lang-switch
+    {
+        padding: 5px 10px;
+        font-size: 13px;
+    }
+}
+
+/* 无障碍：跟随系统「减少动态效果」设置 */
+@media (prefers-reduced-motion: reduce)
+{
+    .hero-scroll
+    {
+        animation: none;
+    }
+
+    .reveal-init
+    {
+        opacity: 1;
+    }
+
+    .reveal-init.is-visible
+    {
+        animation: none;
+    }
 }

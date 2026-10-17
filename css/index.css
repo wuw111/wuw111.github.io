@@ -1,0 +1,251 @@
+/* ==========================================================================
+   首页专用样式（index.html / index_en.html）
+   说明：通用排版、Hero、按钮、卡片、页脚等均由 css/main.css 提供，
+        这里只放首页独有的区块样式。
+   ========================================================================== */
+
+/* ---------- 服务器概览卡片 ---------- */
+.intro-card
+{
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(160px, 280px) 1fr;
+    gap: 24px 40px;
+    align-items: center;
+    padding: 40px;
+    background: #fff;
+    border-radius: var(--uc-radius);
+    box-shadow: var(--uc-shadow-lg);
+}
+
+.intro-logo
+{
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 12px;
+    box-shadow: 0 10px 24px rgba(15, 35, 60, 0.14);
+    image-rendering: pixelated;
+}
+
+.intro-body h2
+{
+    margin: 0 0 16px;
+}
+
+.intro-body p
+{
+    margin: 10px 0;
+    color: #4a5b6b;
+    line-height: 1.8;
+}
+
+/* ---------- 数据格 ---------- */
+.stats
+{
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 6px;
+    padding-top: 30px;
+    border-top: 1px solid var(--uc-line);
+}
+
+.stat
+{
+    padding: 16px 10px;
+    text-align: center;
+    background: #f7fafd;
+    border: 1px solid var(--uc-line);
+    border-radius: var(--uc-radius-sm);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.stat:hover
+{
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(15, 35, 60, 0.08);
+}
+
+.stat strong
+{
+    display: block;
+    color: var(--uc-accent);
+    font-size: 1.35rem;
+    line-height: 1.4;
+}
+
+.stat span
+{
+    display: block;
+    margin-top: 4px;
+    color: var(--uc-muted);
+    font-size: 0.88rem;
+}
+
+/* ---------- 特色卡片 ---------- */
+.feature-grid
+{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+}
+
+.feature-card
+{
+    position: relative;
+    padding: 30px 28px;
+    background: #fff;
+    border: 1px solid var(--uc-line);
+    border-radius: var(--uc-radius);
+    box-shadow: var(--uc-shadow);
+    transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+.feature-card::before
+{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 28px;
+    right: 28px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--uc-accent), var(--uc-green));
+    border-radius: 0 0 3px 3px;
+    opacity: 0;
+    transition: opacity 0.28s ease;
+}
+
+.feature-card:hover
+{
+    transform: translateY(-6px);
+    border-color: #cfe4f6;
+    box-shadow: var(--uc-shadow-lg);
+}
+
+.feature-card:hover::before
+{
+    opacity: 1;
+}
+
+.feature-icon
+{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 18px;
+    font-size: 1.5rem;
+    line-height: 1;
+    background: linear-gradient(135deg, #eaf4fd, #f0f8ec);
+    border-radius: 14px;
+}
+
+.feature-card h3
+{
+    margin: 0 0 12px;
+    font-size: 1.2rem;
+    line-height: 1.5;
+}
+
+.feature-card p
+{
+    margin: 0;
+    color: #55677a;
+    line-height: 1.75;
+}
+
+/* ---------- 底部行动号召 ---------- */
+.cta-band
+{
+    padding: 56px 40px;
+    text-align: center;
+    color: #fff;
+    background: linear-gradient(135deg, #2b6cb0 0%, #3498db 48%, #4e9a2b 100%);
+    border-radius: var(--uc-radius);
+    box-shadow: var(--uc-shadow-lg);
+}
+
+.cta-band h2
+{
+    margin: 0 0 12px;
+    color: #fff;
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+}
+
+.cta-band p
+{
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.cta-band .btn-primary
+{
+    color: var(--uc-accent-dark);
+    background: #fff;
+    border-color: #fff;
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.18);
+}
+
+.cta-band .btn-primary:hover
+{
+    color: var(--uc-accent-dark);
+    background: #f2f8fd;
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.24);
+}
+
+.cta-band .btn-secondary
+{
+    color: #fff;
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.75);
+}
+
+.cta-band .btn-secondary:hover
+{
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 900px)
+{
+    .intro-card
+    {
+        grid-template-columns: 1fr;
+        padding: 32px 26px;
+        text-align: center;
+    }
+
+    .intro-logo
+    {
+        max-width: 220px;
+    }
+
+    .stats
+    {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px)
+{
+    .intro-card
+    {
+        padding: 26px 20px;
+    }
+
+    .feature-grid
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-band
+    {
+        padding: 44px 24px;
+    }
+}
