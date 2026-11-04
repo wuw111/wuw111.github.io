@@ -853,3 +853,66 @@ ul
         animation: none;
     }
 }
+
+/* ---------- 10. 服务器网站（外部站点）入口 ---------- */
+/* 说明：入口链接指向 http://play.ucraft.top:32122/，在新标签页打开 */
+.nav-menu .nav-external
+{
+    color: #eaf6ff;
+}
+
+.nav-menu .nav-external .nav-external-arrow
+{
+    display: inline-block;
+    margin-left: 3px;
+    font-size: 0.85em;
+    opacity: 0.85;
+    transition: transform 0.25s ease;
+}
+
+.nav-menu .nav-external:hover .nav-external-arrow
+{
+    transform: translate(2px, -2px);
+}
+
+.navbar.scrolled .nav-menu .nav-external
+{
+    color: var(--uc-accent-dark);
+}
+
+.navbar.scrolled .nav-menu .nav-external:hover
+{
+    color: var(--uc-accent);
+}
+
+.nav-external-short
+{
+    display: none;
+}
+
+/* 窄屏：缩短入口文案并压缩导航间距，保证一行放得下 */
+@media (max-width: 560px)
+{
+    .nav-menu li a
+    {
+        padding: 9px 6px;
+        font-size: 13px;
+    }
+
+    .nav-menu .lang-switch
+    {
+        padding: 5px 8px;
+        font-size: 12px;
+    }
+
+    .nav-external-full,
+    .nav-menu .nav-external .nav-external-arrow
+    {
+        display: none;
+    }
+
+    .nav-external-short
+    {
+        display: inline;
+    }
+}

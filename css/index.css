@@ -249,3 +249,155 @@
         padding: 44px 24px;
     }
 }
+
+/* ---------- 服务器网站入口卡片 ---------- */
+.site-entry
+{
+    position: relative;
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr) auto;
+    gap: 28px;
+    align-items: center;
+    overflow: hidden;
+    padding: 36px 40px;
+    background: #fff;
+    border: 1px solid var(--uc-line);
+    border-radius: var(--uc-radius);
+    box-shadow: var(--uc-shadow-lg);
+}
+
+.site-entry::before
+{
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--uc-accent), var(--uc-green));
+}
+
+.site-entry-icon
+{
+    display: grid;
+    place-items: center;
+    width: 72px;
+    height: 72px;
+    font-size: 2rem;
+    line-height: 1;
+    background: linear-gradient(135deg, #eaf4fd, #f0f8ec);
+    border-radius: 18px;
+}
+
+.site-entry-tag
+{
+    display: inline-block;
+    padding: 3px 12px;
+    color: var(--uc-accent-dark);
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+    background: #eaf4fd;
+    border-radius: 999px;
+}
+
+.site-entry-body h2
+{
+    margin: 12px 0 8px;
+    font-size: 1.5rem;
+}
+
+.site-entry-body p
+{
+    margin: 0;
+    color: #55677a;
+    line-height: 1.75;
+}
+
+.site-entry-meta
+{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 18px;
+    margin-top: 14px;
+    color: var(--uc-muted);
+    font-size: 0.88rem;
+}
+
+.site-entry-meta code
+{
+    padding: 3px 10px;
+    color: var(--uc-green-dark);
+    font-family: Consolas, Menlo, "Courier New", monospace;
+    font-size: 0.9em;
+    background: #f1f8ec;
+    border-radius: 6px;
+}
+
+.site-entry-action
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.site-entry-action .btn-primary
+{
+    white-space: nowrap;
+}
+
+.site-entry-action small
+{
+    color: var(--uc-muted);
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+@media (max-width: 900px)
+{
+    .site-entry
+    {
+        grid-template-columns: 60px minmax(0, 1fr);
+        gap: 18px 22px;
+        padding: 30px 28px;
+    }
+
+    .site-entry-icon
+    {
+        width: 60px;
+        height: 60px;
+        font-size: 1.7rem;
+    }
+
+    .site-entry-action
+    {
+        grid-column: 1 / -1;
+    }
+
+    .site-entry-action .btn-primary
+    {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px)
+{
+    .site-entry
+    {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        padding: 28px 22px;
+        text-align: center;
+    }
+
+    .site-entry-meta
+    {
+        justify-content: center;
+    }
+
+    .site-entry-action .btn-primary
+    {
+        white-space: normal;
+    }
+}
